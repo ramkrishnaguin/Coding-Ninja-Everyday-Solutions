@@ -1,0 +1,64 @@
+/*
+   Time Complexity:O(q)
+   Space Complexity:O(q)
+   where 'q' is the number of queries.
+
+*/
+
+class FrequencyStack
+{
+
+    public:
+	
+	// Creating the hashmaps for count and stack corresponding to frequency.
+	unordered_map<int, int>count;
+	unordered_map<int, stack<int>>groups;
+	int maxFreq;
+	
+
+	FrequencyStack()
+	{
+		maxFreq = 0;
+	}
+
+
+	void push(int value)
+	{
+		// Increasing the count
+		count[value] = count[value] + 1;
+
+		// If count is greater than maxFreq then replace maxFreq by count[value]
+		if (count[value] > maxFreq)
+		{
+			maxFreq = count[value];
+		}
+		
+		// Inserting in stack corresponding to current frequency.
+		groups[count[value]].push(value);
+	}
+
+
+	int pop()
+	{
+		// It means stack is empty.
+		if (maxFreq == 0)
+		{
+			return -1;
+		}
+
+		int x = groups[maxFreq].top();
+		groups[maxFreq].pop();
+
+		// Decreaase the count
+		count[x]--;
+
+		// If stack is empty then maxFreq will reduce by 1.
+		if (groups[maxFreq].empty())
+		{
+			maxFreq--;
+		}
+
+		return x;
+	}
+
+};
