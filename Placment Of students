@@ -1,0 +1,69 @@
+/*
+    Time Complexity: O(N * M)
+    Space Complexity: O(N)
+
+    Where 'M' is the number of applicants and 'N' is the number of jobs
+*/
+
+bool bipartiteMatch(int u, vector<bool> &visited, vector<int> &assign, vector<vector<int> > &mat, int n) 
+{
+    
+    // For all jobs 0 to N-1
+    for (int v = 0; v < n; v++)
+    {        
+        
+        // When job v is not visited and u is interested
+        if (mat[u][v] && !visited[v]) 
+        {  
+
+            // Mark as job v is visited
+            visited[v] = true;           
+
+            // When v is not assigned or previously assigned
+            if (assign[v] < 0 || bipartiteMatch(assign[v], visited, assign, mat, n)) 
+            {
+
+                // Assign job v to applicant u
+                assign[v] = u;  
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+int maxMatch(vector<vector<int> > &mat) 
+{
+    int m = mat.size();
+    int n = mat[0].size();
+
+    // An array to track which job is assigned to which applicant
+    vector<int> assign(n);  
+    
+    // Initially set all jobs are available
+    for (int i = 0; i < n; i++)
+    {
+        assign[i] = -1;  
+    }
+    int jobCount = 0;
+
+    // For all applicants
+    for (int u = 0; u < m; u++) 
+    {  
+
+        vector<bool> visited(n);
+        for (int i = 0; i < n; i++)
+        {
+
+            // Initially no jobs are visited
+            visited[i] = false;  
+        }
+
+        // When u get a job
+        if (bipartiteMatch(u, visited, assign, mat, n))  
+        {
+            jobCount++;
+        }
+    }
+    return jobCount;
+}
