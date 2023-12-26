@@ -1,0 +1,10 @@
+def checkMeta(str1, str2):
+    if len(str1)!=len(str2) or str1==str2:
+        return False
+    str1=[i for i in str1]
+    str2=[i for i in str2]
+    str1.sort()
+    str2.sort()
+    if str1==str2:
+        return True
+    return False
