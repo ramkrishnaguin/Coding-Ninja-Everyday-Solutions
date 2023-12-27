@@ -1,0 +1,73 @@
+class node {
+
+public:
+
+bool isBST;
+
+int sum,highest,lowest;
+
+node(bool isBST,int sum,int highest,int lowest) {
+
+this->isBST=isBST;
+
+this->sum=sum;
+
+this->highest=highest;
+
+this->lowest=lowest;
+
+}
+
+};
+
+node helper(BinaryTreeNode<int>*root,int &ans) {
+
+if(!root) {
+
+node obj(true,0,INT_MIN,INT_MAX);
+
+return obj;
+
+}
+
+if(!root->left && !root->right) {
+
+node obj(true,root->data,root->data,root->data);
+
+ans=max(ans,root->data);
+
+return obj;
+
+}
+
+node l = helper(root->left, ans);
+
+node r = helper(root->right,ans);
+
+if(l.isBST && r.isBST && root->data>l.highest && root->data<r.lowest) {
+
+node obj(true,l.sum+r.sum+root->data,r.highest,l.lowest);
+
+ans=max(ans,l.sum+r.sum+root->data);
+
+return obj;
+
+}
+
+else {
+
+node obj(false,0,INT_MIN,INT_MAX);
+
+}
+
+}
+
+int maximumSumBST(BinaryTreeNode<int>* root){
+
+int ans=INT_MIN;
+
+helper(root,ans);
+
+return ans;
+
+}
