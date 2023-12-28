@@ -1,0 +1,91 @@
+/*
+
+Time Complexity: O(N)
+
+Space complexity: O(1)
+
+Where N is the length of the array.
+
+*/
+
+int dominantNumber(int* arr, int n)
+
+{
+
+int domOne = -10000009, domTwo = 10000009;
+
+int countDomOne = 0, countDomTwo = 0;
+
+for (int i = 0; i < n; i++) {
+
+if (domOne == arr[i]) {
+
+countDomOne++;
+
+}
+
+else if (domTwo == arr[i]) {
+
+countDomTwo++;
+
+}
+
+else if (countDomOne == 0) {
+
+countDomOne++;
+
+domOne = arr[i];
+
+}
+
+else if (countDomTwo == 0) {
+
+countDomTwo++;
+
+domTwo = arr[i];
+
+} else {
+
+countDomOne--;
+
+countDomTwo--;
+
+}
+
+}
+
+// To check if they are dominant or not.
+
+int checkOne = 0;
+
+int checkTwo = 0;
+
+for (int i = 0; i < n; i++) {
+
+if (arr[i] == domOne) {
+
+checkOne++;
+
+} else if (arr[i] == domTwo) {
+
+checkTwo++;
+
+}
+
+}
+
+if (checkOne > n / 3) {
+
+return domOne;
+
+}
+
+if (checkTwo > n / 3) {
+
+return domTwo;
+
+}
+
+return -1;
+
+}
