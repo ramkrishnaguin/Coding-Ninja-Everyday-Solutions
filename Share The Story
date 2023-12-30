@@ -1,0 +1,91 @@
+/*
+
+Time complexity: O(N*log(N))
+
+Space complexity: O(N)
+
+where N is the number of meetings in the array.
+
+*/
+
+vector<int> shareStory(vector<vector<int>> &arr, int n)
+
+{
+
+// First we will create a graph, indicating the person who is connected to another person.
+
+unordered_map<int, vector<pair<int, int>>> graph;
+
+unordered_map<int, bool> visited;
+
+for (int i = 0; i < arr.size(); i++)
+
+{
+
+graph[arr[i][0]].push_back(make_pair(arr[i][1], arr[i][2]));
+
+}
+
+// Maintaing a queue which initially holds person 1.
+
+queue<pair<int, int>> q;
+
+q.push({1, 0});
+
+// Answer array, which will store the result.
+
+vector<int> ans;
+
+// While queue is not empty, we will keep adding other persons.
+
+while (!q.empty())
+
+{
+
+int person = q.front().first;
+
+int timeStamp = q.front().second;
+
+q.pop();
+
+if (visited[person])
+
+{
+
+continue;
+
+}
+
+visited[person] = true;
+
+// Adding current person in our answer array.
+
+ans.push_back(person);
+
+// Checking the timestamps of each person
+
+for (int i = 0; i < graph[person].size(); i++)
+
+{
+
+// If timestamps are greater than current time, then we can add the person in queue.
+
+if (graph[person][i].second >= timeStamp)
+
+{
+
+q.push({graph[person][i].first, graph[person][i].second});
+
+}
+
+}
+
+}
+
+// Returninng the final sorted answer array.
+
+sort(ans.begin(), ans.end());
+
+return ans;
+
+}
