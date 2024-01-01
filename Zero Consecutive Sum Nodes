@@ -1,0 +1,85 @@
+#include <bits/stdc++.h>
+
+void solve(linkedListNode<int> *head,int sum){
+
+linkedListNode<int> *curr=head,*prev;
+
+int temp=0;
+
+while(curr){
+
+temp+=curr->data;
+
+prev=curr;
+
+curr=curr->next;
+
+if(temp==sum){
+
+break;
+
+}
+
+}
+
+temp=0;
+
+while(curr){
+
+temp+=curr->data;
+
+curr=curr->next;
+
+if(temp==0){
+
+break;
+
+}
+
+}
+
+if(temp==0){
+
+prev->next=curr;
+
+}
+
+}
+
+linkedListNode<int> *zeroConsecutiveNodes(linkedListNode<int> *head) {
+
+// Write your code here.
+
+int sum=0;
+
+linkedListNode<int> *curr=head;
+
+map<int,int>mp;
+
+while(curr){
+
+sum+=curr->data;
+
+if(sum==0){
+
+head=curr->next;
+
+mp.clear();
+
+}else if(mp.count(sum)){
+
+solve(head,sum);
+
+}else{
+
+mp[sum]++;
+
+}
+
+curr=curr->next;
+
+}
+
+return head;
+
+}
