@@ -1,0 +1,86 @@
+#include <bits/stdc++.h> 
+struct node {
+    int row, column;
+    int distance = 1e6;
+};
+
+struct edge {
+
+    int destinationRow, destinationColumn;
+    int weight;
+
+    edge(int x, int y, int w) {
+        destinationRow = x;
+        destinationColumn = y;
+        weight = w;
+    }
+};
+
+bool operator < (node a, node b) {
+    return a.distance > b.distance;
+}
+
+int minDirectionChanges(vector< vector< char > > grid, int n, int m) {
+    node arr[n][m];
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            arr[i][j].row = i;
+            arr[i][j].column = j;
+        }
+    }
+    vector < edge > adj[n][m];
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (i + 1 < n) {
+                if (grid[i][j] == 'D') {
+                    adj[i][j].push_back(edge(i + 1, j, 0));
+                }
+                else {
+                    adj[i][j].push_back(edge(i + 1, j, 1));
+                }
+            }
+            if ((j + 1) < m) {
+                if (grid[i][j] == 'R') {
+                    adj[i][j].push_back(edge(i, j + 1, 0));
+                }
+                else {
+                    adj[i][j].push_back(edge(i, j + 1, 1));
+                }
+            }
+
+            if (i) {
+                if (grid[i][j] == 'U') {
+                    adj[i][j].push_back(edge(i - 1, j, 0));
+                } 
+                else {
+                    adj[i][j].push_back(edge(i - 1, j, 1));
+                }
+            }
+
+            if (j) {
+                if (grid[i][j] == 'L') {
+                    adj[i][j].push_back(edge(i, j - 1, 0));
+                } 
+                else {
+                    adj[i][j].push_back(edge(i, j - 1, 1));
+                }
+            }
+        }
+    }
+    priority_queue < node > pq;
+    arr[0][0].distance = 0;
+    pq.push(arr[0][0]);
+
+    while (pq.size()) {
+        node current = pq.top();
+        pq.pop();
+        for (edge currentEdge : adj[current.row][current.column]) {
+            if ((currentEdge.weight + (arr[current.row][current.column]).distance) < (arr[currentEdge.destinationRow][currentEdge.destinationColumn]).distance) {
+                (arr[currentEdge.destinationRow][currentEdge.destinationColumn]).distance = currentEdge.weight + (arr[current.row][current.column]).distance;
+                pq.push(arr[currentEdge.destinationRow][currentEdge.destinationColumn]);
+            }
+        }
+    }
+    
+    return (arr[n - 1][m - 1]).distance;
+}
