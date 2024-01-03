@@ -1,0 +1,114 @@
+/*
+    Time Complexity: O(2^12 * 12 + N) 
+    Space Complexity: O(N) 
+
+    Where 'N' is the size of arr.
+*/
+
+/* Function to return an integer mask whose ith bit is set 
+   if and only if n is divisible bi the prime i. */
+int factorise(int n)
+{
+	int ans = 0;
+	int init = n;
+	for(int i = 2; i <= init; i++) {
+		if(n % i == 0)
+		{
+			n /= i;
+			ans += (1 << i);
+		}
+	}
+	return ans;
+}
+
+/* Function to check whether a given subset is valid or not. 
+   If it is valid then add its frequency of occurence to ans. */
+void check(vector<int> &subset, vector<int> &freq, vector<int> &factors, long long &ans)
+{
+	if(subset.empty()) {
+		return;
+	}
+	
+	const int mod = 1e9+7;
+	int already = 0;
+	for(int &i: subset)
+	{    
+		/* If there is any common factor between current element of subset 
+		   and previously scanned elements. */
+		if(factors[i] & already) {
+			return;
+		}
+
+		// Add factors of i to already mask.
+		already |= factors[i];
+	}
+	
+	long long local = 1;
+	
+	/* Now if we have still not returned from this fucntion then this subset is valid.
+     So we will calculate the frequency of occurence of this subset by multiplying the frequencies of its elements. */
+	for(int &i: subset) {
+		local = local * freq[i] % mod;
+	}
+	
+	// Adding the contribution of current subset to answer.
+	ans += local;
+	ans %= mod;
+}
+
+// Function to generate and check each subset.
+void subsets(vector<int> &options, vector<int> &subset, long long &ans, vector<int> &freq, vector<int> &factors, int ind = 0)
+{
+	if(ind == (int)options.size())
+	{
+		check(subset, freq, factors, ans);
+		return;
+	}
+	
+	subsets(options, subset, ans, freq, factors, ind+1);
+	subset.push_back(options[ind]);
+	subsets(options, subset, ans, freq, factors, ind+1);
+	subset.pop_back();
+}
+
+// Given Function.
+int unitPowerSubsets(vector<int>& arr) {
+		
+	// array of all the options which can be part of a valid subset.
+	vector<int> options = {2,3,5,6,7,10,11,13,14,15,17,19};
+	long long ans = 0;
+	const int mod = 1e9+7;
+	
+	// Calculating frequency of each element.
+	vector<int> subset, freq(21);
+	for(int &i: arr) {
+		freq[i]++;
+	}
+	
+	// Considering only those options which are present in arr.
+	vector<int> new_options;
+	for(int &i: options) {
+		if(freq[i]) {
+			new_options.push_back(i);
+		}
+	}
+	options = new_options;
+	
+	// Factorising all the options.
+	vector<int> factors(21);
+	for(int &i: options) {
+		factors[i] = factorise(i);
+	}
+	
+	// Calling the subsets function.
+	subsets(options, subset, ans, freq, factors);
+	
+	/* We can include any subset of ones in any valid subset as it won't affect the product.
+	   So, we can multiply frequency of each subset and thus ans with 2^freq[1]. */
+	for(int i = 0; i < freq[1]; i++) {
+		ans = ans * 2 % mod;
+	}
+
+	// Returning the answer obtained from iterating over all subsets.
+	return ans;
+}
