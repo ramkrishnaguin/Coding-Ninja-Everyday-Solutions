@@ -1,0 +1,39 @@
+#include <bits/stdc++.h> 
+
+stack<int> pushAtBottom(stack<int>& myStack, int x) {
+
+    vector<int> holder;
+
+    while(!myStack.empty()){
+
+ 
+
+        //accessing the top element of stack
+
+        holder.push_back(myStack.top());
+
+ 
+
+        //removing the element which we accessed already
+
+        myStack.pop();
+
+    }
+
+ 
+
+    //insert element
+
+    myStack.push(x);
+
+ 
+
+    for(int i=holder.size()-1; i>=0; i--){
+
+        myStack.push(holder[i]);
+
+    }
+
+    return myStack;
+
+}
