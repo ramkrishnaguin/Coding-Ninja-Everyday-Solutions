@@ -1,0 +1,69 @@
+/*
+    Time Complexity  :   O((N + K) * log(N))
+    Space Complexity :   O(N)
+
+    where ‘N’ is the number of companies in which Alice wants to do an internship,
+    and ‘K’ represents the maximum number of internships Alice can complete.
+*/
+
+#include <algorithm>
+#include <queue>
+
+int internshipExp(int d, int k, int n, vector<int> &minExp, vector<int> &expGained) {
+
+    int currExp = d;
+    vector<vector<int>> companies;
+
+    // Run a loop for ‘i’ from 0 to ‘N’ - 1
+    for (int i = 0; i < n; i++) {
+
+        // Insert [‘minExp[i]’, ‘expGained[i]’] into ‘companies’
+        companies.push_back({minExp[i], expGained[i]});
+    }
+
+    sort(companies.begin(), companies.end());
+
+    priority_queue<int> maxHeap;
+
+    // To iterate through ‘companies’
+    int i = 0;
+
+    // Run a loop while ‘i’ is less than ‘N’ and ‘K’ is greater than 0
+    while (i < n && k > 0) {
+
+        // If we are eligible for 'i'-th company
+        if (companies[i][0] <= currExp) {
+
+            // Add the experience gain of this company into 'maxHeap'
+            maxHeap.push(companies[i][1]);
+
+            // Move to the next company
+            i = i + 1;
+        }
+
+        else {
+            if (maxHeap.empty() == true) {
+
+                // Break the loop, as we cannot do an internship in any company
+                break;
+            }
+
+            // Add the maximum element of ‘maxHeap’  in ‘currExp’ and remove that element from the ‘maxHeap’
+            currExp = currExp + maxHeap.top();
+            maxHeap.pop();
+
+            k = k - 1;
+        }
+    }
+
+    // Run a  loop while ‘maxHeap’ is not empty and ‘K’ is greater than 0
+    while (maxHeap.empty() == false && k > 0) {
+
+        // Add the maximum element of ‘maxHeap’  in ‘currExp’ and remove that element from the ‘maxHeap’
+        currExp = currExp + maxHeap.top();
+        maxHeap.pop();
+        k = k - 1;
+    }
+
+    return currExp;
+}
