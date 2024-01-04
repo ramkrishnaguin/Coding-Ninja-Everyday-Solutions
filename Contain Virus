@@ -1,0 +1,162 @@
+/*
+    Time complexity: O((N * M) ^ 4/3)
+    Space complexity: O(N * M)
+
+    Where N and M are the dimensions of the model.
+*/
+
+// Header files.
+#include<set>
+
+// Class to be used for all clusters.
+class Cluster 
+{
+    public:
+    
+    // Infected cells.
+    set<vector<int>>inner;
+    
+    // Non-infected cells.
+    set<vector<int>> border;
+    
+    // Walls required.
+    int perimeter = 0;
+};
+
+
+// Function for Depth First Search.
+void dfs(vector<vector<int>> &model, int i, int j, Cluster &r) 
+{   
+    // Checking if the cell is infected.
+    if (model[i][j]) 
+    { 
+        model[i][j] = -1;
+        vector<int> v = {i, j};
+        r.inner.insert(v);
+        
+        vector<int> dx = { 1, -1, 0, 0 };
+        vector<int> dy = { 0, 0, 1, -1 };
+        
+        // Finding neighbour cells coordinates in all directions.
+        for(int l = 0; l < 4; l++)
+        {
+            // Checking if the neighbour cell is valid.
+            int newRow = i + dx[l]; 
+            if (newRow < 0 || newRow >= model.size())
+            {
+                continue;
+            }
+            
+            int newCol = j + dy[l]; 
+            if (newCol < 0 || newCol >= model[0].size())
+            {
+                continue;
+            }
+            
+            // No need to explore if already quarantined.
+            if (model[newRow][newCol] < 0)
+            {
+                continue;
+            }
+            
+            // Calling DFS for neighbour cell.
+            dfs(model, newRow, newCol, r);
+        }
+    } 
+
+    // If border is found increase perimeter.
+    else
+    {
+    	vector<int> v = {i, j};
+        r.border.insert(v), 
+        ++r.perimeter;
+    }      
+}
+
+
+// Function to find clusters.
+vector<Cluster> findClusters(vector<vector<int>> &model, int &maxBorder) 
+{
+    
+    // Create an array of clusters.
+    vector<Cluster> clusters; 
+    
+    // Initialise maximum border with 0.
+    maxBorder = 0;
+    
+    // Start traversing to find the maximum border in clusters.
+    for (int i = 0; i < model.size(); i++)
+    {
+        for (int j = 0; j < model[0].size(); j++)
+        {
+            
+            // If cell is infected
+            if (model[i][j] == 1) 
+            {
+                Cluster r; 
+                
+                // Apply DFS to the cell.
+                dfs(model, i, j, r);
+                
+                // Push cluster into the array of clusters.
+                clusters.push_back(r);       
+                
+                // Update maximum border.
+                maxBorder = max(maxBorder, int(r.border.size()));
+            }  
+        }
+    }
+    
+    // Return array of clusters.
+    return clusters;
+}
+
+// Main function.
+int containVirus(vector<vector<int>> &model)
+{ 
+    int walls = 0;
+    int maxBorder = 0;
+
+    // Start traversing
+    while(true)
+    {             
+        // Find all the infected clusters.
+        vector<Cluster> clusters = findClusters(model, maxBorder);
+
+        // If no more infected cells left.            
+        if (clusters.empty()) 
+        {         
+            // Return number of walls used.
+            return walls; 
+        }
+            
+        // Update all the clusters.
+        for (int r = 0; r < clusters.size(); r++)
+        {
+            if (clusters[r].border.size() != maxBorder) 
+            { 
+                
+                // Create iterator to traverse.
+                set<vector<int>> :: iterator itr;
+                
+                // Initialise values of infected cells.
+                for (itr = clusters[r].inner.begin(); itr != clusters[r].inner.end() ;itr++)
+                {
+                    model[(*itr)[0]][(*itr)[1]] = 1;
+                }
+                
+                // Initialise values of non-infected cells.
+                for (itr = clusters[r].border.begin(); itr != clusters[r].border.end() ;itr++)
+                {
+                     model[(*itr)[0]][(*itr)[1]] = 1;
+                }
+            }
+
+            // For saved cells.
+            else
+            {
+                walls = walls + clusters[r].perimeter;
+            }
+        }
+    }
+}
