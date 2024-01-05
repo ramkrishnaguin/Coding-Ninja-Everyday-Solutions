@@ -1,0 +1,41 @@
+vector < int > rockPaperScissor(int k, string nezuko, string zenitsu) {
+
+    int n = nezuko.length();
+    int z = zenitsu.length();
+
+    int nezukoCount = 0, zenitsuCount = 0;
+
+    for (int i = 0; i < k; i++) {
+
+        char nezukoMove = nezuko[i % n];
+        char zenitsuMove = zenitsu[i % z];
+
+        if (nezukoMove == 'R') {
+            if (zenitsuMove == 'P') {
+                zenitsuCount++;
+            }
+            else if (zenitsuMove == 'S') {
+                nezukoCount++;
+            }
+        }
+
+        else if (nezukoMove == 'P') {
+            if (zenitsuMove == 'S') {
+                zenitsuCount++;
+            }
+            else if (zenitsuMove == 'R') {
+                nezukoCount++;
+            }
+        }
+        else {
+            if (zenitsuMove == 'R') {
+                zenitsuCount++;
+            }
+            else if (zenitsuMove == 'P') {
+                nezukoCount++;
+            }
+        }
+    }
+    
+    return {nezukoCount, zenitsuCount};
+}
