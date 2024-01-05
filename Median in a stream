@@ -1,0 +1,44 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+vector<int> findMedian(vector<int> &arr, int n) {
+    // Max heap for the left half
+    priority_queue<int> maxHeapLeft;
+
+    // Min heap for the right half
+    priority_queue<int, vector<int>, greater<int>> minHeapRight;
+
+    vector<int> medians;
+
+    for (int i = 0; i < n; i++) {
+        int currentElement = arr[i];
+
+        // Insert into the appropriate heap
+        if (maxHeapLeft.empty() || currentElement <= maxHeapLeft.top()) {
+            maxHeapLeft.push(currentElement);
+        } else {
+            minHeapRight.push(currentElement);
+        }
+
+        // Balance the heaps
+        if (maxHeapLeft.size() > minHeapRight.size() + 1) {
+            minHeapRight.push(maxHeapLeft.top());
+            maxHeapLeft.pop();
+        } else if (minHeapRight.size() > maxHeapLeft.size()) {
+            maxHeapLeft.push(minHeapRight.top());
+            minHeapRight.pop();
+        }
+
+        // Calculate median and store in the result
+        if (i % 2 == 0) {
+            medians.push_back(maxHeapLeft.top());
+        } else {
+            medians.push_back((maxHeapLeft.top() + minHeapRight.top()) / 2);
+        }
+    }
+
+    return medians;
+}
