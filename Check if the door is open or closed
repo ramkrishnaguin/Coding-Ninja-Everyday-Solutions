@@ -1,0 +1,39 @@
+/*
+
+Time Complexity: O(N)
+
+Space complexity: O(1)
+
+Where 'N' is the number of doors.
+
+*/
+
+#include <math.h>
+
+string doorStatus(int n) {
+
+string sb;
+
+for (int id = 1; id <= n; ++id) {
+
+// Checking if Id is perfect square or not.
+
+int root = (int)sqrt(id);
+
+if (root * root == id) {
+
+// If it is a perfect square we will append '1'.
+
+sb.append("1");
+
+} else {
+
+sb.append("0");
+
+}
+
+}
+
+return sb;
+
+}
