@@ -1,0 +1,66 @@
+/*
+    Time Complexity: O( N )
+    Space Complexity: O( N )
+
+    where N denotes the length of the input string
+*/
+
+int splitString(string s) {
+
+    // Initialize 'ans' to 0
+    int ans = 0;
+
+    int n = s.size();
+
+    vector<int> freqPref(26, 0), freqSuf(26, 0);
+
+    // Initalize 'prefix' and 'suffix' array
+    vector<int> prefix(n), suffix(n);
+
+    // Variable to keep the track of distinct characters
+    int distinct = 0;
+
+    // Filling prefix array to store the number of distinct characters in 0...i
+    for (int i = 0; i < n; i++) {
+
+        // Found a distinct character
+        if (freqPref[s[i] - 'a'] == 0) {
+
+            freqPref[s[i] - 'a'] = 1;
+
+            distinct++;
+        }
+
+        prefix[i] = distinct;
+    }
+
+    distinct = 0;
+
+    // Filling suffix array to store the number of distinct characters in i....s.length-1
+    for (int i = n - 1; i >= 0; i--) {
+
+        // Found a distinct character
+        if (freqSuf[s[i] - 'a'] == 0) {
+
+            freqSuf[s[i] - 'a'] = 1;
+
+            distinct++;
+        }
+
+        suffix[i] = distinct;
+    }
+
+    // Run a for loop from 0 to s.length-2
+    for (int i = 0; i <= n - 2; i++) {
+
+        // Current splitting in good
+        if (prefix[i] == suffix[i + 1]) {
+
+            ans++;
+        }
+
+    }
+
+    return ans;
+
+}
