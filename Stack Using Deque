@@ -1,0 +1,69 @@
+/*
+	Time complexity: O(1) for all operations.
+	Space Complexity: O(N)
+	
+	Where N is the maximum number of elements in the stack.
+*/
+
+class Stack
+{
+    deque<int> dq;
+
+public:
+    // Initialize your data structure.
+    Stack()
+    {
+    }
+
+    // Pushes 'X' into the stack. Returns true if it gets pushed into the stack, and false otherwise.
+    bool push(int x)
+    {
+        // Push 'X' to the end of the deque.
+        dq.push_back(x);
+
+        return true;
+    }
+
+    // Pops top element from Stack. Returns -1 if the stack is empty, otherwise returns the popped element.
+    int pop()
+    {
+        if (isEmpty() == true)
+        {
+            // Stack is empty.
+            return -1;
+        }
+
+        // Get the last element of deque.
+        int element = dq.back();
+
+        // Pop the last element from deque.
+        dq.pop_back();
+
+        return element;
+    }
+
+    // Returns the topmost element of the stack. In case the stack is empty, it returns -1.
+    int top()
+    {
+        if (isEmpty() == true)
+        {
+            // Stack is empty.
+            return -1;
+        }
+
+        // Return the last element of the deque.
+        return dq.back();
+    }
+
+    // Returns true if the stack is empty, otherwise false.
+    bool isEmpty()
+    {
+        return dq.empty();
+    }
+
+    // Returns the number of elements currently present in the stack.
+    int size()
+    {
+        return dq.size();
+    }
+};
