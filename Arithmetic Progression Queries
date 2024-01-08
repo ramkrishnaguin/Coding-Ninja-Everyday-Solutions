@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>>
+
+using namespace std;
+
+class NumArray {
+
+private:
+
+vector<int> arr;
+
+public:
+
+NumArray(vector<int>& nums, int n) {
+
+arr.resize(n + 1);
+
+for (int i = 1; i <= n; i++) {
+
+arr[i] = nums[i - 1];
+
+}
+
+}
+
+void update(int l, int r, int val) {
+
+for (int i = l; i <= r; i++) {
+
+arr[i] += val + (i - l);
+
+}
+
+}
+
+long long rangeSum(int l, int r) {
+
+long long sum = 0;
+
+for (int i = l; i <= r; i++) {
+
+sum += arr[i];
+
+}
+
+return sum;
+
+}
+
+};
