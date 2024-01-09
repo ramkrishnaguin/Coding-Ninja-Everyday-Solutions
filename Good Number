@@ -1,0 +1,61 @@
+int check(int n)
+
+{
+
+    int s=0;
+
+    while(n)
+
+    {
+
+        int r=n%10;
+
+        s=s+(r*r);
+
+        n=n/10;
+
+    }
+
+    return s;
+
+}
+
+ 
+
+bool isGoodNumber(int n) {
+
+   
+
+ 
+
+    
+
+    while(n)
+
+    {
+
+        
+
+       n=check(n);
+
+       //cout<<n<<".";
+
+        if(n==1)
+
+        return true;
+
+        if(n<10)
+
+        return false;
+
+        
+
+ 
+
+    }
+
+     
+
+     return false;
+
+}
