@@ -1,0 +1,83 @@
+'''
+    Time complexity: O(M * N * log(M * N))
+    Space complexity: O(M * N)
+
+    Where M and N are the dimensions of the given matrix.
+'''
+
+import heapq as hq
+
+def trappingWater(matrix):
+
+    # Storing dimensions of matrix.
+    m = len(matrix)
+    n = len(matrix[0])
+
+    # Initialise the visited vector.
+    visited = [[0 for i in range(n)] for j in range(m)]
+    q = []
+    # Initialise priority queue.
+    hq.heapify(q)
+
+    # Initialise variable to store result.
+    res = 0
+
+    # Start traversing.
+    for i in range(m):
+
+        for j in range(n):
+
+            if(i == 0 or i == m - 1 or j == 0 or j == n - 1):
+
+                # Push border cells into priority queue.
+                hq.heappush(q, (matrix[i][j], i, j))
+
+                # Mark them visited
+                visited[i][j] = True
+
+    # Initialise variable to store minimum border height.
+    minBH = 0
+
+    # Start traversing while priority queue is not empty.
+    while(q):
+
+        # Store height of top cell in queue.
+        currentH = q[0][0]
+
+        # Initialise coordinates of top cell.
+        currentX = q[0][1]
+        currentY = q[0][2]
+
+        # Update minimum border height.
+        minBH = max(minBH, currentH)
+
+        # Pop the top element.
+        hq.heappop(q)
+
+        # Initialise vector to store directions.
+        directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+
+        # Visit allthe neighbours of current cell.
+        for i in range(4):
+
+            # Storing coordinates of neighbour cells.
+            newX = currentX + directions[i][0]
+            newY = currentY + directions[i][1]
+
+            # If new coordinates poto valid cell and is not previously visited.
+            if(newX >= 0 and newX < m and newY >= 0 and newY < n and visited[newX][newY] == False):
+
+                # Push into the priority queue.
+                hq.heappush(q, (matrix[newX][newY], newX, newY))
+
+                # Mark as visited.
+                visited[newX][newY] = True
+
+                # If height less than minimum border height.
+                if(matrix[newX][newY] < minBH):
+
+                    # Update res.
+                    res = res + (minBH - matrix[newX][newY])
+
+    # Return res.
+    return res
