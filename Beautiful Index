@@ -1,0 +1,29 @@
+'''
+    Time Complexity: O(N).
+    Space Complexity: O(1).
+
+    Where â€˜Nâ€™ is the length of the array 'A'.
+'''
+
+def beautifulIndex(N, A):
+    
+    ans = -1
+    
+    # Storing the sum of the elements of the array 'A'.
+    suffixSum = sum(A)
+    prefixSum = 0
+    
+    for i in range (N):
+        
+        # Finding the sum of the last 'N - (i + 1)' elements.
+        suffixSum -= A[i]
+        
+        # Checking if the sums are equal.
+        if prefixSum == suffixSum:
+            ans = i + 1
+            break
+        
+        # Finding the sum of the first '(i + 1)' elements.
+        prefixSum += A[i]
+        
+    return ans
