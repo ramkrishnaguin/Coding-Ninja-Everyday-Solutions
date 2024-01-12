@@ -1,0 +1,44 @@
+'''
+    Time complexity: O(log10(N))
+    Space complexity: O(log10(N))
+
+    where N is the input number.
+'''
+
+def countSpecialNumbers(n):
+
+    # Making the digits array to store each digit of n
+    digits = []
+
+    while (n):
+        digits.append(n % 10)
+        n //= 10
+
+    digits = digits[::-1]
+
+    d = len(digits)
+
+    # Finding the count of special numbers having less than d digits
+    res = (5 * (pow(5, d - 1) - 1)) // 4
+
+    specialNumbersFound = 0
+
+    # Iterating through each digit
+    for i in range(d):
+
+        # Handling the base case
+        if (i == d - 1):
+            specialNumbersFound += min(5, digits[d - 1])
+            break
+
+        # Handling different cases according to the value of current digit
+        if (digits[i] == 0):
+            break
+        elif (digits[i] > 5):
+            specialNumbersFound += pow(5, d - i)
+            break
+        else:
+            specialNumbersFound += ((digits[i] - 1) * pow(5, d - i - 1))
+
+    # Returning the final answer
+    return res + specialNumbersFound
