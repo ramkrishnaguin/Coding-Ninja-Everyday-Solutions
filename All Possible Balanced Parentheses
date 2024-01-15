@@ -1,0 +1,14 @@
+def balancedParenthesesHelper(current, open_count, close_count, n, result):
+    if len(current) == 2 * n:
+        result.append(current)
+        return
+
+    if open_count < n:
+        balancedParenthesesHelper(current + '(', open_count + 1, close_count, n, result)
+    if close_count < open_count:
+        balancedParenthesesHelper(current + ')', open_count, close_count + 1, n, result)
+
+def balancedParentheses(n):
+    result = []
+    balancedParenthesesHelper('', 0, 0, n, result)
+    return result
