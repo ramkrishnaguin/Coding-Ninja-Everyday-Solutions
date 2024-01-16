@@ -1,0 +1,157 @@
+/*
+   Time Complexity: O(Q * log(N))
+   Space Complexity: O(N + Q)
+
+   Where N is the number of elements in the array and Q is the number of queries.
+*/
+
+#include<algorithm>
+
+// To merge two nodes in the segment tree
+vector<int> merge(vector<int>& leftNode, vector<int>& rightNode) 
+{
+    vector<int> merged;
+	
+    // Traverse trough leftNode
+    for (int i = 0; i < leftNode.size(); i++)
+    {
+        merged.push_back(leftNode[i]);
+    }
+	
+    // Traverse trough rightNode
+    for (int i = 0; i < rightNode.size(); i++)
+    {
+        merged.push_back(rightNode[i]);
+    }
+
+    sort(merged.begin(), merged.end());
+    
+    // Store two highest values from from the child node.
+    vector<int> ans(2);
+    ans[0] = merged[3];
+    ans[1] = merged[2];
+
+    return ans;
+}
+
+// To build segment tree
+void build(int node, int start, int end, vector<vector<int>>& tree, vector<int>& arr)
+{	
+    // Check if start is equal to end
+    if (start == end)
+    {
+        tree[node][0] = arr[start];
+        tree[node][1] = -1;
+    }
+    else
+    {
+        int mid = (start + end) / 2;
+		
+        // Recursive call for building rest of segment tree
+        build(2 * node + 1, start, mid, tree, arr);
+        build(2 * node + 2, mid + 1, end, tree, arr);
+
+        tree[node] = merge(tree[2 * node + 1], tree[2 * node + 2]);
+    }
+}
+
+// To update segment tree at given index
+void update(int node, int start, int end, int index, int value, vector<vector<int>>& tree, vector<int>& arr)
+{	
+    // Check if start is equal to end
+    if (start == end)
+    {
+        arr[index] = value;
+        tree[node][0] = value;
+        tree[node][1] = -1;
+    }
+    else
+    {
+        int mid = (start + end) / 2;
+		
+        // Check if index is within the range of start and mid
+        if (index >= start && index <= mid)
+        {
+            update(2 * node + 1, start, mid, index, value, tree, arr);
+        } 
+        else
+        {
+            update(2 * node + 2, mid + 1, end, index, value, tree, arr);
+        }
+        
+        tree[node] = merge(tree[2 * node + 1], tree[2 * node + 2]);
+    }
+}
+
+// To find answer of given range
+vector<int> query(int node, int start, int end, int l, int r, vector<vector<int>>& tree)
+{	
+    // Check if current range is out of range of the range of query
+    if (l > end || start > r)
+    {
+        vector<int> temp(2, -1);
+        return temp;
+    }
+	
+    // Check if current range is within the range of the range of query
+    if (l <= start && r >= end)
+    {
+        return tree[node];
+    }
+
+    int mid = (start + end) / 2;
+
+    vector<int> q1 = query(2 * node + 1, start, mid, l, r, tree);
+    vector<int> q2 = query(2 * node + 2, mid + 1, end, l, r, tree);
+
+    return merge(q1, q2);
+}
+
+
+vector<int> maximumSum(vector<int>& arr, vector<vector<int>> queries)
+{
+    int arrSize = arr.size();
+
+    vector<vector<int>> tree(4 * arr.size() + 1, vector<int>(2, 0));
+    vector<int> answer;
+    
+    build(0, 0, arrSize - 1, tree, arr);
+
+    for (int i = 0; i < queries.size(); i++)
+    {
+        int queryType = queries[i][0];
+		
+        // Check the queryType of the current query  
+        if (queryType == 1)
+        {
+            int index = queries[i][1];
+            int value = queries[i][2];
+
+            // Make index 0-based.
+            index = index - 1;
+
+            // Set value in the segment tree
+            update(0, 0, arrSize - 1, index, value, tree, arr);
+        }
+        else
+        {
+            int leftIndex = queries[i][1];
+            int rightIndex = queries[i][2];
+
+            // Make leftIndex and rightIndex 0-based.
+            leftIndex = leftIndex - 1;
+            rightIndex = rightIndex - 1;
+
+            // Find two highest values from the range leftIndex to rightIndex.
+            vector<int> result = query(0, 0, arrSize - 1, leftIndex, rightIndex, tree);
+
+            int maximum1, maximum2;
+            maximum1 = result[0];
+            maximum2 = result[1];
+
+            answer.push_back(maximum1 + maximum2);
+        }
+    }
+
+    return answer;
+}
