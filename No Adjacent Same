@@ -1,0 +1,8 @@
+def allBitsAreSet(n):
+    if (((n + 1) & n) == 0):
+        return True
+    return False
+
+def checkBits(n):
+    num = n ^ (n >> 1)
+    return allBitsAreSet(num)
