@@ -1,0 +1,45 @@
+/*
+    Time complexity: O(N ^ 2) 
+    Space complexity: O(N ^ 2)
+    
+    Where 'N' is the total number of baskets.
+*/
+
+int getMaxFruits(vector<int> &basket, int n){
+    // Create a 'DP' table to store the result of subproblems.
+    vector<vector<int>> dp(n, vector<int>(n));
+
+    // Iterate through the baskets.
+    for (int k = 0; k < basket.size(); k++){
+        // Set two pointers, so as to fill the "dp" table diagonally. Iterate in the diagonal fashion.
+        for (int i = 0, j = k; j < basket.size(); j++, i++){   
+            // Create three variables to store the result of subproblems on which current value of dp[i][j] depends.
+            int a, b, c;
+            
+            if (i + 2 > j){
+                a = 0;
+            }
+            else{
+                a = dp[i + 2][j];
+            }
+
+            if (i + 1 > j - 1){
+                b = 0;
+            }
+            else{
+                b = dp[i + 1][j - 1];
+            }
+
+            if (i > j - 2){
+                c = 0;
+            }
+            else{
+                c = dp[i][j - 2];
+            }
+
+            // Fill the 'DP' table after considering all the depending subproblems.
+            dp[i][j] = max(basket[i] + min(a, b), basket[j] + min(b, c));
+        }
+    }
+    return dp[0][n - 1];
+}
