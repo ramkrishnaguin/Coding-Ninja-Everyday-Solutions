@@ -1,0 +1,13 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+from sys import maxsize
+
+def minSubarraySum(arr, n, k):
+	curr_sum=sum(arr[:k])
+	min_sum=curr_sum
+	for i in range(k,n):
+		curr_sum+=arr[i]-arr[i-k]
+		min_sum=min(min_sum,curr_sum)
+	return min_sum
