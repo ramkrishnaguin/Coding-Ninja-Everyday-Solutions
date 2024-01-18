@@ -1,0 +1,17 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def divideString(word, n):
+   ans = []
+   divide = len(word) // n
+
+   if len(word) % n == 0:
+       for i in range(0, len(word), divide):
+           temp = ''
+           for j in range(i, i + divide):
+               temp += word[j]
+           ans.append(temp)
+
+   return ans
