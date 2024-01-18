@@ -1,0 +1,22 @@
+def isInterleaveUtil(A, B, C, n1, n2, n3, memo):
+    if n1 == 0 and n2 == 0 and n3 == 0:
+        return True
+    if n3 == 0:
+        return False
+    if (n1, n2, n3) in memo:
+        return memo[(n1, n2, n3)]
+    if n1 + n2 != n3:
+        return False
+    if A[n1-1] == C[n3-1] and B[n2-1] == C[n3-1]:
+        memo[(n1, n2, n3)] = isInterleaveUtil(A, B, C, n1-1, n2, n3-1, memo) or isInterleaveUtil(A, B, C, n1, n2-1, n3-1, memo)
+    elif A[n1-1] == C[n3-1]:
+        memo[(n1, n2, n3)] = isInterleaveUtil(A, B, C, n1-1, n2, n3-1, memo)
+    elif B[n2-1] == C[n3-1]:
+        memo[(n1, n2, n3)] = isInterleaveUtil(A, B, C, n1, n2-1, n3-1, memo)
+    else:
+        memo[(n1, n2, n3)] = False
+    return memo[(n1, n2, n3)]
+
+def isInterleave(A, B, C):
+    memo = {}
+    return isInterleaveUtil(A, B, C, len(A), len(B), len(C), memo)
