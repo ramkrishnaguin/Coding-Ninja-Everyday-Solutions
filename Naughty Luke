@@ -1,0 +1,11 @@
+from typing import List
+
+def getFinalGrid(a: List[List[int]], n: int) -> List[List[int]]:
+    for i in range(n):
+        a[i] = a[i][::-1]
+
+    for i in range(n):
+        for j in range(n):
+            a[i][j] = 1 - a[i][j]
+
+    return a
