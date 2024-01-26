@@ -1,0 +1,151 @@
+/*
+    Time Complexity: O((N^2)!).
+    Space Complexity: O( N ).
+
+    Where 'N' is the size of the input board.
+*/
+
+// Function to check if the game is over or not.
+int isGameOver(vector<string> &board){
+
+    for(int i = 0; i < 3; i++){
+
+        // For each row check if all symbols are same.
+        if(board[i][0] == board[i][1] and board[i][1] == board[i][2]){
+            if(board[i][0] == 'X') return 1;
+            if(board[i][0] == 'O') return -1;
+        }
+
+        // For each column check if all symbols are same.
+        if(board[0][i] == board[1][i] and board[1][i] == board[2][i]){
+            if(board[0][i] == 'X') return 1;
+            if(board[0][i] == 'O') return -1;
+        }
+    }
+
+    // Check primary diagonal.
+    if(board[0][0] == board[1][1] and board[1][1] == board[2][2]){
+        if(board[0][0] == 'X') return 1;
+        if(board[0][0] == 'O') return -1;
+    }
+
+    // Check secondary diagonal.
+    if(board[0][2] == board[1][1] and board[1][1] == board[2][0]){
+        if(board[0][2] == 'X') return 1;
+        if(board[0][2] == 'O') return -1;
+    }
+
+    return 0;
+}
+
+// Function to check if there are any moves left in the game or not.
+bool isMovesLeft(vector<string> &board){
+    for(int i = 0 ; i < 3 ; i++){
+        for(int j = 0 ; j < 3 ; j++)
+
+        // If empty cell is found return true.
+            if(board[i][j] == '_'){
+                return true;
+            }
+    }
+    return false;
+}
+
+// Function to return the score of the game using minimax algorithm.
+int minimax(vector<string>&board, int turn){
+
+    // Check if the game is complete.
+    int status = isGameOver(board);
+    if(status != 0){
+        return status;
+    }
+
+    // If no moves are left, return a draw.
+    if(!isMovesLeft(board)){
+        return 0;
+    }
+
+    // Your turn to play.
+    if(turn == 1){
+        int score =  -100;
+        for(int i = 0 ; i < 3 ; i++){
+            for(int j = 0 ; j < 3 ; j++){
+                if(board[i][j] == '_'){
+
+                    // Place 'X' here.
+                    board[i][j] = 'X';
+
+                    // Update the score.
+                    score = max(score, minimax(board, !turn));
+
+                    // Undo the move.
+                    board[i][j] = '_';
+                }
+            }
+        }
+        return score;
+    }
+
+    // Opponent's turn to play.
+    else if(turn == 0){
+        int score =  100;
+        for(int i = 0 ; i < 3 ; i++){
+            for(int j = 0 ; j < 3 ; j++){
+                if(board[i][j] == '_'){
+
+                    // Place 'O' here.
+                    board[i][j] = 'O';
+
+                    // Update the score.
+                    score = min(score, minimax(board, !turn));
+
+                    // Undo the move.
+                    board[i][j] = '_';
+                }
+            }
+        }
+        return score;
+    }
+    return 0;
+}
+
+// Function to return the best score and best move of the game.
+vector<int> tictactoeWinner(vector<string> &board){
+
+    // To store the best_move and the best_score possible.
+    pair<int,int> best_move(-1, -1);
+    int best_score = -100;
+
+    // For each empty position on the board try to place 'X'.
+    for(int i = 0 ; i < 3 ; i++){
+        for(int j = 0 ; j < 3 ; j++) {
+            if(board[i][j] != '_'){
+                continue;
+            }
+
+            // Place 'X' here.
+            board[i][j] = 'X';
+
+            // Get the optimal score.
+            int result = minimax(board, 0);
+
+            // Undo the move.
+            board[i][j] = '_';
+
+            // Update score if the result is new maximum.
+            if(result > best_score){
+                best_score = result;
+                best_move.first = i + 1;
+                best_move.second = j + 1;
+            }
+        }
+    }
+    
+    // Push the score and the moves in the result vector.
+    vector<int> result;
+    result.push_back(best_score);
+    result.push_back(best_move.first);
+    result.push_back(best_move.second);
+    return result;
+
+}
