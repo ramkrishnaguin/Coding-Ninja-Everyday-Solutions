@@ -1,0 +1,87 @@
+/*
+
+Time Complexity: O(N+M)
+
+Space Complexity: O(1)
+
+where ‘N’ is the size of array ‘A’
+
+and ‘M’ is the size of array ‘B’.
+
+*/
+
+int maximumScore(int n, int m, vector<int> &a, vector<int>& b)
+
+{
+
+long sumA = 0, sumB = 0, i=0, j=0, ans = 0;
+
+while (i < n && j < m){
+
+if (a[i] < b[j]){
+
+sumA = sumA+a[i];
+
+i = i+1;
+
+continue;
+
+}
+
+if (a[i] > b[j]){
+
+sumB = sumB+b[j];
+
+j = j+1;
+
+continue;
+
+}
+
+if (a[i] == b[j]){
+
+// Picking the larger accumulated sum.
+
+ans = ans + max(sumA, sumB);
+
+ans = ans + a[i];
+
+// Reseting the sums to 0.
+
+sumA = 0;
+
+sumB = 0;
+
+i = i+1;
+
+j = j+1;
+
+}
+
+}
+
+// Considering the elements left.
+
+while (i < n){
+
+sumA = sumA + a[i];
+
+i = i+1;
+
+}
+
+while (j < m){
+
+sumB = sumB + b[j];
+
+j = j+1;
+
+}
+
+ans = ans + max(sumA, sumB);
+
+ans = ans % (1000000007);
+
+return ans;
+
+}
