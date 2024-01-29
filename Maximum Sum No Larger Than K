@@ -1,0 +1,49 @@
+/*
+    Time complexity: O((M ^ 2) * N * LOG(N))
+    Space complexity: O(N)
+
+    Where 'N' and 'M' are the number of rows and columns of the matrix, respectively.
+*/
+
+#include<set>
+#include<climits>
+
+int maxSum(int k, vector<vector<int>> &mat)
+{
+    int n = mat.size();
+    int m = mat[0].size();
+
+    int ans = INT_MIN;
+
+    for(int leftCol = 0; leftCol < m; leftCol++) {
+
+        vector<int> rowSum(n, 0);
+        for(int rightCol = leftCol; rightCol < m; rightCol++) {
+
+            for(int row = 0; row < n; row++) {
+
+                rowSum[row] += mat[row][rightCol];
+            }
+
+            set<int> st;
+            st.insert(0);
+            int cSum = 0;
+
+            for(int a : rowSum) {
+
+                cSum += a;
+
+                auto val = st.lower_bound(cSum - k);
+
+                if(val != st.end()) {
+
+                    ans = max(ans, cSum - (*val));
+                }
+
+                st.insert(cSum);
+            }
+        }
+    }
+
+    return ans;
+}
