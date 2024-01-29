@@ -1,0 +1,22 @@
+/*
+    Time Complexity: O(1)
+    Space Complexity: O(1)
+*/
+
+bool isPossibleToSurvive(int n, int x, int d){
+
+    if(d <= 6){
+        if(n >= x){
+            return true;
+        }else {
+            return false;
+        }
+    }
+    else{
+        if(n >= x && 6*n >= 7*x){
+            return true;
+        }else {
+            return false;
+        }
+    }
+}
