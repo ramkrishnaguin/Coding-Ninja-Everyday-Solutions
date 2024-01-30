@@ -1,0 +1,91 @@
+#include<bits/stdc++.h>
+
+ 
+
+bool ispossible(vector<int>& arr, int n, int m, long long mid){
+
+    int stc=1;
+
+    long long pgsum=0;
+
+    for(int i=0;i<n;i++){
+
+        if(pgsum+arr[i]<=mid){
+
+            pgsum+=arr[i];
+
+        }
+
+        else{
+
+            stc++;
+
+            if(stc>m || arr[i]>mid){
+
+                return false;
+
+            }
+
+            pgsum=arr[i];
+
+        }
+
+    }
+
+    return true;
+
+}
+
+ 
+
+long long int minimumRequiredTime(vector<int> &subjects, int k){
+
+    int n=subjects.size();
+
+    // sort(subjects.begin(),subjects.end());
+
+    long long s=0;
+
+   long long sum=0;
+
+   int mx=INT_MIN;
+
+//    if(k>n)  return -1;
+
+   for(int i=0;i<n;i++){
+
+       sum+=subjects[i];
+
+       mx=max(mx,subjects[i]);
+
+   }
+
+   long long e=sum;
+
+   long long mid=s+(e-s)/2;
+
+   long long ans=mx;
+
+   while(s<=e){
+
+       if(ispossible(subjects,n,k,mid)){
+
+           ans=mid;
+
+           e=mid-1;
+
+       }
+
+       else{
+
+           s=mid+1;
+
+       }
+
+       mid=s+(e-s)/2;
+
+   }
+
+   return ans;
+
+}
