@@ -1,0 +1,36 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def convertString(str):
+    # Write your code here
+    words = str.split(" ")
+
+    cap_words = []
+
+    for i in words:
+
+        if(len(i)>1):
+
+ 
+
+            i = i[0].capitalize() + i[1:]
+
+            cap_words.append(i)
+
+        else:
+
+            i = i.capitalize()
+
+            cap_words.append(i)
+
+ 
+
+        
+
+    # cap_words = [i.capitalize() for i in words]
+
+    res = " ".join(cap_words)
+
+    return res
