@@ -1,0 +1,19 @@
+def minimumSwaps(arr, n, k):
+    count = 0  # to count elements less than or equal to k
+    for i in range(n):
+        if arr[i] <= k:
+            count += 1
+    if count == 0:
+        return 0
+    current_min = 0
+    for i in range(count):
+        if arr[i] > k:
+            current_min += 1
+    answer = current_min
+    for i in range(1, n - count + 1):
+        if arr[i - 1] > k:
+            current_min -= 1
+        if arr[i + count - 1] > k:
+            current_min += 1
+        answer = min(answer, current_min)
+    return answer
