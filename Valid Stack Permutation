@@ -1,0 +1,73 @@
+bool validStackPermutation(vector<int> &first, vector<int> &other){
+
+    // Write your code here.
+
+    stack<int> st;
+
+    int i=0;
+
+    int j=0;
+
+    while(i<first.size()){
+
+        if(first[i] == other[j]){
+
+            i++;
+
+            j++;
+
+        }
+
+        else if(st.size() == 0){
+
+            st.push(first[i]);
+
+            i++;
+
+        }
+
+        else if(st.top() == other[j]){
+
+            j++;
+
+            st.pop();
+
+        }
+
+        else{
+
+            st.push(first[i]);
+
+            i++;
+
+        }
+
+    }
+
+    while(j < first.size() && st.size() > 0){
+
+        if(other[j] == st.top()){
+
+            st.pop();
+
+            j++;
+
+        }
+
+        else{
+
+            return false;
+
+        }
+
+    }
+
+    if(j == first.size() && st.size() == 0){
+
+        return true;
+
+    }
+
+    return false;
+
+}
