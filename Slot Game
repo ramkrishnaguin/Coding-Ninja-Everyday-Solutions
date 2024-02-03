@@ -1,0 +1,28 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def slotScore(o, g):
+    ans = 0
+    n = len(g)
+    mp = {}
+
+    for i in range(n):
+        if o[i] == g[i]:
+            ans += 2
+            o = o[:i] + '0' + o[i+1:]
+            g = g[:i] + '1' + g[i+1:]
+
+    for i in o:
+        if i != '0':
+            mp[i] = mp.get(i, 0) + 1
+
+    for i in range(n):
+        if g[i] != '1' and g[i] in mp:
+            ans += 1
+            mp[g[i]] -= 1
+            if mp[g[i]] == 0:
+                del mp[g[i]]
+
+    return ans
