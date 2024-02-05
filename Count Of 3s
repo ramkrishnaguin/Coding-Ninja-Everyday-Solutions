@@ -1,0 +1,45 @@
+#include <bits/stdc++.h>   
+
+long long int dp[6][6][2];
+
+ 
+
+long long F(string &num,int pos = 0,int freq = 0,int tight = 1){
+
+     if(pos == num.size()) return freq;
+
+ 
+
+     long long int &res = dp[pos][freq][tight];
+
+     if(res != -1) return res;
+
+ 
+
+     res = 0;
+
+     int limit = tight ? num[pos]-'0' : 9;
+
+     
+
+     for(int digit=0;digit<=limit;digit++)
+
+          res += F(num,pos+1,freq+(digit==3),tight&(limit==digit));
+
+ 
+
+     return res;
+
+}
+
+ 
+
+long long int countOf3(int x){
+
+     memset(dp,-1,sizeof dp);
+
+     string num = to_string(x);
+
+     return F(num);
+
+}
