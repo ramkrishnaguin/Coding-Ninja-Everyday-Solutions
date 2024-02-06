@@ -1,0 +1,35 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+vector<int> printMatrix(vector<vector<int>> &mat, int n, int m)
+{
+    vector<int> zigzagOrder;
+
+    for (int i = 0; i < n + m - 1; i++) {
+        if (i % 2 == 0) {
+            int row = min(i, n - 1);
+            int col = max(0, i - n + 1);
+
+            while (row >= 0 && col < m) {
+              zigzagOrder.push_back({mat[row][col]});
+
+              row--;
+              col++;
+            }
+
+        } else {
+            int row = max(0, i - m + 1);
+            int col = min(i, m - 1);
+
+            while (row < n && col >= 0) {
+                zigzagOrder.push_back({mat[row][col]});
+
+                row++;
+                col--;
+            }
+        }
+    }
+    return zigzagOrder;
+}
