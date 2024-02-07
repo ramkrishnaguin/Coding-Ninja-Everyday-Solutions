@@ -1,0 +1,17 @@
+def phoneDirectory(arr,qList):
+    # write code here
+    X = []
+    pq=""
+    d = 0
+    for i in qList:
+        P = []
+        pq+=i
+        for j in arr:
+            if(j.startswith(pq)):
+                P.append(j)
+        if(P==[]):
+            d+=1
+        X.append(sorted(set(P)))    
+    if(d==len(qList)):
+        return [["No suggestions found"]]
+    return X
