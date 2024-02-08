@@ -1,0 +1,30 @@
+#include <bits/stdc++.h> 
+int minSwaps(vector<int> &arr, int n)
+{
+    // Write your code here.
+    vector<int>vis(n, 0);
+    vector<int>ind(2*n, 0);
+    for(int i = 0; i < 2*n; i++){
+        ind[arr[i]] = i;
+    }
+    int res = 0;
+    for(int i = 0; i < n; i++){
+        if(vis[i])continue;
+        vis[i] = 1;
+        int a = arr[2*i], b = arr[2*i+1];
+        int cnt = 0, temp = a;
+        while(temp != b){
+            if(temp%2)temp--;
+            else temp++;
+            int j = ind[temp];
+            if(vis[j/2])break;
+            else vis[j/2] = 1;
+            if(j%2)j--;
+            else j++;
+            temp = arr[j];
+            cnt++;
+        }
+        res+= cnt;
+    }
+    return res;
+}
