@@ -1,0 +1,26 @@
+#include <bits/stdc++.h> 
+vector<string> printPattern(int n)
+{
+	vector<string> ans(n);
+	int k = 0 ;
+	int j = n-1 ;
+	int cnter = 1 ;
+	for(int i = 0 ; i<n ; i++){
+		string temp = "";
+		int t = n;
+		while(t--){
+			temp += to_string(cnter);
+			temp += " ";
+			cnter++;
+		}
+		if(i%2==0){
+			ans[k++] = temp;
+		}
+		else{
+			ans[j--] = temp;
+		}
+	}
+
+	return ans ;
+
+}
