@@ -1,0 +1,27 @@
+#include <bits/stdc++.h> 
+string isPossible(string str,int n) {
+    int x = 0, y = 0;
+    int dx = 1, dy = 0;
+   for(int i=0;i<4;i++){
+       for (char c : str) {
+           if (c == 'G') {
+               x += dx;
+                y += dy;
+            }   
+            else if (c == 'L') {
+                int temp = dx;
+                dx = -dy;
+                dy = temp;
+            } 
+            else if (c == 'R') {
+                int temp = dx;
+                dx = dy;
+                dy = -temp;
+            }
+        }
+    }
+    if(x == 0 && y == 0){
+       return "True";
+    }
+    return "False"; 
+}
