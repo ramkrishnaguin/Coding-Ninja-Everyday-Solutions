@@ -1,0 +1,271 @@
+#include <bits/stdc++.h>
+
+unordered_map<char, int> start {
+
+{'F', 9},
+
+{'B', 15},
+
+{'L', 6},
+
+{'R', 12},
+
+{'U', 3},
+
+{'D', 0},
+
+};
+
+unordered_map<char,vector<tuple<char,int,int>>> rotateFaceWise {
+
+{'F', { make_tuple('U',2,0), make_tuple('U',2,1), make_tuple('U',2,2),
+
+make_tuple('R',0,0), make_tuple('R',1,0), make_tuple('R',2,0),
+
+make_tuple('D',0,2), make_tuple('D',0,1), make_tuple('D',0,0),
+
+make_tuple('L',2,2), make_tuple('L',1,2), make_tuple('L',0,2) }},
+
+{'B', { make_tuple('U',0,2), make_tuple('U',0,1), make_tuple('U',0,0),
+
+make_tuple('L',0,0), make_tuple('L',1,0), make_tuple('L',2,0),
+
+make_tuple('D',2,0), make_tuple('D',2,1), make_tuple('D',2,2),
+
+make_tuple('R',2,2), make_tuple('R',1,2), make_tuple('R',0,2) }},
+
+{'L', { make_tuple('U',0,0), make_tuple('U',1,0), make_tuple('U',2,0),
+
+make_tuple('F',0,0), make_tuple('F',1,0), make_tuple('F',2,0),
+
+make_tuple('D',0,0), make_tuple('D',1,0), make_tuple('D',2,0),
+
+make_tuple('B',2,2), make_tuple('B',1,2), make_tuple('B',0,2) }},
+
+{'R', { make_tuple('U',2,2), make_tuple('U',1,2), make_tuple('U',0,2),
+
+make_tuple('B',0,0), make_tuple('B',1,0), make_tuple('B',2,0),
+
+make_tuple('D',2,2), make_tuple('D',1,2), make_tuple('D',0,2),
+
+make_tuple('F',2,2), make_tuple('F',1,2), make_tuple('F',0,2) }},
+
+{'U', { make_tuple('B',0,2), make_tuple('B',0,1), make_tuple('B',0,0),
+
+make_tuple('R',0,2), make_tuple('R',0,1), make_tuple('R',0,0),
+
+make_tuple('F',0,2), make_tuple('F',0,1), make_tuple('F',0,0),
+
+make_tuple('L',0,2), make_tuple('L',0,1), make_tuple('L',0,0) }},
+
+{'D', { make_tuple('F',2,0), make_tuple('F',2,1), make_tuple('F',2,2),
+
+make_tuple('R',2,0), make_tuple('R',2,1), make_tuple('R',2,2),
+
+make_tuple('B',2,0), make_tuple('B',2,1), make_tuple('B',2,2),
+
+make_tuple('L',2,0), make_tuple('L',2,1), make_tuple('L',2,2) }}
+
+};
+
+void selfRotate(vector<vector<int>> &self, char faceLetter, int threshold) {
+
+queue<int> values;
+
+pair<int,int> shift = make_pair(start[faceLetter], 0);
+
+pair<int, int> rotateIndex = make_pair(0, 0);
+
+char dir = 'R';
+
+int cnt = 8;
+
+while (cnt > 0) {
+
+int previousValue = self[rotateIndex.first+shift.first][rotateIndex.second+shift.second];
+
+if ((int)values.size() == threshold) {
+
+self[rotateIndex.first+shift.first][rotateIndex.second+shift.second] = values.front();
+
+values.pop();
+
+cnt--;
+
+}
+
+values.push(previousValue);
+
+if (dir == 'R') {
+
+if (rotateIndex.second == 2) {
+
+rotateIndex.first++;
+
+dir = 'D';
+
+}
+
+else {
+
+rotateIndex.second++;
+
+}
+
+}
+
+else if (dir == 'D') {
+
+if (rotateIndex.first == 2) {
+
+rotateIndex.second--;
+
+dir = 'L';
+
+}
+
+else {
+
+rotateIndex.first++;
+
+}
+
+}
+
+else if (dir == 'L') {
+
+if (rotateIndex.second == 0) {
+
+rotateIndex.first--;
+
+dir = 'U';
+
+}
+
+else {
+
+rotateIndex.second--;
+
+}
+
+}
+
+else {
+
+if (rotateIndex.first == 0) {
+
+rotateIndex.second++;
+
+dir = 'R';
+
+}
+
+else {
+
+rotateIndex.first--;
+
+}
+
+}
+
+}
+
+return;
+
+}
+
+void adjacentFaceRotate(vector<vector<int>> &self, char faceLetter, int threshold) {
+
+queue<int> values;
+
+int n=12;
+
+for(int i=n-threshold;i<n;i++) {
+
+char face = get<0>(rotateFaceWise[faceLetter][i]);
+
+int row = get<1>(rotateFaceWise[faceLetter][i]);
+
+int col = get<2>(rotateFaceWise[faceLetter][i]);
+
+pair<int,int> shift = make_pair(start[face],0);
+
+row += shift.first;
+
+col += shift.second;
+
+values.push(self[row][col]);
+
+}
+
+for(int i=0;i<n;i++) {
+
+char face = get<0>(rotateFaceWise[faceLetter][i]);
+
+int row = get<1>(rotateFaceWise[faceLetter][i]);
+
+int col = get<2>(rotateFaceWise[faceLetter][i]);
+
+pair<int,int> shift = make_pair(start[face],0);
+
+row += shift.first;
+
+col += shift.second;
+
+if(i<n-threshold) {
+
+values.push(self[row][col]);
+
+}
+
+self[row][col] = values.front();
+
+values.pop();
+
+}
+
+return;
+
+}
+
+vector<vector<int>> sudokube(vector<vector<int>> &initialSudokube, int q, vector<string> &operations) {
+
+vector<vector<int>> ans = initialSudokube;
+
+for (int i = 0; i < q; i++) {
+
+string currOperation = operations[i];
+
+char rotateDirection = currOperation[0];
+
+int threshold = 0;
+
+if(currOperation.size()==1) {
+
+threshold = 3;
+
+}
+
+else if(currOperation[1] == '\'') {
+
+threshold = 9;
+
+}
+
+else {
+
+threshold = 6;
+
+}
+
+adjacentFaceRotate(initialSudokube, currOperation[0], threshold);
+
+selfRotate(initialSudokube, currOperation[0], threshold-(threshold/3));
+
+ans = initialSudokube;
+
+}
+
+return ans;
+
+}
