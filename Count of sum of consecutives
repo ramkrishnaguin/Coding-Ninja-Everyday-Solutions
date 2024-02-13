@@ -1,0 +1,10 @@
+def countWays(n):
+    
+    # Write your code here.
+    ans = 0
+    m = 1
+    while m * (m + 1) < 2 * n:
+        if (n - (m * (m + 1)) // 2) % (m + 1) == 0:
+            ans += 1
+        m += 1
+    return ans
