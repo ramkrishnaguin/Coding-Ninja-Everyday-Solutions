@@ -1,0 +1,38 @@
+/**********************************************************
+
+    Following is the Binary Tree Node class structure:
+
+    template <typename T>
+
+    class BinaryTreeNode {
+    public :
+        T data;
+        BinaryTreeNode<T> *left;
+        BinaryTreeNode<T> *right;
+
+        BinaryTreeNode(T data) {
+            this -> data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+***********************************************************/
+BinaryTreeNode<int> *ans = NULL;
+
+void inorder(BinaryTreeNode<int> *root, BinaryTreeNode<int> *&prev, BinaryTreeNode<int>*node){
+    if(!root)return;
+
+    inorder(root->left,prev,node);
+    if(prev == node)ans = root;
+    prev = root;
+    inorder(root->right,prev,node);
+}
+BinaryTreeNode<int> *inorderSuccesor(BinaryTreeNode<int> *root, BinaryTreeNode<int> *node)
+{
+   ans = NULL;
+   BinaryTreeNode<int> *prev = NULL;
+   inorder(root,prev,node);
+   
+   return ans;
+}
