@@ -1,0 +1,51 @@
+int levelLeaf(TreeNode<int> *root) 
+
+{
+
+     if(root==NULL)  return false;
+
+        queue<TreeNode<int>*>q;
+
+        q.push(root);
+
+        unordered_set<int>s;
+
+        int level=0;
+
+        while(q.empty()==false)
+
+        {
+
+            int ct=q.size();
+
+             for (int i=0; i<ct; i++)
+
+            {
+
+                TreeNode<int> *curr = q.front();
+
+                q.pop();
+
+                // storing level of every leaf node
+
+                if (curr->left == NULL and curr->right == NULL)
+
+                    s.insert(level);
+
+                if (curr->left!=NULL)
+
+                    q.push(curr->left);
+
+                if (curr->right!=NULL)
+
+                    q.push(curr->right);
+
+            }
+
+            level++;
+
+        }
+
+        return (s.size() == 1);
+
+}
