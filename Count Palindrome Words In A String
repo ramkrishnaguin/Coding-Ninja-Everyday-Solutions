@@ -1,0 +1,29 @@
+#include <bits/stdc++.h> 
+int checkPalindrome(string str){
+	string str1=str;
+	reverse(str.begin(), str.end());
+	return (str==str1)?1:0;
+}
+int countNumberOfPalindromeWords(string s)
+{
+	//Your code goes here
+	for (auto& x : s) { 
+        x = tolower(x); 
+    } 
+	int len=0,cnt=0;
+	for(int i=0;i<s.length();){
+		while(s[i+len] != ' ' && s[i+len] != '\0'){
+			len++;
+		}
+		
+		if(checkPalindrome(s.substr(i,len)) && len){
+			cnt++;
+			//cout<<s.substr(i,len)<<endl;
+			//cout<<i<<endl;
+		}
+		//cout<<len<<endl;
+		i=i+len+1;
+		len=0;
+	}
+	return cnt;
+}
