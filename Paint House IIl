@@ -1,0 +1,66 @@
+"""
+    Time Complexity: O(K*K*N*M)
+    Space Complexity: O(K*N*M) 
+
+     where 'N' is the number of houses, 
+     'K' is the number of colors available, 
+     and 'M' is the target number of groups.
+"""
+
+from typing import *
+
+inf = 10**8
+
+
+def helper(idx: int, target: int, lastColor: int, houses: List[int], cost: List[List[int]], dp: List[List[List[int]]]) -> int:
+
+    # Painting of all houses done and condition satisfied.
+    if idx == len(houses) and target == 0:
+        return 0
+
+    # Condition not satisfied.
+    if idx >= len(houses) or target < 0:
+        return inf
+
+    # Precomputed Value.
+    if dp[idx][target][lastColor] != -1:
+        return dp[idx][target][lastColor]
+
+    if houses[idx] != 0:
+        # Current house is already painted.
+        newTarget = target
+        if houses[idx] != lastColor:
+            # New Neighborhood group found.
+            newTarget = target-1
+
+        dp[idx][target][lastColor] = helper(idx+1, newTarget, houses[idx], houses, cost, dp)
+
+        return dp[idx][target][lastColor]
+
+    # Current house is not painted.
+    ans = inf
+
+    for i in range(1, len(cost[0])+1):
+        if i == lastColor:
+            newTarget = target
+        else:
+            # A new neighborhood group found.
+            newTarget = target - 1
+
+        ans = min(ans, cost[idx][i-1] + helper(idx +1, newTarget, i, houses, cost, dp))
+
+    dp[idx][target][lastColor] = ans
+    return ans
+
+
+def paintingJob(n: int, k: int, m: int, houses: List[int], cost: List[List[int]]) -> int:
+
+    # Setting all values of dp table to -1.
+    dp = [[[-1] * (k+1) for _ in range(m+1)] for __ in range(n)]
+    ans = helper(0, m, 0, houses, cost, dp)
+
+    if ans == inf:
+        # Not possible
+        return -1
+    else:
+        return ans
