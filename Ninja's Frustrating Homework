@@ -1,0 +1,24 @@
+import java.util.* ;
+import java.util.regex.*;
+import java.io.*; 
+
+public class Solution {
+    
+    public static ArrayList<Integer> searchWords(String booklet, String[] diary) {
+        // Write your code here
+        ArrayList<Integer> arr = new ArrayList<>();
+        for(String str : diary)
+        {
+            Pattern pattern = Pattern.compile(Pattern.quote(str));
+            Matcher matcher = pattern.matcher(booklet);
+            
+             while (matcher.find())
+                arr.add(matcher.start());
+        }
+
+        Collections.sort(arr);
+
+        return arr;        
+    }
+
+}
