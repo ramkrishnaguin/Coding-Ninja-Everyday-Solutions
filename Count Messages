@@ -1,0 +1,19 @@
+#include <bits/stdc++.h> 
+map<string,vector<int>>mp;
+
+void receiveMessage(string user, int time) {
+	mp[user].push_back(time);
+}
+
+vector<int> getMessageCount(int l, int r, string user, int k) {
+	vector<int>ans,curr = mp[user];
+	sort(begin(curr),end(curr));
+
+	while(l<=r){
+		int low = lower_bound(begin(curr),end(curr),l)-curr.begin();
+		int high = upper_bound(begin(curr),end(curr),min(l+k-1,r))-curr.begin();
+		ans.push_back(high-low);
+		l = l+k;
+	}	
+	return ans;
+}
