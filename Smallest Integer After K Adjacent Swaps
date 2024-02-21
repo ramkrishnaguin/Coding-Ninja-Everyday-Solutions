@@ -1,0 +1,105 @@
+/*
+    Time Complexity : O(N*D*log(N))
+    Space Complexity : O(N)
+
+    where 'N' is the number of digits in 'NUM' and 'D' is 
+    the number of digits in the number system (For decimal system, D = 10).
+*/
+
+// Segment tree implementation.
+class SegTree {
+   public:
+    int n;
+    vector<int> t;
+
+    SegTree(int n) : n(n) 
+    {
+        // No need to call 'build()' as the array elements are set to '0'.
+        t.resize(2 * n, 0);  
+    }
+    
+    // Build the tree.
+    void build() {  
+        for (int i = n - 1; i > 0; --i) {
+            t[i] = t[i << 1] + t[i << 1 | 1];
+        }
+    }
+
+    void modify(int l, int r, int value) 
+    {   
+        // Incremet the elements in the range [l,r) by 'value'.
+        for (l += n, r += n; l < r; l >>= 1, r >>= 1) {
+            if (l & 1) t[l++] += value;
+            if (r & 1) t[--r] += value;
+        }
+    }
+    
+    // Return the value at position 'p'.
+    int query(int p) {  
+        int res = 0;
+        for (p += n; p > 0; p >>= 1) res += t[p];
+        return res;
+    }
+};
+
+string smallestInteger(string &num, int n, int k) 
+{   
+    // To store the indexes of digits.
+    vector<int> pos[10];               
+
+    // Push the indexes in reverse order. 
+    for (int i = n - 1; i >= 0; i--) {  
+        pos[num[i] - '0'].push_back(i);
+    }
+    
+    // To store the answer.
+    string res = "";              
+
+    // To track the indexes inserted in 'res'.
+    vector<bool> seen(n, false);  
+
+    // Use to count the number of right shifts, initially zero.
+    SegTree st(n);                
+
+    for (int i = 0; i < n && k != 0; i++) {
+        for (int d = 0; d <= 9; d++) 
+        {   
+             // No more 'd' digits left.
+            if (!pos[d].size()) { 
+                continue;
+            }
+            
+            // Index of the leftmost digit 'd' after 'i'.
+            int cur = pos[d].back();              
+
+            // Swaps to move the digit at 'cur' to 'i'.
+            int count = cur + st.query(cur) - i;  
+
+            /*
+                Push 'd' at the back of 'res'.
+                Remove 'cur' from 'pos[d]'.
+                Shift all digits before 'cur' to the right by one position.
+                Mark the digit at 'cur' as visited.
+                Update 'k'.
+            */
+            if (count <= k) {
+                res += d + '0';     
+                pos[d].pop_back();  
+
+                st.modify(0, cur, 1);  
+                seen[cur] = true;      
+                k -= count;            
+                break;
+            }
+        }
+    }
+    
+    // Append the umarked digits to 'res'.
+    for (int i = 0; i < n; i++) {  
+        if (!seen[i]) {
+            res += num[i];
+        }
+    }
+
+    return res;
+}
