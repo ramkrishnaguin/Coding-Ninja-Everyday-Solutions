@@ -1,0 +1,35 @@
+/*
+    Time Complexity: O(N)
+    Space Complexity: O(M*M)
+
+    where 'N' is the number of function calls and
+    â€˜Mâ€™ is the maximum number of different stations.
+*/
+
+#include<map>
+
+class railwaySystem{
+public:
+    map<int, pair<string,int>> checkInMap;
+    map<string, pair<int,int>> routeMap;
+    railwaySystem(){
+        checkInMap.clear();
+        routeMap.clear();
+    }
+
+    void checkIn(int passID, string station, int time){
+        checkInMap[passID] = {station, time};
+    }
+
+    void checkOut(int passID, string station, int time){
+        string startStation = checkInMap[passID].first;
+        int startTime = checkInMap[passID].second;
+        string route = startStation + "-" + station;
+        routeMap[route] = {routeMap[route].first + (time - startTime), routeMap[route].second + 1};
+    }
+
+    double getAverage(string source, string dest){
+        string route = source + "-" + dest;
+        return (double)routeMap[route].first / routeMap[route].second;
+    }
+};
