@@ -1,0 +1,23 @@
+'''
+    Time Complexity : O(N ^ 2)
+    Space Complexity : O(N)
+
+    Where 'N' is the length of string 'Str'
+'''
+
+
+def findLastSubstring(str):
+    # Length of given string.
+    n = len(str)
+
+    lastSubstr = ""
+    curSuffix = ""
+
+    # One by one find all suffix
+    for i in range(n-1, -1, -1):
+        curSuffix = str[i] + curSuffix
+        # Update 'lastSubstr', If 'curSuffix' is lexicographically greater than 'lastSubstr'.
+        if(curSuffix > lastSubstr):
+            lastSubstr = curSuffix
+
+    return lastSubstr
