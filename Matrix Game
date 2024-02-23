@@ -1,0 +1,35 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def multiply(mat, res):
+ 
+    N= len(mat)
+    for i in range(0,N):
+     
+        for j in range(0,N):
+         
+            res[i][j] = 0
+            for k in range(0,N):
+                res[i][j] += mat[i][k] * mat[k][j]
+ 
+# Function to check idempotent
+# property of matrix.
+ 
+def matrixGame(mat):
+    N= len(mat)
+    # Calculate multiplication of matrix
+    # with itself and store it into res.
+    res =[[0]*N for i in range(0,N)]
+    multiply(mat, res)
+ 
+    for i in range(0,N):
+        for j in range(0,N):    
+            if (mat[i][j] != res[i][j]):
+                return False
+    return True
+
+    # Write your Code Here.
+    # Return a boolean variable 'True' or 'False'
+    pass
