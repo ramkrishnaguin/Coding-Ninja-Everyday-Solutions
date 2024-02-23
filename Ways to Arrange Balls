@@ -1,0 +1,15 @@
+#include <bits/stdc++.h> 
+long long dp[16][16][16][4];
+long long f(long long a, long long b, long long c, int prev) {
+	if(a==0 && b==0 &&c==0) return 1;
+	if(dp[a][b][c][prev] != -1) return dp[a][b][c][prev];
+	long long aa=0, bb=0, cc=0;
+	if(a>0 && prev != 1) aa = f(a-1, b, c, 1);
+	if(b>0 && prev != 2) bb = f(a, b-1, c, 2);
+	if(c>0 && prev != 3) cc = f(a, b, c-1, 3);
+	return dp[a][b][c][prev] = aa+bb+cc;
+}
+long long int totalWays(int a, int b, int c) {
+	memset(dp, -1, sizeof(dp));
+	return f(a, b, c, 0);
+}
