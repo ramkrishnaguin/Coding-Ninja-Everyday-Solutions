@@ -1,0 +1,66 @@
+#include <bits/stdc++.h> 
+vector < vector < vector < int >>> dp;
+int solve(vector < vector < int >> adjList, int t, int x, int y) {
+    if (t >= 2 * adjList.size()) {
+        return 0;
+    }
+    if (x == y) {
+        return dp[t][x][y] = 2;
+    }
+    if (x == 0) {
+        return dp[t][x][y] = 1;
+    }
+    if (dp[t][x][y] != -1) {
+        return dp[t][x][y];
+    }
+
+    int turn = t % 2;
+    if (turn == 0) {
+        bool flag = true;
+        for (int i = 0; i < adjList[x].size(); i++) {
+            int nxt = solve(adjList, t + 1, adjList[x][i], y);
+            if (nxt == 1) {
+                return dp[t][x][y] = 1;
+            } else if (nxt != 2) {
+                flag = false;
+            }
+        }
+        if (flag) {
+            return dp[t][x][y] = 2;
+        } else {
+            return dp[t][x][y] = 0;
+        }
+    } 
+    else {
+        bool flag = true;
+        for (int i = 0; i < adjList[y].size(); i++) {
+            if (adjList[y][i] != 0) {
+                int nxt = solve(adjList, t + 1, x, adjList[y][i]);
+                if (nxt == 2) {
+                    return dp[t][x][y] = 2;
+                } else if (nxt != 1) {
+                    flag = false;
+                }
+            }
+        }
+        if (flag) {
+            return dp[t][x][y] = 1;
+        } 
+        else {
+            return dp[t][x][y] = 0;
+        }
+    }
+}
+
+int tomAndJerry(vector < vector < int >> &graph, int vertices, int edges) {
+    vector < vector < int >> adjList(vertices);
+    for (int i = 0; i < edges; i++) {
+        adjList[graph[i][0]].push_back(graph[i][1]);
+        adjList[graph[i][1]].push_back(graph[i][0]);
+    }
+    dp = vector < vector < vector < int >>> (2 * vertices, vector < vector < int >> (vertices, vector < int > (vertices, -1)));
+    int t = 0;
+    int x = 1;
+    int y = 2;
+    return solve(adjList, 0, 1, 2);
+}
