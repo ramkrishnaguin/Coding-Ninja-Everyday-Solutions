@@ -1,0 +1,98 @@
+'''
+    Time Complexity: O(K * max(N, M) ^ 2)
+    Space Complexity: O(K)
+
+    Where ‘K’ is the size of the required array, ‘N’ and ‘M’ are the size of the given array.
+'''
+
+# Function to find lexicographically larger array between two arrays.
+def isgreater (firstArr, secArr, idx1, idx2):
+    
+    # Run a loop while both have same elements or one array end ups.
+    while (idx1 < len(firstArr) and idx2 < len(secArr) and firstArr[idx1] == secArr[idx2]):
+        idx1 += 1
+        idx2 += 1
+    
+    # If second array ends up, then first array is lexicographically larger or equal.
+    if(idx2 == len(secArr)):
+        return True
+
+    # Check the first different element from 'firstArr' and 'secArr'.
+    if (idx1 < len(firstArr) and firstArr[idx1] > secArr[idx2]):
+        return True
+
+    return False
+
+# Function to merge two arrays to get a lexicographically maximum possible array.
+def merge (firstArr, secArr):
+    merged = []
+
+    # Declare two variables to iterate in both array.
+    idx1 = 0
+    idx2 = 0
+
+    while (idx1 < len(firstArr) or idx2 < len(secArr)):
+        
+        # Check which array is currently lexicographically larger, then add element of that array into 'merged'.
+        if (isgreater(firstArr, secArr, idx1, idx2) == True):
+            merged.append(firstArr[idx1])
+            idx1 += 1
+        else :
+            merged.append(secArr[idx2])
+            idx2 += 1
+        
+    return merged
+
+# Function to get lexicographically maximum subsequence of size 'len' from array 'arr'.
+def getSeq (arr, lenght):
+    
+    # Declare a stack to store lexicographically maximum subsequence
+    st = []
+    ret = []
+
+    for i in range(len(arr)) :
+     
+        '''
+            Run loop until stack is not empty and top element of stack is less than arr[i] 
+            and size of stack + remaining elements in ‘arr’ is not less than ‘len’
+        '''
+        while (len(st) > 0 and st[-1] < arr[i] and len(st) + (len(arr) - i) - 1 >= lenght):
+            st.pop()
+
+        if (len(st) < lenght):
+            st.append(arr[i])
+        
+    # Empty the stack and store elements in array.
+    while (len(st) > 0):
+        ret.append(st[-1])
+        st.pop()
+
+    # Reverse the array and return it.
+    ret.reverse()
+    return ret
+
+# Function to find lexicographically maximum possible array.
+def maxArray(n, m, arr1, arr2, k):
+    
+    # Declare a empty array to store resulting array.
+    result = []
+
+    # Run a loop through each possible size of subsequence in first array. 
+    for i in range(min(n, k) + 1):
+        
+        # Check if both the subsequences are possible.
+        if (i <= n and (k - i) <= m):
+            
+            # Generate lexicographically maximum subsequence from 'arr1' and 'arr2' with size 'i' and  'K' - 'i'.
+            seq1 = getSeq(arr1, i);
+            seq2 = getSeq(arr2, k - i);
+
+            # Merge both the arrays.
+            temp = merge(seq1, seq2)
+
+            # If current array is lexicographically greater than result, then update result.
+            if (isgreater(temp, result, 0, 0) == True):
+                result = temp
+            
+    # Return result.
+    return result
