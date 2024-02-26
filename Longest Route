@@ -1,0 +1,59 @@
+#include <bits/stdc++.h> 
+
+int solve(int n, int m, vector<vector<int>> &mat, int sx, int sy, int dx, int dy) 
+
+{
+
+    if(sx < 0 || sy < 0 || sx >= n || sy >= m || mat[sx][sy] == 0)
+
+    {
+
+        return -1e9;
+
+    }
+
+    if(sx == dx and sy == dy)
+
+    {
+
+        return 0;
+
+    }
+
+ 
+
+    mat[sx][sy] = 0;
+
+    int north = 1 + solve(n,m,mat,sx-1,sy,dx,dy);
+
+    int south = 1 + solve(n,m,mat,sx+1,sy,dx,dy);
+
+    int east = 1 + solve(n,m,mat,sx,sy-1,dx,dy);
+
+    int west = 1 + solve(n,m,mat,sx,sy+1,dx,dy);
+
+    mat[sx][sy] = 1;
+
+    return max({north,south,east,west});
+
+}
+
+int longestPath(int n, int m, vector<vector<int>> &mat, int sx, int sy, int dx, int dy) 
+
+{
+
+    int ans = solve(n,m,mat,sx,sy,dx,dy);
+
+    if(ans == -1e9)
+
+    {
+
+        return -1;
+
+    }
+
+    return ans;
+
+}
+
+ 
