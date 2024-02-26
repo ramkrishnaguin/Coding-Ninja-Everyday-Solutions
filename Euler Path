@@ -1,0 +1,114 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+'''
+    Time Complexity: O(N * M)
+    Space Complexity: O(N + M)
+    
+    Where N is the total number of nodes and M is the total number of edges in the graph.
+'''
+
+def addEdge(u: int, v: int, adj: list):
+    adj[u].append(v)
+    adj[v].append(u)
+    
+def deleteEdge(u: int, v: int, adj: list):
+    for i in range(len(adj[u])):
+        if adj[u][i] == v:
+            adj[u][i] = -1
+            break
+
+    for i in range(len(adj[v])):
+        if adj[v][i] == u:
+            adj[v][i] = -1
+            break  
+    
+# Function to count all reachable nodes from given node.
+def dfs(u: int, count: int, adj: list, vis: list):
+    vis[u] = True
+    count += 1
+    
+    for i in range(len(adj[u])):
+        v = adj[u][i]
+        if v != -1 and vis[v] == False:
+            dfs(v, count, adj, vis)
+        
+
+# Function to check whether given edge is Non-Bridge edge or not.
+def isNonbridge(u: int, v: int, adj):
+    countAdjacentNodes = 0
+    for i in range(len(adj[u])):
+        if adj[u][i] == -1:
+            countAdjacentNodes += 1
+    
+    if countAdjacentNodes == 1:
+        return True
+
+    n = len(adj)
+    
+    vis = [False for i in range(n)]
+    
+    withoutRemove, withRemove = 0, 0
+    dfs(u, withoutRemove, adj, vis)
+    
+    for i in range(n):
+        vis[i] = False
+    
+    deleteEdge(u, v, adj)
+    dfs(u, withRemove, adj, vis)
+    
+    addEdge(u, v, adj)
+    
+    if withRemove >= withoutRemove:
+        return True
+
+    else:
+        return False
+
+# Function to get Euler path.
+def eulerPath(u: int, adj: list, answer: list):
+    for i in range(len(adj[u])):
+        v = adj[u][i]
+        if v != -1 and isNonbridge(u, v, adj) == True:
+            answer.append(v)
+            deleteEdge(u, v, adj)
+            eulerPath(v, adj, answer)
+
+
+def printEulerPath(n: int, edgeList: list):
+    answer = []
+    
+    adj = [[] for i in range(n)]
+    
+    # Build adjacency list.
+    for i in range(len(edgeList)):
+        u, v = edgeList[i][0], edgeList[i][1]
+        adj[u].append(v)
+        adj[v].append(u)
+    
+    odd = 0
+    
+    # Count nodes with odd degree.
+    for i in range(n):
+        if len(adj[i]) % 2 == 1:
+            odd += 1
+    
+    # Check if euler path is not possible.
+    if odd != 0 and odd != 2:
+        answer.append(-1)
+        return answer
+    
+    if odd == 0:
+        answer.append(0)
+        eulerPath(0, adj, answer)
+    
+    else:
+        for i in range(n):
+            if len(adj[i]) % 2 == 1:
+                answer.append(i)
+                eulerPath(i, adj, answer)
+                break
+    
+    
+    return answer
