@@ -1,0 +1,60 @@
+// Declare a global variable to store fix size of expanded strings.
+int fixSize = 30;
+
+// Function to expand the given string.
+double expand(string &str)
+{
+    // Declare an empty string to store expanded string.
+    string ret = "";
+    
+    // Declare a variable to keep track of current position in 'str'.
+    int currPos = 0;
+    
+    // Store non-repeating part of 'str' into 'ret'.
+    while(currPos < str.size() && str[currPos] != '(')
+    {
+        ret.push_back(str[currPos]);
+        currPos += 1;
+    }
+
+    currPos += 1;
+
+    // Declare an empty string to store repeating part in 'str'.
+    string repeat ="";
+
+    // Add repeating part of 'str' in 'repeat'.
+    while(currPos < str.size() && str[currPos] != ')')
+    {
+        repeat.push_back(str[currPos]);
+        currPos += 1;
+    }
+
+    // If 'str' have repeating part.
+    if(repeat.size() > 0)
+    {
+        // Add 'repeat' to 'ret' until size of 'ret' is less than fix size.
+        while(ret.size() < fixSize)
+        {
+            ret.append(repeat);
+        }
+    }
+
+    // Return double value of 'ret'.
+    return stod(ret);
+}
+
+bool isEqual(string &s, string &t)
+{
+    // Call expand function for both given strings.
+    double first = expand(s);
+    double second = expand(t);
+
+    // If both strings have same value.
+    if(first == second)
+    {
+        return true;
+    }
+    else{
+        return false;
+    }
+}
