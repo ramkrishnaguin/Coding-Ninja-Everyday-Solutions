@@ -1,0 +1,58 @@
+#include <bits/stdc++.h> 
+/*
+    Time complexity: O(N * S)
+    Space complexity: O(S),
+
+    Where N is the size of the given 'NUM' array/list and 
+    S is the sum of all the elements in 'NUM'.
+*/
+
+int countSequence(const vector < int > & num) {
+
+    int mod = 1000000007;
+
+    int bcoff[501][501];
+
+    bcoff[0][0] = 1;
+
+    // Computing bcoffomial coefficients
+
+    for (int i = 1; i <= 500; i++) {
+
+        bcoff[i][0] = 1;
+
+        for (int j = 1; j <= i; j++) {
+            bcoff[i][j] = (bcoff[i - 1][j] + bcoff[i - 1][j - 1]) % mod;
+        }
+    }
+    // Calculating maximum length of sequence.
+    int s = 0;
+
+    for (int i = 0; i < num.size(); i++) {
+        s += num[i];
+    }
+
+    vector < long long int > ans(s + 1);
+
+    for (int i = 1; i <= s; i++) {
+
+        ans[i] = 1;
+
+        for (int j = 0; j < num.size(); j++) {
+            ans[i] = (ans[i] * bcoff[num[j] + i - 1][i - 1]) % mod;
+        }
+
+        for (int j = 1; j < i; j++){
+            ans[i] = (ans[i] - ((ans[j] * bcoff[i][j]) % mod) + mod) % mod;
+        }
+    }
+
+    // Total possible sequences.
+    int total = 0;
+
+    for (int i = 0; i <= s; i++) {
+        total = (ans[i] + total) % mod;
+    }
+
+    return total;
+}
