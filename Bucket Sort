@@ -1,0 +1,5 @@
+#include <bits/stdc++.h> 
+vector<double> sortArray(int n, vector<double>& arr) {
+    sort(begin(arr),end(arr));
+    return arr;
+}
