@@ -1,0 +1,79 @@
+#include <bits/stdc++.h>
+
+long long minimumCost(vector<int> &cost, int n, int k)
+
+{
+
+    sort(cost.begin(), cost.end());
+
+    int i=0,j=n;
+
+    int refill=k;
+
+    long long amount=0;
+
+    while(i<j)
+
+    {
+
+     amount=cost[i]+amount;
+
+     refill=k;
+
+     while(refill-- && i<j)
+
+     j--;
+
+     i++;
+
+ 
+
+     
+
+    }
+
+    return amount;
+
+}
+
+ 
+
+// Function to calculate maximum cost.
+
+long long maximumCost(vector<int> &cost, int n, int k)
+
+{
+
+    sort(cost.begin(), cost.end(), greater<int>());
+
+     int i=0,j=n;
+
+    int refill=k;
+
+    long long amount=0;
+
+    while(i<j)
+
+    {
+
+     amount=cost[i]+amount;
+
+     refill=k;
+
+     while(refill-- && i<j)
+
+     j--;
+
+     i++;
+
+ 
+
+     
+
+    }
+
+    return amount;
+
+ 
+
+}
