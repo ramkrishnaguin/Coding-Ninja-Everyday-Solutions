@@ -1,0 +1,49 @@
+#include <bits/stdc++.h> 
+
+int baseConversion(string &N, int B)
+
+{
+
+     int power=0,decimalValue=0;
+
+     for (int i = N.length() - 1; i >= 0; --i) {
+
+        int digitValue;
+
+        
+
+        if (isdigit(N[i])) 
+
+        digitValue = N[i] - '0';
+
+        else
+
+        digitValue = toupper(N[i]) - 'A' + 10;
+
+        
+
+ 
+
+       
+
+        if (digitValue >= B) {
+
+            return -1;
+
+        }
+
+ 
+
+        
+
+        decimalValue += digitValue * pow(B, power);
+
+        power++;
+
+    }
+
+ 
+
+    return decimalValue;
+
+}
