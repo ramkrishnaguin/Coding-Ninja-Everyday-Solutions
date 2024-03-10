@@ -1,0 +1,22 @@
+import heapq
+def minRefuelStops(target, startFuel, stations):
+
+    # Write your code here.
+    s = startFuel
+    n = len(stations)
+    ans = 0
+    i = 0
+    if target<=startFuel:
+        return 0
+    l = []
+    while s<target:
+        while i<n and stations[i][0]<=s:
+            heapq.heappush(l, -stations[i][1])   
+            i+=1
+        if not l:
+            return -1
+        mx = -heapq.heappop(l)
+        s+=mx
+        ans+=1
+    return ans
+    pass
