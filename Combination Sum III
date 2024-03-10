@@ -1,0 +1,11 @@
+from typing import List
+from itertools import combinations
+
+def combinationSum(k: int, n: int) -> List[List[int]]:
+    ans = []
+    arr = combinations(range(1,10),k)
+    for i in arr:
+        if sum(i)==n:
+            ans.append(i)
+    return ans
+    pass
