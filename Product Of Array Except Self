@@ -1,0 +1,22 @@
+from sys import stdin
+
+def getProductArrayExceptSelf(arr, n) :
+    #Your code goes here
+    mul = 1
+    z = 0
+    id = -1
+    for i in range(n):
+        if arr[i]==0:
+            z+=1
+            id = i
+    for i in range(n):
+        if i!=id:
+            mul*=arr[i]
+    if z>0:
+        for i in range(n):
+            arr[i]=0
+        arr[id] = mul%(10**9+7)
+        return arr
+    for i in range(n):
+        arr[i] = (mul//arr[i])%(10**9+7)
+    return arr
