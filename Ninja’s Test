@@ -1,0 +1,29 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+from typing import List
+
+
+def maxDifference(n: int, arr: List[int]) -> int:
+    # write your code here
+    right, left = [0] * n, [0] * n
+    st = []
+    for idx, num in enumerate(arr):
+        while st and arr[st[-1]] > num:
+            right[st.pop()] = num
+        st.append(idx)
+
+    st = []
+    for idx, num in enumerate(arr):
+        while st and arr[st[-1]] >= num:
+            st.pop()
+        if st:
+            left[idx] = arr[st[-1]]
+        st.append(idx)
+    ans = 0
+    for i in range(n):
+        ans = max(ans, abs(left[i] - right[n-i-1]))
+    return ans
+    pass
