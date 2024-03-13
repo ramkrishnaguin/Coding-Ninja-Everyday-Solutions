@@ -1,0 +1,39 @@
+#include <bits/stdc++.h>
+class NQueue {
+  vector<queue<int>> nq;
+  int ms, cs;
+
+public:
+  // Initialize your data structure.
+  NQueue(int n, int s) {
+    // Write your code here.
+    ms = s;
+    cs = 0;
+    nq.assign(n + 1, queue<int>());
+  }
+
+  // Enqueues 'X' into the Mth queue. Returns true if it gets pushed into the
+  // queue, and false otherwise.
+  bool enqueue(int x, int m) {
+    // Write your code here.
+    if (cs == ms)
+      return false;
+
+    nq[m].push(x);
+    cs++;
+    return true;
+  }
+
+  // Dequeues top element from Mth queue. Returns -1 if the queue is empty,
+  // otherwise returns the popped element.
+  int dequeue(int m) {
+    // Write your code here.
+    if(nq[m].empty())
+    return -1;
+
+    int dq = nq[m].front();
+    nq[m].pop();
+    cs--;
+    return dq;
+  }
+};
