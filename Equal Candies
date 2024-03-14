@@ -1,0 +1,29 @@
+/*
+    Time Complexity: O(N * log(N))
+	    Space Complexity: O(log(N))
+
+		    where ‘N’ is the total number of people.
+			*/
+
+			#include<algorithm>
+
+			long long int equalCandies (vector<int> &candies, int n)
+			{
+			    // Declare a variable to store the minimum number of increase/decrease.
+				    long long int answer = 0;
+
+					    // Sort the given array and find median value.
+						    sort(candies.begin(), candies.end());
+							    int median = candies[n / 2];
+
+								    // Run a loop through each element in array.
+									    for (int i = 0; i < n; i++)
+										    {
+											        // Increse answer by absolute difference between current element and median.
+													        answer += abs(candies[i] - median);
+															    }
+
+																    // Return answer.
+																	    return answer;
+																		}
+							
