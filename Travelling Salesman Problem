@@ -1,0 +1,25 @@
+#include <bits/stdc++.h> 
+
+int GET_MIN_DISTANCE(vector<vector<int>> &distance, int MASK, int CURRENT_CITY, vector<vector<int>> &dp){
+	if(MASK==(1<<distance.size())-1){
+		return distance[CURRENT_CITY][0];
+	}
+	if (dp[CURRENT_CITY][MASK] != -1) {
+		return dp[CURRENT_CITY][MASK];
+	}
+	int ANS=INT_MAX;
+	for(int CITY =0; CITY<distance.size();CITY++){
+		if((MASK & (1<<CITY))==0){
+			int tmpans= distance[CURRENT_CITY][CITY] + GET_MIN_DISTANCE(distance,MASK | (1<<CITY),CITY, dp);
+			ANS = min(ANS, tmpans);
+		}
+	}
+	return dp[CURRENT_CITY][MASK] = ANS;
+}
+int shortestRoute(vector<vector<int>> &distance)
+{
+	// Write your code here.
+	int N = distance.size();
+	vector<vector<int>> dp(N, vector<int>(1 << N, -1));
+	return GET_MIN_DISTANCE(distance, 1, 0, dp);
+}
