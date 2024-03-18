@@ -1,0 +1,62 @@
+#include <bits/stdc++.h>
+using namespace std;
+bool solve(vector<string> &R, int a, int b, int bal, unordered_map<char, int> &LtD, char DtL[], int tR, int tC) {
+    if (b == tC) {
+        if (bal == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    if (a == tR) {
+        return (bal % 10 == 0 && solve(R, 0, b + 1, bal / 10, LtD, DtL, tR, tC));
+    }
+    string w = R[a];
+    if (b >= w.length()) {
+        return solve(R, a + 1, b, bal, LtD, DtL, tR, tC);
+    }
+    char L = w[w.length() - 1 - b];
+    int sign;
+     if (a < tR - 1) {
+        sign = 1;
+    }else {
+        sign = -1;
+    }
+    if(LtD.find(L) != LtD.end() && (LtD[L] != 0 || (LtD[L] == 0 && w.length() == 1) || b != w.length() - 1)){
+        return solve(R, a + 1, b, bal + sign * LtD[L], LtD, DtL, tR, tC);
+    }else {
+        for (int i = 0; i < 10; i++) {
+            if (DtL[i] == '-' && (i != 0 || (i == 0 && w.length() == 1) || b != w.length() - 1)){
+                DtL[i] = L;
+                LtD[L] = i;
+                bool x = solve(R, a + 1, b, bal + sign * LtD[L], LtD, DtL, tR, tC);
+                if (x == true) {
+                    return true;
+                }
+                DtL[i] = '-';
+                if (LtD.find(L) != LtD.end()) {
+                    LtD.erase(L);
+                }
+            }
+        }
+    }
+    return false;
+}
+bool isSolvable(int m, vector < string > & R, string result) {
+    R.push_back(result);
+    int tR;
+    int tC;
+    tR = R.size();
+    tC = 0;
+    for (int i = 0; i < R.size(); i++) {
+        if (tC < R[i].length()) {
+            tC = R[i].length();
+        }
+    }
+    unordered_map<char, int> LtD;
+    char DtL[10];
+    for (int i = 0; i < 10; i++) {
+        DtL[i] = '-';
+    }
+    return solve(R, 0, 0, 0, LtD, DtL, tR, tC);
+}
