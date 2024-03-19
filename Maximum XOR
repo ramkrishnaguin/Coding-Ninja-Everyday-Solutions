@@ -1,0 +1,7 @@
+def maxXOR(n, m, arr1, arr2):
+    # Write your code here.   
+    mx = 0
+    for i in range(len(arr1)):
+        for j in range(len(arr2)):
+            mx = max(mx,arr1[i]^arr2[j])
+    return mx
