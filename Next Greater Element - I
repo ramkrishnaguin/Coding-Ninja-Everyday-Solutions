@@ -1,0 +1,26 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+from typing import List
+
+def nextGreaterElement(n: int, A: List[int], m: int, B: List[int]) -> List[int]:
+    # Write your code here.
+    l = [-1]*m
+    d = {}
+    ans = []
+    for i in range(m-1):
+        temp = B[i]
+        for j in range(i+1,m):
+            if B[j]>temp:
+                l[i] = B[j]
+                break
+    for i in range(m):
+        temp = B[i]
+        temp1 = l[i]
+        d[temp] = temp1
+    for i in range(n):
+        ans.append(d[A[i]])
+    return ans
+    pass
