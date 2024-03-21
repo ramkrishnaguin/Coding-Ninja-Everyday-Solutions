@@ -1,0 +1,28 @@
+#include <bits/stdc++.h>
+int dp[105][105];
+int Solve(vector<int> &color, int i, int j) {
+  if (i > j)
+    return 10000000;
+  if (i == j)
+    return 0;
+  if (i + 1 == j)
+    return color[i] * color[j];
+  if (dp[i][j] != -1)
+    return dp[i][j];
+  int ans = INT_MAX;
+  int sum = 0;
+  for (int k = i; k <= j; k++)
+    sum += color[k];
+  int curr_sum = 0;
+  for (int k = i; k < j; k++) {
+    curr_sum = curr_sum + color[k];
+    int temp = (sum - curr_sum) % 100;
+    int temp2 = curr_sum % 100;
+    ans = min(ans, temp * temp2 + Solve(color, i, k) + Solve(color, k + 1, j));
+  }
+  return dp[i][j] = ans;
+}
+int minimizeSmoke(vector<int> &color, int n) {
+  memset(dp, -1, sizeof(dp));
+  return Solve(color, 0, n - 1);
+}
