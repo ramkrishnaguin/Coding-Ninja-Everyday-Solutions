@@ -1,0 +1,11 @@
+#include <bits/stdc++.h>
+bool isPossibleToSplit(int n, vector<int> &arr) {
+  unordered_map<int, int> mp;
+  for (int &i : arr)
+    mp[i]++;
+  int s = mp[arr[0]];
+  for (auto &m : mp)
+    if (s == 1 || s != m.second)
+      return false;
+  return true;
+}
