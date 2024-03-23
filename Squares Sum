@@ -1,0 +1,35 @@
+#include <bits/stdc++.h> 
+void update(int l, int r, int x, vector<int> &arr, int ch){
+	for(int i=l;i<=r;i++){
+		if(ch==1){
+			arr[i]=x;
+		}
+		else{
+			arr[i]+=x;
+		}
+	}
+}
+
+long long int query(int l, int r, vector<int> &arr){
+	long long int ans =0;
+	for(int i=l;i<=r;i++){
+		ans+=arr[i]*arr[i];
+	}
+	return ans;
+}
+
+vector<long long int> solve(int N, vector<int> &arr, int q, vector<vector<int>> &queries)
+{
+	// Write your code here.
+	vector<long long int> ans;
+	for(int i=0;i<q;i++){
+		if(queries[i][0]==1 || queries[i][0]==0){
+			update(queries[i][1], queries[i][2], queries[i][3], arr, queries[i][0]);
+		}
+
+		else{
+			ans.push_back(query(queries[i][1], queries[i][2], arr));
+		}
+	}
+	return ans;
+}
