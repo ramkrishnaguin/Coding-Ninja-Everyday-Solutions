@@ -1,0 +1,17 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def bitInsertion(x, y, a, b):
+    # write your code here
+    # return an integer denoting the result of inserting Y in X starting from A and ending at B
+    mask = (1 << (b - a + 1 ) ) - 1
+    mask <<= a
+    x  &= ~mask
+    y <<= a
+    return (x|y)
+
+
+
+    pass
