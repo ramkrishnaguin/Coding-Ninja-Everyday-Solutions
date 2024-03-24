@@ -1,0 +1,32 @@
+#include <bits/stdc++.h> 
+
+int rev(int num) {
+    int ans=0;
+    while(num>0) {
+        int rem=num%10;
+        if(rem==6) rem=9;
+        else if(rem==9) rem=6;
+        ans=ans*10+rem;
+        num/=10;
+    }
+    return ans;
+}
+void dfs(int num,int &n,int &ans) {
+    if(num>n) return;
+    ans+=(num!=rev(num));
+    num*=10;
+    dfs(num,n,ans);
+    dfs(num+1,n,ans);
+    dfs(num+6,n,ans);
+    dfs(num+8,n,ans);
+    dfs(num+9,n,ans);
+
+}
+int strangeNumbers(int n) {
+   int ans=0;
+   dfs(1,n,ans);
+   dfs(6,n,ans);
+   dfs(8,n,ans);
+   dfs(9,n,ans);
+   return ans;
+}
