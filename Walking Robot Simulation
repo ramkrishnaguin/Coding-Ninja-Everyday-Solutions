@@ -1,0 +1,39 @@
+#include <bits/stdc++.h>
+int robotSim(vector<int> &commands, vector<vector<int>> &obstacles) {
+ // Directions: 0 - North, 1 - East, 2 - South, 3 - West
+    int dirX[] = {0, 1, 0, -1};
+    int dirY[] = {1, 0, -1, 0};
+
+    // Initialize variables
+    int maxDistance = 0;
+    int x = 0, y = 0, direction = 0;
+
+    // Convert obstacles to set for O(1) lookup
+    unordered_set<long long> obstacleSet;
+    for (auto &obstacle : obstacles)
+      obstacleSet.insert((long long)obstacle[0] * 100000 + obstacle[1]);
+
+    // Simulate robot movement
+    for (int command : commands) {
+      if (command == -2) { // Turn left
+        direction = (direction + 3) % 4;
+      } else if (command == -1) { // Turn right
+        direction = (direction + 1) % 4;
+      } else { // Move forward
+        for (int i = 0; i < command; ++i) {
+          int newX = x + dirX[direction];
+          int newY = y + dirY[direction];
+          // Check if next move hits obstacle
+          if (obstacleSet.find((long long)newX * 100000 + newY) !=
+              obstacleSet.end())
+            break;
+          x = newX;
+          y = newY;
+          maxDistance = max(maxDistance, x * x + y * y);
+        }
+      }
+    }
+
+    return maxDistance;
+  
+}
