@@ -1,0 +1,15 @@
+def longestRepeatingSubstring(str: str, k: int) -> int:
+    # write your code here
+    maxi=0
+    freq={}
+    maxfreq,left=0,0
+    for i in range(len(str)):
+        freq[str[i]]=freq.get(str[i],0)+1
+        maxfreq=max(maxfreq,freq[str[i]])
+
+        on=i-left+1-maxfreq
+        if on>k:
+            freq[str[left]] -=1
+            left+=1
+        maxi=max(maxi,i+1-left)
+    return maxi
