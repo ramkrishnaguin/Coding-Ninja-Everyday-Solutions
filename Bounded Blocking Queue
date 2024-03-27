@@ -1,0 +1,63 @@
+#include <bits/stdc++.h> 
+class BoundedBlockingQueue
+{
+public:
+queue<int> q;
+queue<int> push;
+int pop,cap,curr;
+    BoundedBlockingQueue(int Capacity)
+    {
+        // Write your code here.
+        cap=Capacity;
+        curr=0;
+        pop=0;
+    }
+
+    void Enqueue(int val)
+    {
+        // Write your code here.
+        if(curr<cap){
+            q.push(val);
+            curr++;
+        }else{
+            push.push(val);
+        }
+
+        if(pop>0){
+            handle();
+        }
+    }
+
+    void handle(){
+        int front=q.front();
+        q.pop();
+        curr--;
+        pop--;
+        cout<<front<<' ';
+    }
+
+    int Dequeue()
+    {
+        // Write your code here.
+        if(curr==0){
+            pop++;
+            return -1;
+        }
+        int front=q.front();
+        q.pop();
+        curr--;
+
+        if(!push.empty()){
+            int ele=push.front();
+            push.pop();
+            Enqueue(ele);
+        }
+        return front;
+    }
+
+    int size()
+    {
+        // Write your code here.
+        return curr;
+    }
+};
