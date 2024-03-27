@@ -1,0 +1,5 @@
+from typing import *
+
+def sortTuples(arr : List[List[int]]):
+    arr.sort(key = lambda x:x[-1])
+    return arr
