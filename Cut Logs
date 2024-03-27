@@ -1,0 +1,27 @@
+#include<bits/stdc++.h>
+int cutLogs(int k, int n)
+{
+    // Write your code here.
+    vector<int> prev(n+1);
+    for(int i=1;i<=n;i++) prev[i] = i;
+    for(int i=2;i<=k;i++){
+        vector<int> curr(n+1,0);
+        curr[1]= 1;
+        for(int j=2;j<=n;j++){
+            int mini = INT_MAX;
+            int start = 1, end = j;
+            while(start<=end){
+                int mid = (start + end)>>1;
+                int less = prev[mid-1];
+                int more = curr[j-mid];
+
+                mini = min(mini,1 + max(less,more));
+                if(less < more) start = mid+1;
+                else end = mid-1;
+            }
+            curr[j] = mini;
+        }
+        prev = curr;
+    }
+    return prev[n];
+}
