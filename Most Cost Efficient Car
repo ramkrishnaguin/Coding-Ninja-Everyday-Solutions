@@ -1,0 +1,22 @@
+from collections import *
+from math import *
+
+'''
+    --------------------------- Car class for reference ---------------------------
+
+    class Car:
+        def __init__(self,priceOfCar,maintenanceCostPerMonth,numberOfkilemeterCarRunInOneLiter,pricePerLiter,numberOfKilometerCarRunInaMonth):
+            self.priceOfCar=priceOfCar
+            self.maintenanceCostPerMonth=maintenanceCostPerMonth
+            self.numberOfkilemeterCarRunInOneLiter=numberOfkilemeterCarRunInOneLiter
+            self.pricePerLiter=pricePerLiter
+            self.numberOfKilometerCarRunInaMonth=numberOfKilometerCarRunInaMonth
+'''
+
+def mostCostEfficientCar(petrolCar, dieselCar):
+    # Write your code here.
+    s1 = petrolCar.priceOfCar+petrolCar.maintenanceCostPerMonth*6+(petrolCar.pricePerLiter/petrolCar.numberOfkilemeterCarRunInOneLiter)*petrolCar.numberOfKilometerCarRunInaMonth*6
+    s2 = dieselCar.priceOfCar+dieselCar.maintenanceCostPerMonth*6+(dieselCar.pricePerLiter/dieselCar.numberOfkilemeterCarRunInOneLiter)*dieselCar.numberOfKilometerCarRunInaMonth*6
+    if s1>s2:return 1
+    elif s1<s2:return 0
+    return -1
