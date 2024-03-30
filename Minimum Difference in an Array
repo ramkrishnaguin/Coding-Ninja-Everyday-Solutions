@@ -1,0 +1,9 @@
+from typing import *
+
+def minDiff(n : int, arr : List[int]) -> int:
+    # Write your code here.
+    arr.sort()
+    md = 99999
+    for i in range(n-1):
+        md = min(md,abs(arr[i]-arr[i+1]))
+    return md
