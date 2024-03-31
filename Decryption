@@ -1,0 +1,18 @@
+#include <bits/stdc++.h> 
+string decrypt(string& message, vector<vector<int>>& operations) {
+	// Write your code here.
+	int n = message.size();
+
+	for(auto it : operations){
+		int a = it[0], b = it[1] % n;
+
+		if(a == -1){
+			message = message.substr(b) + message.substr(0, b);
+		}
+		else{
+			message = message.substr(n - b) + message.substr(0, n - b);
+		}
+	}
+
+	return message;
+}
