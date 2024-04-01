@@ -1,0 +1,64 @@
+#include<bits/stdc++.h>
+
+int solve(vector<vector<int>>&g, int s, int t, vector<int> &h){
+    queue<pair<int, int>> pq;
+    pq.push({s, h[s-1]});
+    vector<int> dist(h.size() + 1, INT_MAX);
+    dist[s] = 0;
+    while(!pq.empty()){
+        pair<int, int>p = pq.front();
+        pq.pop();
+        if(p.first == t) return p.second;
+        for(auto e: g[p.first]){
+            if(dist[e] > dist[p.first] + 1){
+                dist[e] = dist[p.first] + 1;
+                pq.push({e, p.second+h[e-1]});
+            }
+        }
+    }
+    return -1;
+}
+
+vector<int> res;
+
+void update(vector<vector<int>> &g, int s, int t, vector<int> &temp, vector<int> &visit){
+    visit[s] = 1;
+    if(s==t){
+        temp.push_back(s);
+        res = temp;
+        return;
+    }
+    temp.push_back(s);
+    for(auto e:g[s]){
+        if(!visit[e]){
+            update(g, e, t, temp, visit);
+            temp.pop_back();
+        }
+    }
+}
+
+vector<int> treeQuery(int n,int q,vector<vector<int>> &edges,vector<int> &height,vector<vector<int>> &queries){
+    // Write your code here.
+    vector<vector<int>> g(n+1);
+    for(auto e: edges){
+        g[e[0]].push_back(e[1]);
+        g[e[1]].push_back(e[0]);
+    }
+    vector<int> ans;
+    for(auto e: queries){
+        if(e[0] == 1){
+            vector<int> temp, visit(n+1, 0);
+            update(g, e[1], e[2], temp, visit);
+            int i = 0, j = res.size() - 1;
+            while(i < j){
+                swap(height[res[i] - 1], height[res[j] - 1]);
+                i++;
+                j--;
+            }        
+        }
+        else{
+            ans.push_back(solve(g, e[1], e[2], height));
+        }
+    }
+    return ans;
+}
