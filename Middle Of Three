@@ -1,0 +1,6 @@
+from sys import *
+from collections import *
+from math import *
+
+def middleOfThree(x:int, y:int, z:int):
+    return sorted([x, y, z])[1]
