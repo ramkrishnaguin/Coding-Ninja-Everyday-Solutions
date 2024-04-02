@@ -1,0 +1,15 @@
+from typing import List
+
+def maxFriends(n: int, s: List[int], e: List[int]) -> int:
+    vals = []
+    for el in s:
+        vals.append((el, 1))
+    for el in e:
+        vals.append((el + 1, -1))
+    vals.sort()
+    res = 0
+    p = 0
+    for el, x in vals:
+        p += x
+        res = max(res, p)
+    return res
