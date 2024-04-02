@@ -1,0 +1,15 @@
+#include <bits/stdc++.h> 
+int missingNumber(vector<int> &arr, int n) 
+{
+    // Write your code here.
+    int mini=INT_MAX;
+    for(int i=1;i<n;i++){
+        mini=min(mini,arr[i]-arr[i-1]);
+    }
+    for(int i=1;i<n;i++){
+        if(arr[i]-arr[i-1]>mini){
+            return arr[i-1]+mini;
+        }
+    }
+    return -1;
+}
