@@ -1,0 +1,17 @@
+#include <bits/stdc++.h> 
+int highwayBillboard(vector<int> &billboards, vector<int> &revenue, int m, int x){
+    int ans=0;
+    vector<int> dp(revenue.size());
+    dp[0]=revenue[0];
+    for(int i=1;i<revenue.size();i++){
+        int maxi=0;
+        for(int j=0;j<i;j++){
+            if(billboards[i]-billboards[j]>x){
+                maxi=max(maxi,dp[j]);
+            }
+        }
+        dp[i]=maxi+revenue[i];
+        ans=max(ans,dp[i]);
+    }
+    return ans;
+}
