@@ -1,0 +1,31 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+# Following is the Binary Tree Node class structure
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+    def __del__(self):
+        if self.left:
+            del self.left
+        if self.right:
+            del self.right
+
+def anagram(root1, n, root2, m):
+    # Write your code here
+    s1 = []
+    def inorder(root) :
+        if root :
+            inorder(root.left)
+            s1.append(root.val)
+            inorder(root.right)
+    inorder(root1)
+    s2 = s1.copy()
+    s1 = []
+    inorder(root2)
+    return sorted(s1)==sorted(s2) 
