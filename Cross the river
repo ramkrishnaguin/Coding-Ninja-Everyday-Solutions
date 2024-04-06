@@ -1,0 +1,20 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+from typing import List
+
+def crossRiver(stones: List[int]) -> bool:
+    # Write your code here.
+    n=len(stones)
+    dp={stone : set() for stone in stones }
+    dp[0].add(0)
+
+    for stone in stones:
+        for k in dp[stone]:
+            for step in range(k-1,k+2):
+                if step>0 and stone + step in dp:
+                    dp[stone+step].add(step)
+    
+    return len(dp[stones[-1]])>0
