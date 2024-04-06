@@ -1,0 +1,12 @@
+#include <bits/stdc++.h> 
+int findKthFromRight(int n, int m, int k) 
+{
+	long long p = pow(n, m);
+	int ans;
+	while(k--)
+	{
+		ans = p % 10;
+		p /= 10;
+	}
+	return ans;
+}
