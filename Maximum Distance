@@ -1,0 +1,21 @@
+from typing import *
+
+def maximumDistance(arr: List[str]) -> int:
+    # Write your code here
+    def solve(s1,s2):
+        a=len(s1)
+        b=len(s2)
+        ans=a+b
+        for i in range(min(a,b)):
+            if s1[i]!=s2[i]:
+                break
+            ans-=2
+        return ans
+
+    n=len(arr)
+    res=0
+    for i in range(n-1):
+        for j in range(i+1,n):
+            res=max(res,solve(arr[i],arr[j]))
+    return res
+    pass
