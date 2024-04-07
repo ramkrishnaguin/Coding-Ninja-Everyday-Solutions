@@ -1,0 +1,45 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def findOrder(arr, n):
+
+    # Write your code here
+    pass
+def findOrder(arr,  n):
+
+    ans = []
+
+    pets = []
+
+    adoption = []
+
+    for i in range(n):
+
+        if(arr[i][0] == 1):
+
+            pets.append([arr[i][1], arr[i][2]])
+            
+            
+            temp = False
+
+            adoption.append(temp)
+
+        else:
+
+            for j in range(len(pets)):
+
+                if (adoption[j] == False):
+
+                    if (arr[i][1] == pets[j][1] or arr[i][1] == 2):
+                        
+                        
+                        
+                        adoption[j] = True
+
+                        ans.append(pets[j][0])
+
+                        break
+
+    return ans
