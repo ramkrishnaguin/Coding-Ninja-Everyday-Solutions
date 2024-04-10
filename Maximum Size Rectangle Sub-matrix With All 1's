@@ -1,0 +1,40 @@
+#include<vector>
+#include<bits/stdc++.h>
+
+int largestRectangleArea(const vector<int>&heights){
+	int n=heights.size();
+	stack<int> s;
+	int maxArea=0;
+
+	for(int i=0;i<=n;i++){
+		while(!s.empty() && (i==n || heights[i]<heights[s.top()])){
+			int height=heights[s.top()];
+			s.pop();
+			int width=s.empty()?i:i-s.top()-1;
+			maxArea=max(maxArea, height*width);
+		}
+		s.push(i);
+	}
+	return maxArea;
+}
+
+int maximalAreaOfSubMatrixOfAll1(vector<vector<int>> &mat, int rows, int cols){
+	// Write your code here.
+	if(mat.empty()|| mat[0].empty()){
+		return 0;
+	}
+	vector<int> heights(cols, 0);
+	int maxArea=0;
+	for(int i=0;i<rows;i++){
+		for(int j=0;j<cols;j++){
+
+		
+
+	heights[j]=(mat[i][j]==1)?heights[j]+1:0;
+}
+maxArea=max(maxArea, largestRectangleArea(heights));	
+}
+return maxArea;
+
+
+}
