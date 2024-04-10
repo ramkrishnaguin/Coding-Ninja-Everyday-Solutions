@@ -1,0 +1,46 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+# Binary Tree node structure.
+class   TreeNode :
+    def __init__(self, data) :
+        self.data = data
+        self.left = None
+        self.right = None
+
+    def __del__(self):
+        if self.left:
+            del self.left
+        if self.right:
+            del self.right
+
+
+def solve(arr):
+    if len(arr)==0:
+        return None
+
+    node  = TreeNode(arr[len(arr)//2])
+    node.left = solve(arr[0:len(arr)//2])
+    node.right= solve(arr[len(arr)//2+1:])
+
+    return node
+
+
+
+
+def preorderToBST(preorder):
+    inorder = sorted(preorder)
+    n = len(inorder)
+
+    root = TreeNode(inorder[n//2])
+
+    if n==1:
+        return root
+
+    else:
+        root.left = solve(inorder[:n//2])
+        root.right = solve(inorder[n//2+1:])
+
+        return root
