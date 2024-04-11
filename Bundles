@@ -1,0 +1,51 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def groupsOfK(strList, k):
+    # Write your code here.
+    pass
+from collections import defaultdict
+
+def groupsOfK(strList, k):
+
+    
+
+    n = len(strList)
+
+    prefixCount = defaultdict(int)
+
+    
+
+    for i in range (n):
+
+        
+
+        for j in range (len(strList[i])):
+
+            # Find the prefix ending at j.
+
+            prev = strList[i][: j + 1]
+
+            # Increment the count of prefix by 1.
+
+            prefixCount[prev] += 1
+
+            
+
+    finalScore = 0
+
+    
+
+    # Iterate through the dictionary.
+
+    for i in prefixCount:
+
+        finalScore += prefixCount[i] // k
+
+        
+
+    # Return the result.
+
+    return finalScore
