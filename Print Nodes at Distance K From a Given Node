@@ -1,0 +1,65 @@
+void createMapping(BinaryTreeNode<int> *root, map<BinaryTreeNode<int>*, BinaryTreeNode<int>*>&nodeToParent){
+    if(root==nullptr)
+    return;
+
+    queue<BinaryTreeNode<int>*>q;
+    q.push(root);
+    nodeToParent[root]=nullptr;
+
+    while(!q.empty()){
+        BinaryTreeNode<int>*front=q.front();
+        q.pop();
+
+        if(front->left){
+            nodeToParent[front->left]=front;
+            q.push(front->left);
+        }
+
+        if(front->right){
+            nodeToParent[front->right]=front;
+            q.push(front->right);
+        }
+    }
+}
+
+
+vector<BinaryTreeNode<int>*> printNodesAtDistanceK(BinaryTreeNode<int>* root, BinaryTreeNode<int>* target, int K) {
+    // Write your code here.
+    vector<BinaryTreeNode<int>*>ans;
+    if(root==NULL||target==NULL)
+        return ans;
+
+
+        map<BinaryTreeNode<int>*, BinaryTreeNode<int>*>nodeToParent;
+        createMapping(root, nodeToParent);
+
+        map<BinaryTreeNode<int>*, bool> visited;
+        queue<BinaryTreeNode<int>*>q;
+        q.push(target);
+        visited[target]=1;
+        while(!q.empty()&&K>=0){
+            int n = q.size();
+            while(n--){
+                BinaryTreeNode<int>*front=q.front();
+                q.pop();
+
+                if(K==0) ans.push_back(front);
+                if(front->left && !visited[front->left]){
+                    q.push(front->left);
+                    visited[front->left]=1;
+                }
+
+                if(front->right && !visited[front->right]){
+                    q.push(front->right);
+                    visited[front->right]=1;
+                }
+
+                if(nodeToParent[front]&& !visited[nodeToParent[front]]){
+                    q.push(nodeToParent[front]);
+                    visited[nodeToParent[front]]=1;
+                }
+            }
+            K--;
+        }
+        return ans;
+}
