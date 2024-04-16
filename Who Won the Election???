@@ -1,0 +1,109 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def electionResult(voters:str):
+    # Write your code here
+    # Return a string denoting the winner
+    pass
+
+def electionResult(voters):
+
+    # It stores the vote count of A.
+
+    A = 0
+
+    # It stores the vote count of B.
+
+    B = 0
+
+    for i in range(len(voters)):
+
+        # If we found supporters of A, increment vote count of A.
+
+        if (voters[i] == 'A'):
+
+            A+=1
+
+        
+
+        # If we found supporters of B, increment vote count of B.
+
+        elif (voters[i] == 'B'):
+
+            B+=1
+
+        # If we found neutral supporters, we find who is closer to that supporter.
+
+        else:
+
+            # It calculates the distance of supporter of B from the neutral supporter.
+
+            j = i
+
+            minDistB = float('inf')
+
+            while (j >= 0):
+
+                if (voters[j] == 'B'):
+
+                    minDistB = (i - j)
+
+                    break
+
+                j-=1
+
+            # It calculates the distance of supporter of A from the neutral supporter.
+
+            j = i
+
+            minDistA = float('inf')
+
+            while (j < len(voters)):
+
+                if (voters[j] == 'A'):
+
+                    minDistA = (j - i)
+
+                    break
+
+    
+
+                j+=1
+
+            
+
+            # If the distance of supporter of A is not less than that of B
+
+            # and there exist a supporter of B, we increase the vote count of B.
+
+            if (minDistB < minDistA):
+
+                B+=1
+
+            
+
+            elif (minDistB > minDistA):
+
+                A+=1
+
+            
+
+    # If A has a greater vote count than B, return A.
+
+    if (A > B):
+
+        return "A"
+
+    # If B has a greater vote count than A, return B.
+
+    elif (A < B):
+
+        return "B"
+
+    # If both have equal votes, return coalition.
+
+    else:
+
+        return "Coalition"
