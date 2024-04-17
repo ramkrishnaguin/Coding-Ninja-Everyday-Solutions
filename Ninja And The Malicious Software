@@ -1,0 +1,50 @@
+#include <bits/stdc++.h>
+void dfs(vector<vector<int>> &graph, vector<int> &colors, int v, int color) {
+  colors[v] = color;
+  for (int neighbor = 0; neighbor < graph.size(); neighbor++){
+      if(graph[v][neighbor]==1 && colors[neighbor]==-1){
+          dfs(graph,colors,neighbor,color);
+      }
+  }
+}
+int minimizeMalwareSpread(int n, vector<vector<int>> &graph, int m, vector<int> &infected)
+{
+    // Write your code here.
+    vector<int>colors(n,-1);
+    int clr=0;
+    for(int v=0;v<n;v++){
+        if(colors[v]==-1){
+            dfs(graph, colors, v, clr++);
+        }
+    }
+    vector<int>colorSize(clr);
+
+    for(int color:colors){
+        colorSize[color]++;
+    }
+    vector<int>colorCount(clr);
+    for(int v: infected){
+        colorCount[colors[v]]++;
+    }
+    int ans=INT_MAX;
+    for(int v:infected){
+        int c=colors[v];
+        if(colorCount[c]==1){
+            if(ans==INT_MAX){
+                ans=v;
+            }
+            else if(colorSize[c]>colorSize[colors[ans]]){
+                ans=v;
+            }
+            else if(colorSize[c]==colorSize[colors[ans]] &&v<ans){
+                ans=v;
+            }
+        }
+    }
+    if(ans==INT_MAX){
+        for(int v:infected){
+            ans=min(ans,v);
+        }
+    }
+    return ans;
+}
