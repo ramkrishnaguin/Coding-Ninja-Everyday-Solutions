@@ -1,0 +1,54 @@
+from typing import List
+
+def collidingAsteroids(asteroids: List[int]) -> List[int]:
+    # Write your code here.
+    pass
+
+
+  
+
+   
+
+   
+
+
+
+from typing import List
+
+def collidingAsteroids(asteroids: List[int]) -> List[int]:
+
+    remainingAsteroids = []
+
+    # Iterate through the given list of asteroids.
+
+    for asteroid in asteroids:
+
+        # Push the current asteroid to the stack.
+
+        if asteroid > 0 or len(remainingAsteroids) == 0 or remainingAsteroids[-1] < 0:
+
+            remainingAsteroids.append(asteroid)
+
+        else:
+
+            # Pop the asteroids from the stack.
+
+            while len(remainingAsteroids) > 0 and remainingAsteroids[-1] > 0 and remainingAsteroids[-1] < -asteroid:
+
+                remainingAsteroids.pop()
+
+            # If the size of both asteroids is the same, destroy both asteroids.
+
+            if len(remainingAsteroids) > 0 and remainingAsteroids[-1] == -asteroid:
+
+                remainingAsteroids.pop()
+
+            # If the current asteroid has not been destroyed, push it to the stack.
+
+            elif len(remainingAsteroids) == 0 or remainingAsteroids[-1] <= 0:
+
+                remainingAsteroids.append(asteroid)
+
+    # Return the final state of the asteroids.
+
+    return remainingAsteroids
