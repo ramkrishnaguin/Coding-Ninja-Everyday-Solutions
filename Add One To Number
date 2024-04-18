@@ -1,0 +1,14 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def addOneToNumber(arr):
+    #   Write your code here
+    number=""
+    for i in arr:
+        number+=str(i)
+    new = int(number)+1
+    arr=list(str(new))
+    return arr
+    pass
