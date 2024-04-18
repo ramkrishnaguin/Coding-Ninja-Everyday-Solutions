@@ -1,0 +1,88 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def zigzagConversion(s: str, row: int) -> str:
+    # write your code here
+    pass
+
+def zigzagConversion(s: str, row: int) -> str:
+
+    # Border case.
+
+    if (row == 1):
+
+        return s
+
+    #  Initialize a variable to store the length of string.
+
+    n = len(s)
+
+    # Declare a string to store the final answer.
+
+    zigZag = ""
+
+    # Iterate each row.
+
+    for curRow in range(min(row, n)):
+
+        # Variable to store the current index.
+
+        curIdx = curRow
+
+        # Initialize a variable ‘step1’.
+
+        step1 = 2 * (curRow - 1) + 2
+
+        # Initialize a variable ‘step2’.
+
+        step2 = 2 * (row - curRow - 2) + 2
+
+        # Insert the first character of the current row.
+
+        zigZag += (s[curIdx])
+
+        # Insert other charachters of the current row.
+
+        while (1):
+
+            #  Passing through the lower part of the zig-zag.
+
+            if (step2 > 0):
+
+                # Increment the value of 'curIdx'.
+
+                curIdx += step2
+
+                # Check if reached the end of this row.
+
+                if (curIdx >= len(s)):
+
+                    break
+
+                # Insert the next charachter.
+
+                zigZag += (s[curIdx])
+
+            # Passing through the upper part of the zig-zag.
+
+            if (step1 > 0):
+
+                # Increment the value of 'curIdx'.
+
+                curIdx += step1
+
+                # Check if reached the end of this row.
+
+                if (curIdx >= len(s)):
+
+                    break
+
+                # Insert the next charachter.
+
+                zigZag += (s[curIdx])
+
+    # Return the string after zig-zag conversion.
+
+    return zigZag
