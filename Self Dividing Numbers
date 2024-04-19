@@ -1,0 +1,59 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def findAllSelfDivdingNumbers(lower, upper):
+
+    # Write your code here
+    # This function returns a list of all the self-dividing numbers in the range [left, right]
+    pass
+'''
+
+    Time Complexity: O(D * log(upper))
+
+    Space Complexity: O(D)
+
+    where D is the number of integers in the range [lower, upper].
+
+    
+
+'''
+
+def findAllSelfDividingNumbers( lower, upper ):
+
+    result = []
+
+    # Iterate over the range.
+
+    for num in range(lower, upper+1):
+
+        if "0" in str(num):
+
+            continue
+
+        isSelfDividing = True
+
+        
+
+        # Break if digit is non-zero and divides the number.
+
+        for digit in str(num):
+
+            if num % int(digit) != 0:
+
+                isSelfDividing = False
+
+                break
+
+        
+
+        # Add valid number in result.
+
+        if isSelfDividing:
+
+            result.append(num)
+
+    
+
+    return result
