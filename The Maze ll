@@ -1,0 +1,105 @@
+from sys import *
+from collections import *
+from math import *
+
+from typing import *
+
+def mazeRunner(n: int, m: int, maze: List[List[int]], start: List[int], destination: List[int])-> int:
+
+    # Write your Code here
+    pass
+'''
+
+    Time Complexity : O(N*M*Max(N,M))
+
+    Space Complexity : O(N*M)
+
+    where 'N' is the number of rows and 'M' is the number of columns in the maze.
+
+'''
+
+from typing import *
+
+import heapq
+
+def mazeRunner(n: int, m: int, maze: List[List[int]], start: List[int], destination: List[int]) :
+
+    # Array to decide direction of turn of Ninja.
+
+    dir = [[0, 1], [1, 0], [-1, 0], [0, -1]]
+
+    # Array to mark cells previously visited by Ninja.
+
+    visited = [[False for _ in range(m)] for _ in range(n)]
+
+    # Queue to implement BFS approach.
+
+    q = []
+
+    
+
+    q.append([0, start[0], start[1]])
+
+    # Run while there are no more starting cells in queue.
+
+    while len(q):
+
+        p = heapq.heappop(q)
+
+    
+
+        # If we have reached the destination, return the distance travelled.
+
+        if p[1] == destination[0] and p[2] == destination[1]:
+
+            return p[0]
+
+        
+
+        # Mark current cell as visited.
+
+        visited[p[1]][p[2]] = True
+
+        # Check all the directions.
+
+        for k in range(4):
+
+            i = p[1]
+
+            j = p[2]
+
+            count = 0
+
+            # Run till maze boundary or a wall is encountered.
+
+            while i >= 0 and i < n and j >= 0 and j < m and maze[i][j] == 0:
+
+                i += dir[k][0]
+
+                j += dir[k][1]
+
+                count += 1
+
+            
+
+            i -= dir[k][0]
+
+            j -= dir[k][1]
+
+            count -= 1
+
+            # If this is an unvisited cell, push to queue.
+
+            if visited[i][j] == False:
+
+                heapq.heappush(q, [p[0] + count, i, j])
+
+            
+
+        
+
+    
+
+    # Return '-1' if destination cell is unreachable.
+
+    return -1
