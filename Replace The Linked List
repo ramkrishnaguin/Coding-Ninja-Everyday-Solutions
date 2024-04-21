@@ -1,0 +1,46 @@
+#include <bits/stdc++.h> 
+/*
+
+Following is the Node Structure written below
+ 
+class Node
+{
+	public:
+	int data;
+    Node * next;
+	Node(int x)
+	{
+		data=x;
+		next=NULL;
+	}
+};
+
+*/
+
+Node *replaceWithSum(Node *head)
+{
+	bool flag = false, temp = false;
+	if(head -> data == 0)	temp = true;
+	Node *slow = head, *fast = head -> next;
+	int sum = head -> data;
+
+	while(fast != nullptr){
+		sum += fast ->data;
+
+		if(fast->data == 0){
+			flag = true;
+			slow->data = sum;
+			sum = 0;
+
+			slow->next = fast->next;
+			if(fast->next != nullptr){
+				slow = fast->next;
+			}
+		}
+		fast = fast->next;
+	}
+	if(!flag && temp){
+		head = head -> next;
+	}
+	return head;
+}
