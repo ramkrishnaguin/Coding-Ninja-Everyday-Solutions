@@ -1,0 +1,44 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+from typing import *
+
+def digitProduct(n: int) -> int:
+
+    # Write your code here.
+    pass
+def digitProduct(n: int) -> int:
+
+    factors = []
+
+    # Finding all the factors less than 10.
+
+    for i in range(9, 1, -1):
+
+        while n % i == 0:
+
+            factors.append(i)
+
+            n = n//i
+
+    if n > 9:
+
+        # prime factor greater than 9 is found.Answer not possible.
+
+        return -1
+
+    ans = 0
+
+    # Make the required number using factors array.
+
+    # Traversing the factors array backward.
+
+    for i in range(len(factors)-1, -1, -1):
+
+        ans = ans*10
+
+        ans = ans + factors[i]
+
+    return ans
