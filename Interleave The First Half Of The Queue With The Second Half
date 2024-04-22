@@ -1,0 +1,55 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def interLeaveQueue(queue):
+    # Write your code here.
+    pass
+def interLeaveQueue(q) :
+
+    # Initialize an empty stack of int type.
+
+    s = []
+
+    halfSize = len(q) // 2
+
+    # Push first half elements into the stack.
+
+    for i in range(halfSize):
+
+        s.append(q.popleft())
+
+    
+
+    # Enqueue back the stack elements.
+
+    while len(s) > 0:
+
+        q.append(s.pop())
+
+    
+
+    # Dequeue the first half elements of queue and enqueue them back.
+
+    for i in range(halfSize):
+
+        q.append(q.popleft())
+
+    
+
+    # Again push the first half elements into the stack.
+
+    for i in range(halfSize):
+
+        s.append(q.popleft())
+
+    
+
+    # Interleave the elements of queue and stack.
+
+    while len(s) > 0:
+
+        q.append(s.pop())
+
+        q.append(q.popleft())
