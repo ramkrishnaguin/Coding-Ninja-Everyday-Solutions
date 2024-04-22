@@ -1,0 +1,95 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def getNfactor(queries):
+	#	Write your code here.
+
+	pass
+
+def primeFactors(n):
+
+    
+
+    #  To store the count of unique prime factors.
+
+    count = 0
+
+    i = 2
+
+    while (i * i) <= n:
+
+        if (n % i != 0):
+
+            i += 1
+
+            continue
+
+        while (n % i == 0):
+
+            n //= i
+
+        count = count + 1
+
+        i += 1
+
+    if (n > 1):
+
+        count = count + 1
+
+    return count
+
+def getNfactor(queries):
+
+    N = 10000
+
+    #  Stores the number of integers in the range [1, 100000] having (i + 1) unique prime factors.
+
+    bin = [[] for i in range(11)]
+
+    for i in range(1, N + 1):
+
+        # Get the count of unique prime factors.
+
+        count = primeFactors(i)
+
+        if (count <= 10):
+
+            bin[count].append(i)
+
+        
+
+    #  To store the answer of queries.
+
+    ans = []
+
+    for v in queries:
+
+        a = v[0]
+
+        b = v[1]
+
+        n = v[2]
+
+        count = 0
+
+        #  Get the count of integers in the range [a, b] having 'n' unique prime factors.
+
+        for u in bin[n]:
+
+            if (u >= a and u <= b):
+
+                
+
+                #  Current element is in the range [a, b].
+
+                count = count + 1
+
+        
+
+        ans.append(count)
+
+    
+
+    return ans
