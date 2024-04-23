@@ -1,0 +1,117 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+# Following is the List Node Class Structure:
+class Node:
+    def __init__(self, data):
+
+        self.data = data
+        self.next = None
+
+def rearrangeList(head):
+    # Write your code here.
+    pass
+class Node:
+
+    def __init__(self, data):
+
+        self.data = data
+
+        self.next = None
+
+        
+
+# Function to reverse a linked list.
+
+def reverseList(head):
+
+    prev, curr, nextNode = None, head, None
+
+    while(curr != None):
+
+        nextNode = curr.next
+
+        curr.next = prev
+
+        prev = curr
+
+        curr = nextNode
+
+    return prev
+
+# Function to find the middle node of a linked list.
+
+def getMiddle(head):
+
+    slow, fast = head, head
+
+    while(fast != None and fast.next != None):
+
+        fast = fast.next.next
+
+        if(fast == None):
+
+            break
+
+        slow = slow.next
+
+    return slow
+
+def rearrangeList(head):
+
+    if(head == None or head.next == None):
+
+        return head
+
+    # Split the linked list in two halves.
+
+    middle = getMiddle(head)
+
+    head1 = head
+
+    head2 = middle.next
+
+    middle.next = None
+
+    # Reverse second half.
+
+    head2 = reverseList(head2)
+
+    # Dummy node.
+
+    curr = Node(-1)
+
+    head = curr
+
+    while(head1 != None or head2 != None):
+
+        if(head1 != None):
+
+            curr.next = head1
+
+            curr = curr.next
+
+            head1 = head1.next
+
+        if(head2 != None):
+
+            curr.next = head2
+
+            curr = curr.next
+
+            head2 = head2.next
+
+    # Remove dummy node.
+
+    curr = head
+
+    head = head.next
+
+    curr.next = None
+
+    del curr
+
+    return head
+    
