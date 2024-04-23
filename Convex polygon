@@ -1,0 +1,64 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def isConvexPolygon(points,  n):
+    
+    # Write your code here.
+    pass
+def isConvexPolygon(points,  n):
+
+    # To count the number of positive and negative of 'pos'.
+
+    positive = 0
+
+    negative = 0
+
+    # Iterate through all the edges 'ab' and 'bc.
+
+    for a in range(n):
+
+        b = (a + 1) % n  # To handle the case when 'a = n - 1'.
+
+        c = (b + 1) % n  # To handle the case when 'b = n - 1'.
+
+        # Coordinates of point 'a'.
+
+        xA = points[a][0]
+
+        yA = points[a][1]
+
+        # Coordinates of point 'b'.
+
+        xB = points[b][0]
+
+        yB = points[b][1]
+
+        # Coordinates of point 'c'.
+
+        xC = points[c][0]
+
+        yC = points[c][1]
+
+        # The 'Z' component of the cross product between 'BA' and 'BC'.
+
+        # Use it to check if all interior angles are less than 180 degrees.
+
+        pos = (xA - xB) * (yC - yB) - (yA - yB) * (xC - xB)
+
+        if (pos > 0):
+
+            positive = True
+
+        elif (pos < 0):
+
+            negative = True
+
+        # Check if at least one interior angle is more than 180 degrees.
+
+        if (positive > 0 and negative > 0):
+
+            return False
+
+    return True
