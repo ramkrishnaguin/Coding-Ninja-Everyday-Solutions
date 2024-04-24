@@ -1,0 +1,20 @@
+#include <bits/stdc++.h> 
+void createSentences(vector < vector < string > > & arr, vector < vector < string > > & ans) {
+    int n = arr.size(), m = arr[0].size();
+    vector<string> temp;
+
+    function<void(int)> dfs = [&](int i){
+        if(i == n){
+            ans.push_back(temp);
+            return;
+        }
+
+        for(int j = 0; j < m; ++j){
+            temp.push_back(arr[i][j]);
+            dfs(i+1);
+            temp.pop_back();
+        }
+    };
+
+    dfs(0);
+}
