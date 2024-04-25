@@ -1,0 +1,100 @@
+from sys import *
+from collections import *
+from math import *
+
+def maximumSumSubarray(n, arr):
+
+	# Write your code here.
+
+	pass
+'''
+
+    Time Complexity: O(N)
+
+    Space Complexity: O(N)
+
+    Where N is the total number of elements of the array.
+
+'''
+
+def maximumSumSubarray(n, arr):
+
+		# Declare a variable maxSum and initialize it as minimum integer
+
+	maxSum = -1 * (10 ** 9)
+
+	
+
+	# Declare a variable localSum and initialize it as 0
+
+	localSum = 0
+
+	
+
+	# Declare and initialize three variables as start,end and newStart and initialize them as 0, 0, 0 respectively.
+
+	
+
+	start = 0
+
+	end = 0
+
+	newStart = 0
+
+	
+
+	# Run a loop i = 0 to N traversing all the elements.
+
+	for i in range(0, n):
+
+		
+
+		# Add the current element to the â€˜localSumâ€™
+
+		 
+
+		localSum = localSum + arr[i]
+
+		
+
+		# If the â€˜localSumâ€™ is greater than the â€˜maxSumâ€™ update all variables
+
+		if ( localSum > maxSum ):
+
+			
+
+			maxSum = localSum
+
+			start = newStart
+
+			end = i
+
+			
+
+		elif( localSum == maxSum ):
+
+			if( end-start < i-newStart ):
+
+				start = newStart
+
+				end = i
+
+		if (localSum < 0):
+
+			localSum = 0
+
+			newStart = i + 1
+
+			
+
+	ans = []
+
+	for i in range(start, end + 1):
+
+		
+
+		ans.append(arr[i])
+
+		
+
+	return ans
