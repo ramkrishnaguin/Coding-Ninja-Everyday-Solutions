@@ -1,0 +1,14 @@
+#include <bits/stdc++.h> 
+int fishEater(vector<int> &fishes) {
+    int i=0, val = fishes[i++];
+
+    while(i  < fishes.size()){
+        if(val > fishes[i]){
+            fishes.erase(fishes.begin()+i);
+        }else{
+            val = fishes[i++];
+        }
+    }
+
+    return fishes.size();
+}
