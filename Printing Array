@@ -1,0 +1,82 @@
+from typing import *
+
+def makeArray(n: int, subsequences: List[List[int]]) -> List[int]:
+    # Write your code here
+    pass
+from typing import *
+
+from collections import defaultdict
+
+from queue import deque
+
+def topologicalSort(graph: Dict[int, List[int]]) -> List[int]:
+
+    # Empty map with all in-degree as 0
+
+    inDegree = defaultdict(int)
+
+    for node in list(graph):
+
+        inDegree[node] = 0
+
+    # Set the in-degree of every node
+
+    for node in graph:
+
+        for child in graph[node]:
+
+            inDegree[child] += 1
+
+    queue = deque()
+
+    # Add all nodes with 0 in-degree in the queue
+
+    for node in list(inDegree):
+
+        if inDegree[node] == 0:
+
+            queue.append(node)
+
+    nodes = []
+
+    while len(queue):
+
+        # Get the current node and insert it into the topological sort
+
+        currNode = queue.popleft()
+
+        nodes.append(currNode)
+
+        # Decrease the all the child nodes' in-degree by 1
+
+        for child in graph[currNode]:
+
+            inDegree[child] -= 1
+
+            # If any node has a 0 in-degree add it into the queue
+
+            if inDegree[child] == 0:
+
+                queue.append(child)
+
+    # Return the topological sort
+
+    return nodes
+
+def makeArray(n: int, subsequences: List[List[int]]) -> List[int]:
+
+    # Initialse an empty map as a graph
+
+    graph = defaultdict(list)
+
+    # Iterate over all subsequences
+
+    for subseq in subsequences:
+
+        for j in range(1, len(subseq)):
+
+            # Make an edge from j - th to jth node
+
+            graph[subseq[j - 1]].append(subseq[j])
+
+    return topologicalSort(graph)
