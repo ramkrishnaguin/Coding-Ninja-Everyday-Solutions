@@ -1,0 +1,24 @@
+#include <bits/stdc++.h> 
+int informEmployees(vector<int> &manager, vector<int> &timeToInform, int headID){
+    int n=manager.size();
+    
+    vector<int> a[n];
+        
+        for(int i=0;i<n;i++){
+            if(manager[i]!=-1){
+                a[i].push_back(manager[i]);
+                a[manager[i]].push_back(i);
+            }
+        }
+        int ans=0;
+        function<void(int,int,int)> dfs=[&](int u,int p,int time){
+            ans=max(ans,time);
+            for(auto v:a[u]){
+                if(v!=p){
+                    dfs(v,u,time+timeToInform[u]);
+                }
+            }
+        };
+        dfs(headID,-1,0);
+        return ans;
+}
