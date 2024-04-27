@@ -1,0 +1,5 @@
+def slidingWindowMaximum(nums:list, k:int):
+	c=[]
+	for i in range(len(nums)-k+1):
+		c.append(max(nums[i:i+k]))
+	return c
