@@ -1,0 +1,60 @@
+#include <bits/stdc++.h> 
+int meetUp(vector<string> grid)
+{
+    int ans = INT_MAX;
+    int n = grid.size();
+    int m = grid[0].size();
+    int del_row[] = {-1, 1, 0, 0};
+    int del_col[] = {0, 0, -1, 1};
+    for(int i = 0; i < n; i++)
+    {
+        for(int j = 0; j < m; j++)
+        {
+            if(grid[i][j] != '.')
+                continue;
+            queue<pair<int, pair<int, int>>> q;
+            q.push({0, {i, j}});
+            vector<vector<int>> vis(n, vector<int>(m, 0));
+            int count = 0;
+            vis[i][j] = 1;
+            while(!q.empty())
+            {
+                int row = q.front().second.first;
+                int col = q.front().second.second;
+                int dis = q.front().first;
+                q.pop();
+                if(grid[row][col] == 'F')
+                {
+                    count += dis;
+                    continue;
+                }
+                for(int k = 0; k < 4; k++)
+                {
+                    int newRow = row + del_row[k];
+                    int newCol = col + del_col[k];
+                    if(newRow >= 0 && newRow < n && newCol >= 0 &&newCol < m && vis[newRow][newCol] == 0 && grid[newRow][newCol] != '#')
+                    {
+                        vis[newRow][newCol] = 1;
+                        q.push({dis + 1, {newRow, newCol}});
+                    }
+                }
+            }
+            bool c = 1;
+            for(int l = 0; l < n; l++)
+            {
+                for(int o = 0; o < m; o++)
+                {
+                    if(grid[l][o] == 'F' && vis[l][o] == 0)
+                    {
+                        c = 0;
+                    }
+                }
+            }
+            if(c)
+                ans = min(ans, count);
+        }
+    }
+    if(ans == INT_MAX)
+        return -1;
+    return ans;
+}
