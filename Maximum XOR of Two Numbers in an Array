@@ -1,0 +1,64 @@
+from typing import List
+
+def maximumXor(A: List[int]) -> int:
+    # write your code here
+    pass
+def maximumXor(A: List[int]) -> int:
+
+    
+
+    ans = 0
+
+    n = len(A)
+
+    s = set()
+
+    mask = 0
+
+    
+
+    for i in range (30, -1, -1):
+
+        
+
+        # Setting the ith bit 1 in mask.
+
+        mask = mask | (1 << i)
+
+        
+
+        for j in range (n):
+
+            # Inserting prefix bitmask into the set.
+
+            s.add(A[j] & mask)
+
+            
+
+        tempAns = ans
+
+        
+
+        # Setting the ith bit 1.
+
+        tempAns = tempAns | (1 << i)
+
+        
+
+        for it in s:
+
+            # Checking if 'it' xor 'tempAns' is present in set. 
+
+            if it ^ tempAns in s:
+
+                ans = tempAns
+
+                break
+
+            
+
+        s = set()
+
+        
+
+    return ans
