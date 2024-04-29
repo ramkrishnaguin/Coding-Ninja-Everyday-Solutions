@@ -1,0 +1,31 @@
+def fahrenheitToCelsius(s, e, w):
+	# Write your code here.
+
+	pass
+def fahrenheitToCelsius(s, e, w):
+
+	# Declare an array to store the answer. 
+
+	ans = []
+
+	# Declare a variable to keep track of fahrenhiet value.
+
+	currentFahrenhietValue = s
+
+	while currentFahrenhietValue <= e :
+
+		# Find celsius value.
+
+		celsiusValue = ((currentFahrenhietValue - 32) * 5)
+
+		celsiusValue = int(celsiusValue / 9)
+
+		# Append both value to 'ans' array.
+
+		ans.append([currentFahrenhietValue, celsiusValue])
+
+		# Increment by given step size.
+
+		currentFahrenhietValue += w
+
+	return ans
