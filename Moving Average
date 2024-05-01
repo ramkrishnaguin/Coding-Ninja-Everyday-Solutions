@@ -1,0 +1,27 @@
+def movingAverage(X, Y, N, A):
+
+    def moving_average(arr, N, X):
+        ret = [0.0] * N
+        sum_val = 0.0
+
+        for i in range(N):
+            sum_val += arr[i]
+            if i >= X:
+                sum_val -= arr[i - X]
+            
+            ret[i] = sum_val / min(i + 1, X)
+        
+        return ret
+
+    uptrends = downtrends = 0
+
+    X_MA = moving_average(A, N, X)
+    Y_MA = moving_average(A, N, Y)
+
+    for i in range(max(X, Y), N):
+        if X_MA[i - 1] < Y_MA[i - 1] and X_MA[i] > Y_MA[i]:
+            uptrends += 1
+        elif X_MA[i - 1] > Y_MA[i - 1] and X_MA[i] < Y_MA[i]:
+            downtrends += 1
+
+    return uptrends + downtrends
