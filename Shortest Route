@@ -1,0 +1,112 @@
+#include <bits/stdc++.h> 
+string findShortestRoute(string &str) 
+
+{
+
+    int countE = 0, countW = 0, countN = 0, countS = 0;
+
+    // Count number of 'E', 'W', 'S', 'N' in given string str.
+
+    for(int i = 0; i < str.length(); i++)
+
+    {
+
+        if(str[i] == 'E') 
+
+        {
+
+            countE++;
+
+        }
+
+        if(str[i] == 'W') 
+
+        {
+
+            countW++;
+
+        }
+
+        if(str[i] == 'S') 
+
+        {
+
+            countS++;
+
+        }
+
+        if(str[i] == 'N') 
+
+        {
+
+            countN++;
+
+        }
+
+    }
+
+    // String 'result' will be lexicographically smallest string representing the smallest route
+
+    string result;
+
+    // Append minimum number of characters in 'result' in lexicographical order.
+
+    if(countE > countW) 
+
+    {
+
+        for(int i = 0; i < (countE-countW); i++) 
+
+        {
+
+            result += 'E';
+
+        }
+
+    }
+
+    if(countN > countS) 
+
+    {
+
+        for(int i = 0; i < (countN-countS); i++)
+
+        {
+
+            result += 'N';
+
+        }
+
+    }
+
+    if(countS > countN) 
+
+    {
+
+        for(int i = 0; i < (countS-countN); i++) 
+
+        {
+
+            result += 'S';
+
+        }
+
+    }
+
+    if(countW > countE) 
+
+    {
+
+        for(int i = 0; i < (countW-countE); i++) 
+
+        {
+
+            result += 'W';
+
+        }
+
+    }
+
+    return result;
+
+}
