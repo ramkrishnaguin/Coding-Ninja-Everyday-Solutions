@@ -1,0 +1,33 @@
+#include <bits/stdc++.h> 
+
+const int mod = 1e9 + 7;
+
+long long powerWork(long long a, long long p) {
+    if (p == 0 || a == 1) {
+        return 1;
+    } else if (p == 1) {
+        return a;
+    } else {
+        long long curValue = powerWork(a, p/2);
+        if (p & 1) {
+            return (((curValue *a) % mod) * curValue) % mod;
+        } else {
+            return (curValue * curValue) % mod;
+        }
+    }
+}
+
+int countSquares(long long m, long long n)
+{
+    if (m > n) {
+        swap(m, n);
+    }
+    auto left = (m * (m + 1));
+    auto right = (3 * n - m + 1);
+    left %= mod;
+    right %= mod;
+    auto result = (left * right) % mod;
+    result *= powerWork(6, mod - 2);
+    result %= mod;
+    return static_cast<int> (result);
+}
