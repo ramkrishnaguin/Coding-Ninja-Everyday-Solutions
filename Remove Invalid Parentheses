@@ -1,0 +1,177 @@
+#include <bits/stdc++.h> 
+#include <unordered_set>
+
+// Function to find all unique, valid strings of maximum length.
+
+void removeRecursively(string &str, int index, string &resultSoFar, int leftMisplaced, int rightMisplaced, int leftCount, int rightCount, unordered_set<string> &hashSet)
+
+{
+
+    // Base Case
+
+    if (index == str.length())
+
+    {
+
+        // Valid string is found.
+
+        if (leftMisplaced == 0 && rightMisplaced == 0)
+
+        {
+
+            hashSet.insert(resultSoFar);
+
+        }
+
+        return;
+
+    }
+
+    
+
+    // If current character is not parenthesis, include it in 'possibleAnswer'.
+
+    if (str[index] != '(' && str[index] != ')')
+
+    {
+
+        resultSoFar.push_back(str[index]);
+
+        removeRecursively(str, index + 1, resultSoFar, leftMisplaced, rightMisplaced, leftCount, rightCount, hashSet);
+
+        resultSoFar.pop_back();
+
+    }
+
+    // For parenthesis, two cases: Include or Exclude.
+
+    else
+
+    {
+
+        // Include Case.
+
+        resultSoFar.push_back(str[index]);
+
+        
+
+        if (str[index] == '(')
+
+        {
+
+            removeRecursively(str, index + 1, resultSoFar, leftMisplaced, rightMisplaced, leftCount + 1, rightCount, hashSet);
+
+        }
+
+        else if (leftCount > rightCount)
+
+        {
+
+            removeRecursively(str, index + 1, resultSoFar, leftMisplaced, rightMisplaced, leftCount, rightCount + 1, hashSet);
+
+        }
+
+        
+
+        // Exclude Case.
+
+        resultSoFar.pop_back();
+
+            
+
+        if (str[index] == '(' && leftMisplaced > 0)
+
+        {
+
+            removeRecursively(str, index + 1, resultSoFar, leftMisplaced - 1, rightMisplaced, leftCount, rightCount, hashSet);
+
+        }
+
+        else if (str[index] == ')' && rightMisplaced > 0)
+
+        {
+
+            removeRecursively(str, index + 1, resultSoFar, leftMisplaced, rightMisplaced - 1, leftCount, rightCount, hashSet);
+
+        }
+
+    }
+
+}
+
+vector<string> removeInvalidParentheses(string &str)
+
+{
+
+    int leftMisplaced = 0, rightMisplaced = 0, index = 0;
+
+    
+
+    // Count number of misplaced left and right parentheses.
+
+    while (index < str.length())
+
+    {
+
+        if (str[index] == '(')
+
+        {
+
+            leftMisplaced++;
+
+        }
+
+        else if (str[index] == ')')
+
+        {
+
+            if (leftMisplaced > 0)
+
+            {
+
+                leftMisplaced--;
+
+            }
+
+            else
+
+            {
+
+                rightMisplaced++;
+
+            }
+
+        }
+
+        index++;
+
+    }
+
+        
+
+    unordered_set<string> hashSet;
+
+    string resultSoFar;
+
+    
+
+    // Generate all unique, valid strings of maximum length and store in 'hashSet'.
+
+    removeRecursively(str, 0, resultSoFar, leftMisplaced, rightMisplaced, 0, 0, hashSet);
+
+        
+
+    vector<string> result;
+
+    for (string str : hashSet)
+
+    {
+
+        result.push_back(str);
+
+    }
+
+    return result;
+
+}
+
