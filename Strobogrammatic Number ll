@@ -1,0 +1,60 @@
+#include <bits/stdc++.h> 
+vector < string > findStrobogrammaticHelper(int n, int len) {
+
+    // If len = 0, return empty string.
+
+    if (len == 0) {
+
+        return vector < string > ({ "" });
+
+    }
+
+    if (len == 1) {
+
+        return vector < string > ({"0", "1", "8" });
+
+    }
+
+    // Recursively call for len = len - 2.
+
+    vector < string > prev = findStrobogrammaticHelper(n, len - 2);
+
+    // Initialize vector of strings to store resulting strings.
+
+    vector < string > res;
+
+    // Iterate through all strings in "prev".
+
+    for (int i = 0; i < prev.size(); i++) {
+
+        // Add digits around string prev[i].
+
+        if (len != n) {
+
+            res.push_back("0" + prev[i] + "0");
+
+        }
+
+        res.push_back("1" + prev[i] + "1");
+
+        res.push_back("6" + prev[i] + "9");
+
+        res.push_back("8" + prev[i] + "8");
+
+        res.push_back("9" + prev[i] + "6");
+
+    }
+
+    return res;
+
+}
+
+vector < string > findStrobogrammatic(int n) {
+
+    // Recursive function to find all strobogrammatic numbers.
+
+    vector < string > ans = findStrobogrammaticHelper(n, n);
+
+    return ans;
+
+}
