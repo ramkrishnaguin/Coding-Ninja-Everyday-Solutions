@@ -1,0 +1,30 @@
+#include <bits/stdc++.h>
+
+bool isPalindrome(string s){
+	int l=0, r=s.length()-1;
+	while(l<=r){
+		if(s[l]!=s[r]){ 
+			return false;
+		}
+		l++;
+		r--;
+	}
+	return true;
+}
+bool isReflectionEqual(string &s)
+{
+	// Write your code here.
+	// AHIMOTUVWXY
+	if(!isPalindrome(s)) {
+		return false;
+	}
+	for(auto i:s){
+		if(i=='A' || i=='H' || i=='I' || i=='M' || i=='O' || i=='T' || i=='U' || i=='V' || i=='W' || i=='X' || i=='Y' ) {
+			continue;
+		}
+		else{
+			return false;
+		}
+	}
+	return true;
+}
