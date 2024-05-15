@@ -1,0 +1,58 @@
+#include <bits/stdc++.h> 
+int firstCircularTour(vector<int>& petrol, vector<int>& distance, int N)
+
+{
+
+	//Checking for -1 condition
+
+	long long int totalPetrol = 0;
+
+	long long int totalDistance = 0;
+
+	for(int i = 0; i < N; i++)
+
+	{
+
+		totalDistance += distance[i];
+
+		totalPetrol += petrol[i];
+
+	}
+
+	if(totalPetrol < totalDistance)
+
+		return -1;
+
+	//Answer will definitely exist now
+
+	long long int sum = 0;
+
+	long long int minimumSum = 1ll<<60;
+
+	int minimumSumIndex;
+
+	for(int i = 0; i < N; i++)
+
+	{
+
+		if(sum < minimumSum)
+
+		{
+
+			//Finding the index where sum has least value
+
+			minimumSum = sum;
+
+			minimumSumIndex = i;
+
+		}
+
+		//Updating sum with the required value
+
+		sum += petrol[i]-distance[i];
+
+	}
+
+	return minimumSumIndex;
+
+}
