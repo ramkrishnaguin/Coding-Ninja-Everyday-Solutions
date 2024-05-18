@@ -1,0 +1,34 @@
+/*#include <bits/stdc++.h> 
+int specialSum(vector<int> &arr, int n)
+{
+	// Write your code here. 
+}*/
+#include <bits/stdc++.h> 
+
+int specialSum(vector<int> &arr, int n)
+
+{
+
+    int first_sum = 0;
+
+    int last_sum = 0;
+
+    int special_sum = 0;
+
+    int mini = INT_MAX;
+
+    for(int i=0;i<n;i++){
+
+        first_sum+=arr[i];
+
+        last_sum+=arr[n-i-1];
+
+        special_sum = first_sum + last_sum;
+
+        mini = min(mini,special_sum);
+
+    }
+
+    return mini;
+
+}
