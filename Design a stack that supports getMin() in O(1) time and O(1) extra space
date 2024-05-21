@@ -1,0 +1,123 @@
+class SpecialStack:
+    def __init__(self):
+        # write your code here
+        pass
+    def push(self, data):
+        # write your code here
+        pass
+    def pop(self):
+        # write your code here
+        pass
+    def top(self):
+        # write your code here
+        pass
+    def getMin(self):
+    # write your code here
+        pass  
+    from typing import List
+
+import sys
+
+class SpecialStack:
+
+    """
+
+    A special stack implementation that supports getting the minimum element in O(1) time.
+
+    """
+
+    def __init__(self):
+
+        """
+
+        Initialize the SpecialStack with two stacks: s1 is the main stack, and s2 stores the minimum elements.
+
+        """
+
+        self.s1 = []
+
+        self.s2 = []
+
+    def push(self, data: int) -> None:
+
+        """
+
+        Push an element onto the stack.
+
+        Args:
+
+            data (int): The element to be pushed onto the stack.
+
+        """
+
+        if len(self.s2) == 0 or data <= self.s2[-1]:
+
+            self.s2.append(data)
+
+        self.s1.append(data)
+
+    def pop(self) -> None:
+
+        """Pop an element from the stack."""
+
+        if len(self.s1) > 0:
+
+            if self.s1[-1] == self.s2[-1]:
+
+                self.s2.pop()
+
+            self.s1.pop()
+
+    def top(self) -> int:
+
+        """
+
+        Get the top element of the stack.
+
+        Returns:
+
+            int: The top element of the stack.
+
+        """
+
+        if len(self.s1) > 0:
+
+            return self.s1[-1]
+
+        else:
+
+            return -sys.maxsize
+
+    def is_empty(self) -> bool:
+
+        """
+
+        Check if the stack is empty.
+
+        Returns:
+
+            bool: True if the stack is empty, False otherwise.
+
+        """
+
+        return len(self.s1) == 0
+
+    def get_min(self) -> int:
+
+        """
+
+        Get the current minimum element in the stack.
+
+        Returns:
+
+            int: The minimum element in the stack.
+
+        """
+
+        if len(self.s2) > 0:
+
+            return self.s2[-1]
+
+        else:
+
+            return sys.maxsize
