@@ -1,0 +1,25 @@
+/*#include <bits/stdc++.h> 
+long long titleToNumber(string str) {
+    // Write your code here
+}*/
+#include <bits/stdc++.h> 
+
+long long titleToNumber(string str) {
+
+    // Write your code here 
+
+    long long int res = 0;
+
+    for(const auto &a:str)
+
+    {
+
+        res*=26;
+
+        res+=a-'A'+1;
+
+    }
+
+    return res;
+
+}
