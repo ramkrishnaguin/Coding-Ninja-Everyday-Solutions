@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int makeBeautiful(string str) {
+
+    int n = str.length();
+
+    int changesForPattern1 = 0; // for "010101..."
+
+    int changesForPattern2 = 0; // for "101010..."
+
+    
+
+    for (int i = 0; i < n; ++i) {
+
+        // Pattern 1: starts with '0', so at even index '0' and at odd index '1'
+
+        if (i % 2 == 0) {
+
+            if (str[i] != '0') changesForPattern1++;
+
+        } else {
+
+            if (str[i] != '1') changesForPattern1++;
+
+        }
+
+        
+
+        // Pattern 2: starts with '1', so at even index '1' and at odd index '0'
+
+        if (i % 2 == 0) {
+
+            if (str[i] != '1') changesForPattern2++;
+
+        } else {
+
+            if (str[i] != '0') changesForPattern2++;
+
+        }
+
+    }
+
+    
+
+    return min(changesForPattern1, changesForPattern2);
+
+}
