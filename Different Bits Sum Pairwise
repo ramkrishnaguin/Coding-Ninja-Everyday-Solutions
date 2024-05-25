@@ -1,0 +1,32 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def differentBitsSumPairwise(arr, n):
+    # Write your code here
+    # Return an integer denoting the total sum f(x,y).
+    pass
+def differentBitsSumPairwise(arr, n):
+
+    ans = 0
+
+    mod = 10**9 + 7
+
+    for i in range(31):
+
+        cnt = 0
+
+        # count the number of elements with ith bit set.
+
+        for j in range(n):
+
+            if arr[j] & (1 << i):
+
+                cnt += 1
+
+        ans += 2*(cnt*(n-cnt))
+
+    ans %= mod
+
+    return ans
