@@ -1,0 +1,277 @@
+def ninjaJump(arr, n):
+    # Write your code here.
+
+    pass
+class orderedSet:
+
+    # TreeNode of BST.
+
+    class TreeNode:
+
+        def height(curNode):
+
+            if curNode == None:
+
+                return 0
+
+            else:
+
+                return curNode.height
+
+        def __init__(self, data):
+
+            self.data = data
+
+            self.left = None
+
+            self.right = None
+
+            self.height = 1
+
+     
+
+    # Rotate left.
+
+    def rotateLeft(curNode):
+
+        
+
+        node2, node1, node4 = curNode, curNode.left, curNode.right
+
+        node3, node5 = node4.left, node4.right
+
+        node2.right = node3
+
+        node2.height = 1 + max(orderedSet.TreeNode.height(node1), orderedSet.TreeNode.height(node3))
+
+        
+
+        node4.left = node2
+
+        node4.height = 1 + max(orderedSet.TreeNode.height(node2), orderedSet.TreeNode.height(node5))
+
+        
+
+        return node4
+
+    # Rotate Right.
+
+    def rotateRight(curNode):
+
+        node4, node2, node5 = curNode, curNode.left, curNode.right
+
+        node1, node3 = node2.left, node2.right
+
+        node4.left = node3
+
+        node4.height = 1 + max(orderedSet.TreeNode.height(node3), orderedSet.TreeNode.height(node5))
+
+        
+
+        node2.right = node4
+
+        node2.height = 1 + max(orderedSet.TreeNode.height(node1), orderedSet.TreeNode.height(node4))
+
+        
+
+        return node2
+
+    def __init__(self):
+
+        self.root = None
+
+    '''
+
+        Insert Node and Rotate BST to maintain height,
+
+        So that cost of insertion will be O(log(N)).
+
+    '''
+
+    def insert(self, root, data):
+
+        
+
+        # Insert curNode.
+
+        if root == None:
+
+            return orderedSet.TreeNode(data)
+
+        if data < root.data:
+
+            root.left = self.insert(root.left, data)
+
+        elif data > root.data:
+
+            root.right = self.insert(root.right, data)
+
+        
+
+        # Don't add duplicate nodes.
+
+        else:  
+
+            return root
+
+        
+
+        # Rotate BST to maintain height.
+
+        if orderedSet.TreeNode.height(root.left) - orderedSet.TreeNode.height(root.right) >= 2:
+
+            
+
+            if data > root.left.data:
+
+                root.left = orderedSet.rotateLeft(root.left)
+
+            
+
+            root = orderedSet.rotateRight(root)
+
+        
+
+        elif orderedSet.TreeNode.height(root.right) - orderedSet.TreeNode.height(root.left) >= 2:
+
+        
+
+            if data < root.right.data:
+
+                root.right = orderedSet.rotateRight(root.right)
+
+        
+
+            root = orderedSet.rotateLeft(root)
+
+        else:
+
+        
+
+            root.height = 1 + max(orderedSet.TreeNode.height(root.left), orderedSet.TreeNode.height(root.right))
+
+        
+
+        return root
+
+    def addNode(self, data):
+
+        self.root = self.insert(self.root, data)
+
+    def begin(self):
+
+        return self.root.data
+
+    # Return upper bound in log(N).
+
+    def upperBound(self, data):
+
+        curNode = self.root
+
+        ans = None
+
+        while curNode != None:
+
+            if curNode.data >= data:
+
+                ans = curNode.data
+
+                curNode = curNode.left
+
+            else:
+
+                curNode = curNode.right
+
+        return ans
+
+    # Return lower bound in log(N).
+
+    def lowerBound(self, data):
+
+        curNode = self.root
+
+        ans = None
+
+        while curNode != None:
+
+            if curNode.data <= data:
+
+                ans = curNode.data
+
+                curNode = curNode.right
+
+            else:
+
+                curNode = curNode.left
+
+        return ans
+
+def ninjaJump(arr, n):
+
+    
+
+    ans = 1;
+
+    # Declaring bool arrays.
+
+    dp = [ [False for j in range(2)] for i in range(n)]
+
+    
+
+    # Declared ordered Set.
+
+    umap = orderedSet()
+
+    index = {}
+
+    
+
+    evenJump = [0 for i in range(n)]
+
+    oddJump  = [0 for i in range(n)]
+
+    for i in range(n - 1,-1,-1):
+
+        if (i == n - 1):
+
+            dp[n - 1][0] =  True
+
+            dp[n - 1][1] = True
+
+            index[arr[n - 1]] = n - 1
+
+            umap.addNode(arr[n - 1])
+
+            continue
+
+        # Finding higher element from map.
+
+        high = umap.upperBound(arr[i])
+
+        # Finding lower element from map.
+
+        low = umap.lowerBound(arr[i])
+
+        
+
+        if (high != None):
+
+            idx = index[high]
+
+            dp[i][0] = dp[idx][1]
+
+        if (low != None):
+
+            idx = index[low]
+
+            dp[i][1] = dp[idx][0]
+
+        if (dp[i][0] == True):
+
+            ans = ans + 1
+
+        index[arr[i]] = i
+
+        umap.addNode(arr[i])
+
+    return ans;
