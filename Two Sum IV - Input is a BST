@@ -1,0 +1,30 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+# BinaryTreeNode class definition
+class BinaryTreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+import queue
+
+def twoSumInBST(root, target):
+    d = {}
+    q = queue.Queue()
+
+    q.put(root)
+    while not q.empty() :
+        curr = q.get()
+        if target - curr.data in d:
+            return True
+        d[curr.data ] = 1
+        if curr.left:
+            q.put(curr.left)
+        if curr.right:
+            q.put(curr.right)
+    
+    return False
