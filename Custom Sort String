@@ -1,0 +1,9 @@
+def specificOrder(x: str, y: str):
+    # Write your code here.
+    p,q="",""
+    for i in x:
+        if(i in y):
+            p+=i
+        else:
+            q+=i
+    return p+q
