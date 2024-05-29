@@ -1,0 +1,16 @@
+from typing import List
+
+def generateString(N: int) -> List[str]:
+    # write your code here
+    ans = []
+    def helper(i, curr):
+        if i == N:
+            ans.append(curr)
+            return
+        if curr[-1] != "1":
+            helper(i+1, curr + "1")
+        helper(i+1, curr+"0")
+    
+    helper(1, "0")
+    helper(1, "1")
+    return ans
