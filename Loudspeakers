@@ -1,0 +1,56 @@
+#include <bits/stdc++.h> 
+vector<int> max_amplitude(int n, vector<int> &loud){
+
+    vector<int> ans, ones, ans_without_ones;
+
+    // Seprarating the loudspeakers with amplitude 1 and others.
+
+    for (int i = 0; i < n; i++){
+
+        if (loud[i] == 1){
+
+            ones.push_back(1);
+
+        }
+
+        else{
+
+            ans_without_ones.push_back(loud[i]);
+
+        }
+
+    }
+
+    // Sort the non-singular amplitudes in ascending order.
+
+    sort(ans_without_ones.begin(), ans_without_ones.end());
+
+    vector<int> corner = {2, 3};
+
+    // Corner Case
+
+    if (ans_without_ones == corner){
+
+        ans_without_ones = {3, 2};
+
+    }  
+
+    // push_back the amplitudes with amplitude 1 to the sorted amplitudes.
+
+    ans = ans_without_ones;
+
+    while(ones.size() > 0){
+
+        ans.push_back(ones.back());
+
+        ones.pop_back();
+
+    }
+
+    
+
+    return ans;
+
+}
+ 
+
