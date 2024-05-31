@@ -1,0 +1,22 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def calcOverlap(mat1,mat2,xShift,yShift,n):
+	overlap=0
+	for i in range(n):
+		for j in range(n):
+			if 0<=i+xShift<n and 0<=j+yShift<n:
+				overlap+=mat1[i][j]*mat2[i+xShift][j+yShift]
+	return overlap
+
+
+def gridOverlap(mat1, mat2, n):
+
+	# Write your code here.
+	maxOverlapCount=0
+	for xShift in range(-n+1,n):
+		for yShift in range(-n+1,n):
+			maxOverlapCount=max(maxOverlapCount,calcOverlap(mat1,mat2,xShift,yShift,n))
+	return maxOverlapCount
