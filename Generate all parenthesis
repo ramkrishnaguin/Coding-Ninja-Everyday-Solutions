@@ -1,0 +1,20 @@
+from math import *
+from collections import *
+from sys import *
+from os import *
+
+## Read input as specified in the question.
+## Print output as specified in the question.
+def fun(left,right,s):
+    if right==n:
+        ans.append(s)
+        return 
+    if left<n:
+        fun(left+1,right,s+"(")
+    if right<left:
+        fun(left,right+1,s+")")
+ans=[]
+n=int(input())
+fun(0,0,"")
+for i in ans:
+    print(i)
