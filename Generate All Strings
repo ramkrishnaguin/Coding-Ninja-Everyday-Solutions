@@ -1,0 +1,180 @@
+#include <bits/stdc++.h> 
+// Function to convert a one digit string or two digit string into
+
+// a character.
+
+char convertDigitToAlpha(string digit) {
+
+    // Initialize a variable 'digVal' with 0.
+
+    int digVal = 0;
+
+    // Add the value of the first digit to 'digVal'.
+
+    digVal += digit[0] - '0';
+
+    // If the 'digit' string size is greater than one, add the second
+
+    // digit value to the 'digVal'.
+
+    if (digit.size() > 1) {
+
+        digVal = digVal * 10 + (digit[1] - '0');
+
+    }
+
+    // Return the character obtained from 'digVal'.
+
+    return (char)(digVal + 96);
+
+}
+
+// Function to check if the digit string is less than 27 or not.
+
+bool isValid(string& s) {
+
+    // Convert the string into an integer, if it is greater
+
+    // than 26 or first digit is '0' then return false.
+
+    if (s[0] == '0' || stoi(s) > 26) {
+
+        return false;
+
+    }
+
+    // Else return true
+
+    return true;
+
+}
+
+// Recursive function to get all possible strings.
+
+void getAllStringsUtil(string& s, int idx, string& curStr, set<string>& ans) {
+
+    int n = s.size();
+
+    // If the 'IDX' is at the end of the string 'S' then
+
+    // insert 'curStr' into the set 'ANS' and return.
+
+    if (idx == n) {
+
+        ans.insert(curStr);
+
+        return;
+
+    }
+
+    // If the character at ‘IDX’ is 0 then return.
+
+    if (s[idx] == '0') {
+
+        return;
+
+    }
+
+    // Declare an empty string 'NUM' to store the current digit value.
+
+    string num = "";
+
+    // Add the current digit value to 'NUM'.
+
+    num += s[idx];
+
+    // Convert 'NUM' from digit to character, call convertDigitToAlpha
+
+    // function and store it into a character 'curCh'.
+
+    char curCh = convertDigitToAlpha(num);
+
+    // Append the character 'curCh' into 'curStr'.
+
+    curStr.push_back(curCh);
+
+    // Recursively call the getAllStringsUtil function to get the
+
+    // final string with 'curCh' as its current character.
+
+    getAllStringsUtil(s, idx + 1, curStr, ans);
+
+    // Pop-out the 'curCh' character from 'curStr'.
+
+    curStr.pop_back();
+
+    // If the 'IDX' is not equal to 'N'-1.
+
+    if (idx != n - 1) {
+
+        // Add the digit at 'IDX'+1 into the 'NUM'.
+
+        num += s[idx + 1];
+
+        // Check if the 'NUM' is less than 27, call 'isValid' function.
+
+        if (isValid(num)) {
+
+            // Call 'convertDigitToAlpha' to conver 'NUM' into a character
+
+            // and store it in 'curCh'.
+
+            curCh = convertDigitToAlpha(num);
+
+            // Append the character 'curCh' into 'curStr'.
+
+            curStr.push_back(curCh);
+
+            // Recursively call the getAllStringsUtil function to get the
+
+            // final string with 'curCh' as its current character.
+
+            getAllStringsUtil(s, idx + 2, curStr, ans);
+
+            // Pop-out the 'curCh' character from 'curStr'.
+
+            curStr.pop_back();
+
+        }
+
+    }
+
+}
+
+vector<string> getAllStrings(string& s) {
+
+    // Declare a set 'ANS' to store all the possible strings.
+
+    set<string> ans;
+
+    // Declare an empty string 'curStr'.
+
+    string curStr = "";
+
+    // Call getAllStringsUtil with 'S', 'curStr', 'ANS' and index as 0
+
+    // as the arguments
+
+    getAllStringsUtil(s, 0, curStr, ans);
+
+    // Declare an array 'finalList' to store all the strings in
+
+    // set 'ANS'.
+
+    vector<string> finalList;
+
+    // Iterate over all the strings in set 'ANS' and insert it into
+
+    // 'finalList'.
+
+    for (auto itr = ans.begin(); itr != ans.end(); ++itr) {
+
+        finalList.push_back(*itr);
+
+    }
+
+    // Return the 'finalList' array.
+
+    return finalList;
+
+}
