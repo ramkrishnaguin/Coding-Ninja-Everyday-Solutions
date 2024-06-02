@@ -1,0 +1,16 @@
+#include <bits/stdc++.h> 
+vector < int > detectOdd(int n, vector < int > nums) {
+    // Write your code here.
+    unordered_map<int,int>mp;
+    for(auto it:nums){
+        mp[it]++;
+    }
+    vector<int>ans;
+    for(auto it:mp){
+        if(it.second%2){
+            ans.push_back(it.first);
+        }
+    }
+    sort(ans.begin(),ans.end());
+    return ans;
+}
