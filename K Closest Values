@@ -1,0 +1,32 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+'''
+    Following is the TreeNode class structure
+
+	class   TreeNode :
+    	def __init__(self, val) :
+        	self.val = val
+        	self.left = None
+        	self.right = None
+
+'''
+
+def kClosestValues(root, target, k):
+	def fun(ptr):
+		if not ptr:
+			return 
+		fun(ptr.left)
+		l.append([abs(ptr.val-target),ptr.val])
+		fun(ptr.right)
+	l=[]
+	fun(root)
+	l.sort()
+	#print(l)
+	ans=[]
+	for i in range(k):
+		ans.append(l[i][1])
+	ans.sort()
+	return ans 
