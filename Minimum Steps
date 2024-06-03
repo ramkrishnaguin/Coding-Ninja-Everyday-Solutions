@@ -1,0 +1,111 @@
+from typing import List
+
+import math
+
+MAX = 1000000000
+
+# Function to get all the prime numbers from 1 to N using seive of eratosthenes
+
+def getPrimes(n: int) -> List[int]:
+
+    primes = [True for _ in range(n + 1)]
+
+    primes[0] = False
+
+    primes[1] = False
+
+    for i in range(2, int(math.sqrt(n)) + 1):
+
+        if not primes[i]:
+
+            continue
+
+        for j in range(i*i, n + 1, i):
+
+            primes[j] = False
+
+    # Return the list of prime numbers
+
+    return [i for i in range(len(primes)) if primes[i]]
+
+# Function to get the sum of digits of a number from 1 to N
+
+def digitalSum(num) -> int:
+
+    if num == 0:
+
+        return 0
+
+    if num % 9 == 0:
+
+        return 9
+
+    return num % 9
+
+def moveSteps(n: int, mines: List[int], l: int) -> int:
+
+    global MAX
+
+    # Store all the mine position in a set
+
+    mineSet = set()
+
+    for pos in mines:
+
+        mineSet.add(pos)
+
+    primeDict = dict()
+
+    # Get the primes numbers upto the maxium range of N
+
+    primeNumbers = getPrimes(100010)
+
+    for i in range(len(primeNumbers) - 1):
+
+        num = i + (primeNumbers[i + 1] - primeNumbers[i])
+
+        primeDict[primeNumbers[i]] = digitalSum(num)
+
+    memo = [[-1 for _ in range(l + 1)] for _ in range(n + 1)]
+
+    def util(currentPos: int, curr : int) -> int:
+
+        # Base cases
+
+        if currentPos in mineSet:
+
+            return MAX
+
+        if currentPos == n:
+
+            return 0
+
+        if currentPos > n:
+
+            return MAX
+
+        curr = min(curr, l)
+
+        if memo[currentPos][curr] != -1:
+
+            return memo[currentPos][curr]
+
+        # If a special move is not allowed move one or two positions ahead
+
+        if not currentPos in primeDict or curr < l:
+
+            memo[currentPos][curr] = min(util(currentPos + 1, curr + 1), util(currentPos + 2, curr + 1)) + 1
+
+        # Otherwise try making a special move also
+
+        else:
+
+            memo[currentPos][curr] = min(min(util(currentPos + 1, curr + 1), util(currentPos + 2, curr + 1)), util(currentPos + primeDict[currentPos], 0)) + 1
+
+        return memo[currentPos][curr]
+
+    # Call the Utility function with starting position of 1 and L
+
+    ans = util(1, l)
+
+    return -1 if ans >= MAX else ans
