@@ -1,0 +1,50 @@
+#include <bits/stdc++.h> 
+/****************************************************************
+
+    Following is the class structure of the Node class:
+
+        class Node
+        {
+        public:
+	        char data;
+	        Node *next;
+	        Node *random
+	        Node(char data)
+	        {
+		        this->data = data;
+		        this->next = NULL;
+		        this->random = NULL;
+	        }
+        };
+
+*****************************************************************/
+
+bool isItAccepted(Node *head, string &str) {
+    Node* temp = new Node(-1);
+	temp->next = head;
+	int n = str.size();
+	int i = 0;
+	while(i < n){
+		if(temp->next != nullptr && temp->next->data == str[i]){
+			temp = temp->next;
+			i++;
+		}
+		else if(temp->random != nullptr && temp->random->data == str[i]){
+			temp = temp->random;
+			i++;
+		}
+		else{
+			return false;
+		}
+		// edge case
+		if(i == n){
+			if(temp->next == nullptr){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+	}
+	return true;
+}
