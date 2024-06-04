@@ -1,0 +1,16 @@
+from collections import *
+def palinCount(string: str) -> int:
+    n = len(string)
+    res = 0
+    mask = 0
+    freqs = Counter()
+    freqs[0] = 1
+    for i in range(n):
+        ch = ord(string[i]) - ord('a')
+        mask ^= 1 << ch
+        for j in range(26):
+            res += freqs[mask ^ (1 << j)]
+        res += freqs[mask]
+        freqs[mask] += 1
+        
+    return res
