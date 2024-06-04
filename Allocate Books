@@ -1,0 +1,113 @@
+#include <vector>
+
+#include <numeric>
+
+#include <algorithm>
+
+bool isPossible(std::vector<int>& arr, int n, int m, int curr_min) {
+
+    int studentsRequired = 1;
+
+    int curr_sum = 0;
+
+    // Iterate over all books
+
+    for (int i = 0; i < n; i++) {
+
+        // If current number of pages are greater than curr_min, return false
+
+        if (arr[i] > curr_min) {
+
+            return false;
+
+        }
+
+        // Count how many students are required to distribute books with max pages = curr_min
+
+        if (curr_sum + arr[i] > curr_min) {
+
+            // Increment student count
+
+            studentsRequired++;
+
+            // Assign current book to the next student
+
+            curr_sum = arr[i];
+
+            // If students required becomes greater than given number of students, return false
+
+            if (studentsRequired > m) {
+
+                return false;
+
+            }
+
+        } else {
+
+            // Else add this book to current student's sum
+
+            curr_sum += arr[i];
+
+        }
+
+    }
+
+    return true;
+
+}
+
+int findPages(std::vector<int>& arr, int n, int m) {
+
+    // If number of students is more than number of books
+
+    if (n < m) {
+
+        return -1;
+
+    }
+
+    // Count total number of pages
+
+    int sum = std::accumulate(arr.begin(), arr.end(), 0);
+
+    // Initialize start as the maximum number of pages in a single book
+
+    int start = *std::max_element(arr.begin(), arr.end());
+
+    // Initialize end as the sum of all pages
+
+    int end = sum;
+
+    int result = INT_MAX;
+
+    // Traverse until start <= end
+
+    while (start <= end) {
+
+        // Check if it is possible to distribute books by using mid as the maximum number of pages
+
+        int mid = (start + end) / 2;
+
+        if (isPossible(arr, n, m, mid)) {
+
+            // If yes, then find the minimum distribution
+
+            result = std::min(result, mid);
+
+            // as we are finding minimum and books are sorted so reduce end = mid - 1
+
+            end = mid - 1;
+
+        } else {
+
+            // If not, then increase mid
+
+            start = mid + 1;
+
+        }
+
+    }
+
+    return result;
+
+}
