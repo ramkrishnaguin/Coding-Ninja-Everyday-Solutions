@@ -1,0 +1,76 @@
+from collections import *
+class Dsu:
+	def __init__(self,a):
+		self.par={u:u for u in a}
+		self.size={u:1 for u in a}
+	def __contains__(self, key):
+		if key in self.par:
+			return True
+		return False
+	def add(self,key):
+		self.par[key]=key
+		self.size[key]=1
+	def find(self,u):
+		if self.par[u]==u:
+			return u
+		self.par[u]=self.find(self.par[u])
+		return self.par[u]
+	def merge(self,a,b):
+		Root=self.find(a)
+		root=self.find(b)
+		if Root==root:
+			return 
+		if self.size[root]>=self.size[Root]:
+			Root,root=root,Root
+		self.par[root]=Root
+		self.size[Root]+=self.size[root]
+	def siz(self,key):
+		return self.size[key]
+
+
+def stonesFall(n, m, r, grid, rem):
+	for i in range(r):
+		if grid[rem[i][0]][rem[i][1]]==1:
+			grid[rem[i][0]][rem[i][1]]=0
+		else:
+			rem[i]=None
+	oneslist=[]
+	for i in range(n):
+		for j in range(m):
+			if grid[i][j]==1:
+				oneslist.append((i,j))
+	dsu=Dsu(oneslist)
+	dsu.add((-1,-1))
+	def check(i,j):
+		return i>=0 and i<n and j>=0 and j<m
+			
+
+	def childrens(I,J):
+		ret=[]
+		for i,j in [(I-1,J),(I,J+1),(I+1,J),(I,J-1)]:
+			if i==-1:
+				ret.append((-1,-1))
+			else:
+				if check(i,j):
+					ret.append((i,j))
+		return ret
+	for i in range(n):
+		for j in range(m):
+			for k in childrens(i,j):
+				if (i,j) in dsu and (k[0],k[1]) in dsu:
+					dsu.merge((i,j),(k[0],k[1]))
+	out=[0]*r
+	# print(rem)
+	for i in range(r-1,-1,-1):
+		if rem[i] is not None:
+			dsu.add((rem[i][0],rem[i][1]))
+			precount=dsu.siz(dsu.find((-1,-1)))
+			for k in childrens(rem[i][0],rem[i][1]):
+				if (k[0],k[1]) in dsu:
+					dsu.merge((rem[i][0],rem[i][1]),(k[0],k[1]))
+			postcount=dsu.siz(dsu.find((-1,-1)))
+			if postcount>precount:
+				# print(precount,postcount)
+				out[i]=postcount-precount-1
+			# print(dsu.par,dsu.size)
+	return out
