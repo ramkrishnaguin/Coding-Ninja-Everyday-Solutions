@@ -1,0 +1,92 @@
+/*#include <bits/stdc++.h> 
+vector<vector<int>> insertInterval(vector<vector<int>> &intervals, vector<int> &newInterval)
+{
+    // Write your code here.
+}*/
+#include <bits/stdc++.h> 
+
+/*
+
+    Time Complexity: O(N)
+
+    Space Complexity: O(N)
+
+ 
+
+    where 'N' is the number of intervals in the list.
+
+*/
+
+ 
+
+vector<vector<int>> insertInterval(vector<vector<int>> &intervals, vector<int> &newInterval)
+
+{
+
+    vector<vector<int>> ans;
+
+ 
+
+    int n = intervals.size();
+
+ 
+
+    int index = 0;
+
+ 
+
+    // Put all the intervals less than the given interval into the 'ans' list.
+
+    while (index < n && intervals[index][1] < newInterval[0])
+
+    {
+
+        ans.push_back(intervals[index]);
+
+        index++;
+
+    }
+
+ 
+
+    // Merge all the intervals which overlap with the given interval, into a single interval.
+
+    while (index < n && intervals[index][0] <= newInterval[1])
+
+    {
+
+        newInterval[0] = min(newInterval[0], intervals[index][0]);
+
+        newInterval[1] = max(newInterval[1], intervals[index][1]);
+
+ 
+
+        index++;
+
+    }
+
+ 
+
+    // Add the mergerd interval to the list.
+
+    ans.push_back(newInterval);
+
+ 
+
+    // Put all the intervals greater than the given interval into the 'ans' list.
+
+    while (index < n)
+
+    {
+
+        ans.push_back(intervals[index]);
+
+        index++;
+
+    }
+
+ 
+
+    return ans;
+
+}
