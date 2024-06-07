@@ -1,0 +1,25 @@
+def deb(n,k):
+    a=[0]*k*n  
+    seq=[]
+    def db(t,p):
+        if t>n:
+            if n%p==0:
+                for j in range(1,p+1):
+                    seq.append(a[j])
+        else:
+            a[t]=a[t-p]
+            db(t+1,p)
+            for j in range(a[t-p]+1,k):
+                a[t]=j
+                db(t+1,t)
+    db(1,1)
+    return seq
+
+def getMinString(n, k):
+    if k==0:
+        return "0"*n 
+    k+=1
+    seq=deb(n,k)
+    debs= "".join(map(str,seq))
+    res= debs+debs[:n-1]
+    return res
