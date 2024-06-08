@@ -1,0 +1,26 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def absDiff(arr, n):
+
+    # Write your code here.
+    pass
+def absDiff(arr, n):
+
+    currOdd = 0
+
+    currEven = 0
+
+    for i in range(n):
+
+        if(i % 2 == 0):
+
+            currEven = abs(currEven - arr[i])
+
+        else:
+
+            currOdd = abs(currOdd - arr[i])
+
+    return (currEven, currOdd)
