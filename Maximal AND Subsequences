@@ -1,0 +1,54 @@
+#include <bits/stdc++.h>
+int mod = 1000000007;
+int invFact(long long a, long long b) {
+    a = a%mod;
+    long long res = 1;
+    while(b>0) {
+        if(b & 1) {
+            res = (res*a)%mod;
+        }
+        a = (a*a)%mod;
+        b = b>>1;
+    }
+    return res;
+}
+
+int Fact(int n) {
+    long long res=1;
+    for(int i=1; i<=n; i++) {
+        res = (res*i)%mod;
+    }
+    return res;
+}
+
+vector<int> maximalANDSubsequences(vector<int> &arr, int k)
+{
+    // Write your code here.
+    vector<int> tmp = arr;
+    for(int i=30; i>=0; i--) {
+        vector<int> stmp;
+        int n = tmp.size();
+        for(int j=0; j<n; j++) {
+            if(tmp[j] & (1LL<<i)) {
+                stmp.push_back(tmp[j]);
+            }
+        }
+        if(stmp.size()>=k) {
+            tmp = stmp;
+        }
+    }
+    int mval = tmp[0];
+    for(int i=1; i<k; i++) {
+        mval = mval & tmp[i];
+    }
+    int m = tmp.size();
+    int mFact = Fact(m);
+    int mkFact = Fact(m-k);
+    int kFact = Fact(k);
+    int invmkFact = invFact(mkFact, mod-2);
+    int invkFact = invFact(kFact, mod-2);
+    int cnt = ((long long)mFact * invmkFact)%mod;
+    cnt = ((long long)cnt * invkFact)%mod;
+    vector<int> res = {mval, cnt};
+    return res;
+}
