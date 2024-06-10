@@ -1,0 +1,58 @@
+#include <bits/stdc++.h> 
+long long cs(vector<int> p,vector<int> q,vector<int> r){
+	long long ax=r[0]-p[0], ay=r[1]-p[1], bx=q[0]-p[0], by=q[1]-p[1];
+	return ax*by-ay*bx;
+}
+vector<vector<int>> construct(vector<vector<int>> Points)
+{
+	sort(Points.begin(),Points.end());
+	int n=Points.size();
+	vector<vector<int>> u,d;
+	u.push_back(Points[0]);
+	u.push_back(Points[1]);
+	for(int i=2;i<n;i++){
+		while(u.size()>=2){
+			int m=u.size();
+			if(cs(u[m-1],u[m-2],Points[i])>0){
+				u.pop_back();
+			}
+			else{
+				break;
+			}
+		}
+		u.push_back(Points[i]);
+	}
+	d.push_back(Points[n-1]);
+	d.push_back(Points[n-2]);
+	for(int i=n-3;i>=0;i--){
+		while(d.size()>=2){
+			int m=d.size();
+			if(cs(d[m-1],d[m-2],Points[i])>0){
+				d.pop_back();
+			}
+			else{
+				break;
+			}
+		}
+		d.push_back(Points[i]);
+	}
+	set<vector<int>> s;
+	vector<vector<int>> ans;
+	for(auto &i:u){
+		if(s.find(i)==s.end()){
+			ans.push_back(i);
+			s.insert(i);
+		}
+
+	}
+	for(auto &i:d){
+		if(s.find(i)==s.end()){
+			ans.push_back(i);
+			s.insert(i);
+		}
+
+	}
+	return ans;
+
+	// Write your code here.
+}
