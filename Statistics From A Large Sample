@@ -1,0 +1,27 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def sampleStats(count):
+    total=sum(count)
+    mini=next(i for i in range(256) if count[i]>0)
+    maxi=next(i for i in range(255,-1,-1) if count[i]>0)
+    s=sum(i*count[i] for i in range(256))
+    mean=s/total
+    c=0
+    median1=(total+1)//2
+    median2=(total+2)//2
+    m1=None
+    m2=None
+    for i in range(256):
+        c+=count[i]
+        if m1 is None and c>=median1:
+            m1=i
+        if m2 is None and c>=median2:
+            m2=i
+        if m1 is not None and m2 is not None:
+            break
+    median=(m1+m2)/2
+    mode=count.index(max(count))
+    return (mini,maxi,mean,median,mode)
