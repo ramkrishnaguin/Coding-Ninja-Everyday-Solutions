@@ -1,0 +1,43 @@
+#include <bits/stdc++.h>
+string missingNumber(string s) {
+  // Write your code here.
+  string missing = "-1";
+  int n = s.length();
+  for (int len = 1; len <= 6; ++len) {
+    if (len > 1 && s[0] == '0')
+      continue;
+    int number = stoi(s.substr(0, len));
+    int count = 0;
+    int i = len;
+    bool found = true;
+    while (count < 2 && i < n) {
+      int nextnumber = number + 1;
+      string temp = to_string(nextnumber);
+      int j = 0;
+      int k = i;
+      while (j < temp.size() && k < n) {
+        if (temp[j] != s[k])
+          break;
+        else {
+          ++j;
+          ++k;
+        }
+      }
+      if (j == temp.size())
+        i = k;
+      else if (k == n) {
+        found == false;
+        break;
+      } else {
+        missing = temp;
+        ++count;
+      }
+      number = nextnumber;
+    }
+    if (count == 1 && found)
+      break;
+    else
+      missing = "-1";
+  }
+  return (missing);
+}
