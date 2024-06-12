@@ -1,0 +1,9 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def getMaximumHouses(k, l):
+	#	Write you code here.
+	return (2 ** l) - k
+	pass
