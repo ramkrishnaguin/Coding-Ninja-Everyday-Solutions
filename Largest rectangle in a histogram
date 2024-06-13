@@ -1,0 +1,13 @@
+def largestRectangle(arr):
+    st = []
+    ans = 0
+    N = len(arr)
+    for ind, h in enumerate(arr):
+        I = ind
+        while st and st[-1][1] >= h:
+            I, H = st.pop()
+            ans = max(ans, (ind-I)*H)
+        st.append((I, h))
+    for ind, h in st:
+        ans = max(ans, (N - ind)*h)
+    return ans
