@@ -1,0 +1,21 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def busiestServer(n, arr1, arr2, k):
+    # Write your code here.
+    finishTime, requestCount=[0]*n,[0]*n
+    for i in range(k):
+        time=arr1[i]
+        duration=arr2[i]
+        assigned=False
+        for j in range(n):
+            server=(i+j)%n
+            if finishTime[server]<=time:
+                finishTime[server]=time+duration
+                requestCount[server]+=1
+                assigned=True
+                break
+    maxRequest=max(requestCount)
+    return[i for i in range(n) if requestCount[i]==maxRequest]
