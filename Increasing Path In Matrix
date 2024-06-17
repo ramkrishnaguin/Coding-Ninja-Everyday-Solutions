@@ -1,0 +1,17 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def longestIncreasingPath(mat, n, m):
+    # Write your code here
+    def solve(i,j):
+        ans=1
+        if i+1<n:
+            if mat[i+1][j]>mat[i][j]:
+                ans=max(ans,1+solve(i+1,j))
+        if j+1<m:
+            if mat[i][j+1]>mat[i][j]:
+                ans=max(ans,1+solve(i,j+1))
+        return ans
+    return solve(0,0)
