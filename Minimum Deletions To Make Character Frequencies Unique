@@ -1,0 +1,21 @@
+int minDeletions(string str) {
+    // Write your code here.
+    vector<int> arr(26);
+    int ans=0;
+    for(auto item : str) ++arr[item-'a'];
+    while(true){
+        sort(arr.begin(), arr.end(), greater<int>());
+        while(arr.back()==0) arr.pop_back();
+        if(arr.size()==1) break;
+        bool allUnique = true;
+        for(int i=0;i<arr.size()-1;++i){
+            if(arr[i]==arr[i+1]){
+                allUnique=false;
+                --arr[i];
+                ++ans;
+            }
+        }
+        if(allUnique) break;
+    }
+    return ans;
+}
