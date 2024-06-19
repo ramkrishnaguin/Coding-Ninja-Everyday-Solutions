@@ -1,0 +1,17 @@
+bool isReachable(int startX, int startY, int endX, int endY) {
+	// Write your code here.
+	while(endX>=startX && endY>=startY){
+		if(endX==startX && endY==startY)return true;
+		if(endX>endY)endX%=endY;
+		else endY%=endX;
+		if(endX==startX){
+			if((endY-startY)%endX==0)return true;
+			else return false;
+		}
+		if(endY==startY){
+			if((endX-startX)%endY==0)return true;
+			else return false;
+		}
+	}
+	return false;
+}
