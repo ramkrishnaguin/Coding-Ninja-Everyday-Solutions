@@ -1,0 +1,9 @@
+#include <bits/stdc++.h> 
+int minNumToWin(int n, int mishaNums){
+	// Write your code here.
+	int mid=n/2;
+	if(mishaNums <= mid)
+	return mishaNums+1;
+	else
+	return mishaNums-1;
+}
