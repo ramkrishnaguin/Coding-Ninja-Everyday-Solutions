@@ -1,0 +1,15 @@
+#include <bits/stdc++.h> 
+vector<int> linearProbing(vector<int> keys)
+{
+    // Write your code here.
+    int n=keys.size();
+    vector<int> hashTable(n, -1);
+    for(int &key: keys){
+        int hash=key%n;
+        while(hashTable[hash] != -1){
+            hash=(hash+1)%n;
+        }
+        hashTable[hash]=key;
+    }
+    return hashTable;
+}
