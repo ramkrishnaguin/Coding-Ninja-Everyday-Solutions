@@ -1,0 +1,21 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def numberPattern(n):
+
+    # Write your Code Here.
+    # Return a 2 - d list of integers
+    ans=[]
+    val=1
+    for i in range(n):
+        row=[]
+        limit=1<<i
+        for j in range(limit):
+            if val == 10:
+                val=1
+            row.append(val)
+            val +=1
+        ans.append(row)
+    return ans
