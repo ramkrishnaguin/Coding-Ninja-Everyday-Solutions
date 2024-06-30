@@ -1,0 +1,12 @@
+#include <bits/stdc++.h> 
+int minimumCost(int n, string &s, vector<int> &cost) {
+    // Write your code here.
+    int ans=0;
+    for(int i=1;i<n;i++){
+        if(s[i]==s[i-1]){
+            ans += min(cost[i], cost[i-1]);
+            cost[i]=max(cost[i], cost[i-1]);
+        }
+    }
+    return ans;
+}
