@@ -1,0 +1,20 @@
+#include <bits/stdc++.h> 
+string isValidNumber(string &s) {
+	// Write your code here
+	vector<int> sign, dot, e;
+	int n=s.size();
+	for(int i=0;i<n;i++){
+		if(s[i]=='+' || s[i]=='-') sign.push_back(i);
+		else if(s[i]=='e' || s[i]=='E')e.push_back(i);
+		else if(s[i]=='.') dot.push_back(i);
+		else{
+			if(!isdigit(s[i])) return "Invalid";
+		}
+		
+	}
+	if(dot.size()>1 || sign.size()>1 || e.size()>1) return "Invalid";
+		if(!dot.empty() && dot[0]==n-1) return "Invalid";
+		if(!sign.empty() && sign[0]!=0) return "Invalid";
+		if(!e.empty() && (e[0]==n-1 || e[0]== 0)) return "Invalid";
+		return "Valid";
+}
