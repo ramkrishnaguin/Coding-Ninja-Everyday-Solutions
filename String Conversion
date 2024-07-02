@@ -1,0 +1,29 @@
+#include <bits/stdc++.h> 
+string isPossible(string a, string b, int n, int k)
+{
+    // Write your code here
+    // Return "Yes" or "No"
+    vector<int> map_1(26,0);
+    vector<int> map_2(26,0);
+    for(int i=0;i<n;i++){
+        char ch=a[i];
+        map_1[ch-'a']++;
+    }
+    for(int i=0;i<n;i++){
+        char ch=b[i];
+        map_2[ch-'a']++;
+    }
+    for(int i=0;i<26;i++){
+        if(i!=0){
+            map_1[i] += map_1[i-1];
+        }
+        if(map_1[i] < map_2[i]){
+            return "No";
+        }
+        map_1[i] -=map_2[i];
+        if(map_1[i] %k != 0){
+            return "No";
+        }
+    }
+    return "Yes";
+}
