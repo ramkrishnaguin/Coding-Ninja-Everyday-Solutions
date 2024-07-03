@@ -1,0 +1,9 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def fastestNinja(n, x, y, position):
+	# Write your code here
+	minMoves=abs(x)+abs(y)
+	return all(abs(x-p[0])+abs(y-p[1])>minMoves for p in position)
