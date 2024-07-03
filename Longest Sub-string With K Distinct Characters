@@ -1,0 +1,23 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def getLengthofLongestSubstring(s, k):
+
+    # Write your code here.
+    ans=0
+    n=len(s)
+    left=0
+    d={}
+    for ind in range(n):
+        ch=s[ind]
+        d[ch]=d.get(ch,0)+1
+        while len(d)>k:
+            ch=s[left]
+            left+=1
+            d[ch]-=1
+            if d[ch]==0:
+                d.pop(ch)
+        ans=max(ans,ind-left+1)
+    return ans
