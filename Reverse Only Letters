@@ -1,0 +1,10 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def reverseOnlyLetters(s):
+    # Write your code here.
+    letters = [c for c in s if c.isalpha()]
+    return ''.join(letters.pop() if c.isalpha() else c for c in s)
+    pass
