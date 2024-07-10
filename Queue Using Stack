@@ -1,0 +1,27 @@
+class Queue:
+
+    def __init__(self) -> None:
+        # Initialize your data structure here.
+        self.st=[]
+        pass
+
+    def enQueue(self, val: int) -> None:
+        # Implement the enqueue() function.
+        self.st.append(val)
+        pass
+
+    def deQueue(self) -> int:
+        # Implement the dequeue() function.
+        if not self.st: return-1
+        return self.st.pop(0)
+        pass
+
+    def peek(self) -> int:
+        # Implement the peek() function here.
+        return self.st[0] if self.st else -1
+        pass
+
+    def isEmpty(self) -> bool:
+        # Implement the isEmpty() function here.
+        return len (self.st)==0
+        pass
