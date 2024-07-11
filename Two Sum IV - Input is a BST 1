@@ -1,0 +1,32 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+# BinaryTreeNode class definition
+class BinaryTreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+
+def twoSumInBST(root, target):
+    # Write your code here
+    s=[]
+    def inorder (root):
+        if root:
+            inorder(root.left)
+            s.append(root.data)
+            inorder(root.right)
+    inorder(root)
+    i=0
+    j=len(s)-1
+    while i<j:
+        if s[i]+s[j]==target:
+            return True
+        elif s[i]+s[j]<target:
+            i+=1
+        else:
+            j-=1
+    return False
