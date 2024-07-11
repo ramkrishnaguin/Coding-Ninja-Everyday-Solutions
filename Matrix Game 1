@@ -1,0 +1,15 @@
+#include <bits/stdc++.h> 
+bool matrixGame(vector<vector<int>> &mat)
+{
+    // Write your code here
+    for(int i=0;i<mat.size();i++){
+        for(int j=0;j<mat.size();j++){
+            int s=0;
+            for(int k=0;k<mat.size();k++){
+                s+=mat[i][k]*mat[k][j];
+            }
+            if(mat[i][j]!=s) return false;
+        }
+    }
+    return true;
+}
