@@ -1,0 +1,28 @@
+#include <bits/stdc++.h> 
+class RangeSumQuery
+{
+    private:
+    vector<int>a;
+public:
+
+    RangeSumQuery(vector<int> &arr)
+    {
+        // Constructor.
+        a=arr;
+    }
+
+    void update(int ind, int val)
+    {
+        // Update operation.
+        a[ind]=val;
+    }
+
+    int sumOfRange(int l, int r)
+    {
+        // Find the sum of range [l,r].
+        int sum=0;
+        for(int i=l;i<=r;i++)
+        sum+=a[i];
+        return sum;
+    }
+};
