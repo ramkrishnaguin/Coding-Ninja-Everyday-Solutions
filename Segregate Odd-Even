@@ -1,0 +1,22 @@
+Node * segregateOddEven (Node * head)
+{
+	// Write your code here.
+	Node* eh = new Node(-1);
+	Node* oh = new Node(-1);
+	Node* oc = oh;
+	Node* ec = eh;
+	while(head){
+		if(head->data&1){
+			oc->next=head;
+			oc=oc->next;
+		}
+		else{
+			ec->next=head;
+			ec=ec->next;
+		}
+		head=head->next;
+	}
+	ec->next=nullptr;
+	oc->next=eh->next;
+	return oh->next;
+}
