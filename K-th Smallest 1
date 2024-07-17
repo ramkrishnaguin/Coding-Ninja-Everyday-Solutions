@@ -1,0 +1,12 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def kSmallest(n, m, k, mat):
+    # Write your code here.
+    ans=mat.pop()
+    for row in mat:
+        ans=sorted(p+q for p in row for q in ans)[:k]
+    return ans[-1]
+    pass
