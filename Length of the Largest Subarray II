@@ -1,0 +1,23 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+from typing import List
+
+def maxLength(arr: List) -> int:
+    # Write your code here.
+    ans=1;
+    for i in range(len(arr)):
+        mini=arr[i]
+        maxi=arr[i]
+        vis=set()
+        for j in range(i, len(arr)):
+            if arr[j] in vis:
+                break
+            vis.add(arr[j])
+            mini=min(mini,arr[j])
+            maxi=max(maxi,arr[j])
+            if maxi-mini==j-i:
+                ans=max(ans,j-i+1)
+    return ans
