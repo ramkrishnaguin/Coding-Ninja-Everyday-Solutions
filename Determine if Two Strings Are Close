@@ -1,0 +1,9 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+
+def stringChallenge(a, b):
+    # Write your code here.
+    return set(a)==set(b) and Counter (Counter(a).values())==Counter (Counter(b).values())
+    pass
